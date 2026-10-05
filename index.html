@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>مهامي الاسبوعية</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #eef7f2, #eaf3fb);
+    color: #222;
+}
+
+.container {
+    width: 95%;
+    max-width: 900px;
+    margin: 25px auto;
+}
+
+h1 {
+    text-align: center;
+    font-size: 30px;
+    color: #236b4a;
+    margin-bottom: 25px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+}
+
+/* الإحصائيات */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.stat {
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.stat-number {
+    display: block;
+    font-size: 26px;
+    margin-top: 7px;
+}
+
+.total {
+    background: #e8f1ff;
+    color: #2465a8;
+}
+
+.completed {
+    background: #ddf6e6;
+    color: #20753b;
+}
+
+.remaining {
+    background: #fff1d6;
+    color: #9a6500;
+}
+
+.overdue {
+    background: #ffe0e0;
+    color: #b00000;
+}
+
+/* شريط التقدم */
+
+.progress-container {
+    margin-top: 20px;
+}
+
+.progress-title {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.progress {
+    width: 100%;
+    height: 18px;
+    background: #e5e5e5;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: #2e8b57;
+    transition: width 0.4s;
+}
+
+/* نموذج إضافة المهمة */
+
+.form-group {
+    margin-bottom: 12px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #ccc;
+    border-radius: 9px;
+    font-size: 16px;
+}
+
+.add-btn {
+    width: 100%;
+    padding: 14px;
+    background: #2e8b57;
+    color: white;
+    border: none;
+    border-radius: 9px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.add-btn:hover {
+    background: #236b45;
+}
+
+/* عنوان المهام */
+
+.tasks-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* المهمة */
+
+.task {
+    background: #fafafa;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+    border-right: 6px solid #3498db;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.task.overdue-task {
+    border-right-color: #e74c3c;
+    background: #fff6f6;
+}
+
+.task.today-task {
+    border-right-color: #f39c12;
+    background: #fffaf0;
+}
+
+.task.soon-task {
+    border-right-color: #f1c40f;
+    background: #fffdf0;
+}
+
+.task.completed-task {
+    border-right-color: #27ae60;
+    background: #f2fff6;
+    opacity: 0.75;
+}
+
+.task-text {
+    font-size: 19px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    word-break: break-word;
+}
+
+.task-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-bottom: 12px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/* الأولوية */
+
+.high {
+    background: #ffd6d6;
+    color: #b00000;
+}
+
+.medium {
+    background: #fff0bd;
+    color: #805d00;
+}
+
+.low {
+    background: #d8f3df;
+    color: #176b35;
+}
+
+/* الحالة */
+
+.status-overdue {
+    background: #ffd6d6;
+    color: #b00000;
+}
+
+.status-today {
+    background: #ffe5bf;
+    color: #9a5700;
+}
+
+.status-soon {
+    background: #fff2b8;
+    color: #806500;
+}
+
+.status-completed {
+    background: #d8f3df;
+    color: #176b35;
+}
+
+.status-normal {
+    background: #dcecff;
+    color: #205c94;
+}
+
+.status-none {
+    background: #eeeeee;
+    color: #666;
+}
+
+/* الأزرار */
+
+.task-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.complete-btn,
+.delete-btn {
+    border: none;
+    padding: 9px 14px;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.complete-btn {
+    background: #3498db;
+}
+
+.delete-btn {
+    background: #e74c3c;
+}
+
+.clear-btn {
+    width: 100%;
+    padding: 13px;
+    background: #555;
+    color: white;
+    border: none;
+    border-radius: 9px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* الجوال */
+
+@media (max-width: 650px) {
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+
+    .task-text {
+        font-size: 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>📋 منصة مهامي الذكية</h1>
+
+    <!-- الإحصائيات -->
+
+    <div class="card">
+
+        <div class="stats">
+
+            <div class="stat total">
+                📋 إجمالي المهام
+                <span class="stat-number" id="totalTasks">0</span>
+            </div>
+
+            <div class="stat completed">
+                🟢 المكتملة
+                <span class="stat-number" id="completedTasks">0</span>
+            </div>
+
+            <div class="stat remaining">
+                🟡 المتبقية
+                <span class="stat-number" id="remainingTasks">0</span>
+            </div>
+
+            <div class="stat overdue">
+                🔴 المتأخرة
+                <span class="stat-number" id="overdueTasks">0</span>
+            </div>
+
+        </div>
+
+        <div class="progress-container">
+
+            <div class="progress-title">
+                📊 نسبة الإنجاز:
+                <span id="progressPercent">0%</span>
+            </div>
+
+            <div class="progress">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- إضافة مهمة -->
+
+    <div class="card">
+
+        <div class="form-group">
+
+            <label for="taskInput">
+                📝 اسم المهمة
+            </label>
+
+            <input
+                type="text"
+                id="taskInput"
+                placeholder="اكتب المهمة هنا..."
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="taskDate">
+                📅 موعد المهمة
+            </label>
+
+            <input
+                type="date"
+                id="taskDate"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="taskPriority">
+                ⚡ الأولوية
+            </label>
+
+            <select id="taskPriority">
+
+                <option value="high">
+                    🔴 عالية
+                </option>
+
+                <option value="medium" selected>
+                    🟡 متوسطة
+                </option>
+
+                <option value="low">
+                    🟢 منخفضة
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="add-btn"
+            onclick="addTask()"
+        >
+            ➕ إضافة المهمة
+        </button>
+
+    </div>
+
+
+    <!-- قائمة المهام -->
+
+    <div class="card">
+
+        <div class="tasks-title">
+            📌 قائمة المهام
+        </div>
+
+        <div id="taskList"></div>
+
+        <button
+            type="button"
+            class="clear-btn"
+            onclick="clearTasks()"
+        >
+            🗑️ حذف جميع المهام
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* تحميل المهام */
+
+let tasks = JSON.parse(
+    localStorage.getItem("myTasks")
+) || [];
+
+
+/* حفظ المهام */
+
+function saveTasks() {
+
+    localStorage.setItem(
+        "myTasks",
+        JSON.stringify(tasks)
+    );
+
+}
+
+
+/* الحصول على تاريخ اليوم المحلي */
+
+function getLocalDateString() {
+
+    const now = new Date();
+
+    const year = now.getFullYear();
+
+    const month = String(
+        now.getMonth() + 1
+    ).padStart(2, "0");
+
+    const day = String(
+        now.getDate()
+    ).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+}
+
+
+/* حساب الفرق بين تاريخ المهمة واليوم */
+
+function getDaysDifference(dateString) {
+
+    if (!dateString) {
+        return null;
+    }
+
+    const today = getLocalDateString();
+
+    const todayParts = today.split("-");
+
+    const taskParts = dateString.split("-");
+
+    const todayDate = new Date(
+        Number(todayParts[0]),
+        Number(todayParts[1]) - 1,
+        Number(todayParts[2])
+    );
+
+    const taskDate = new Date(
+        Number(taskParts[0]),
+        Number(taskParts[1]) - 1,
+        Number(taskParts[2])
+    );
+
+    const difference =
+        taskDate - todayDate;
+
+    return Math.round(
+        difference / (1000 * 60 * 60 * 24)
+    );
+}
+
+
+/* معرفة حالة المهمة */
+
+function getTaskStatus(task) {
+
+    if (task.completed) {
+
+        return {
+            className: "status-completed",
+            text: "🟢 مكتملة"
+        };
+
+    }
+
+
+    if (!task.date) {
+
+        return {
+            className: "status-none",
+            text: "⚪ بدون موعد"
+        };
+
+    }
+
+
+    const days = getDaysDifference(
+        task.date
+    );
+
+
+    if (days < 0) {
+
+        return {
+            className: "status-overdue",
+            text: "🔴 متأخرة"
+        };
+
+    }
+
+
+    if (days === 0) {
+
+        return {
+            className: "status-today",
+            text: "🟠 اليوم"
+        };
+
+    }
+
+
+    if (days <= 2) {
+
+        return {
+            className: "status-soon",
+            text: "🟡 قريبة"
+        };
+
+    }
+
+
+    return {
+        className: "status-normal",
+        text: "🔵 مجدولة"
+    };
+
+}
+
+
+/* إضافة مهمة */
+
+function addTask() {
+
+    const input =
+        document.getElementById("taskInput");
+
+    const dateInput =
+        document.getElementById("taskDate");
+
+    const priorityInput =
+        document.getElementById("taskPriority");
+
+
+    const text =
+        input.value.trim();
+
+
+    if (text === "") {
+
+        alert("⚠️ اكتب اسم المهمة أولاً");
+
+        input.focus();
+
+        return;
+
+    }
+
+
+    const newTask = {
+
+        text: text,
+
+        date: dateInput.value || "",
+
+        priority:
+            priorityInput.value || "medium",
+
+        completed: false
+
+    };
+
+
+    tasks.push(newTask);
+
+
+    saveTasks();
+
+    input.value = "";
+
+    dateInput.value = "";
+
+    priorityInput.value = "medium";
+
+
+    displayTasks();
+
+    updateStats();
+
+}
+
+
+/* عرض المهام */
+
+function displayTasks() {
+
+    const list =
+        document.getElementById("taskList");
+
+    list.innerHTML = "";
+
+
+    /*
+       نستخدم نسخة تحتوي على رقم المهمة الأصلي
+       حتى يعمل الحذف والإكمال بشكل صحيح
+    */
+
+    const sortedTasks =
+        tasks.map((task, index) => ({
+            task: task,
+            index: index
+        }));
+
+
+    const priorityOrder = {
+
+        high: 0,
+        medium: 1,
+        low: 2
+
+    };
+
+
+    sortedTasks.sort((a, b) => {
+
+        const taskA = a.task;
+
+        const taskB = b.task;
+
+
+        /* المكتملة في الأسفل */
+
+        if (
+            taskA.completed !==
+            taskB.completed
+        ) {
+
+            return taskA.completed ? 1 : -1;
+
+        }
+
+
+        /* المتأخرة أولاً */
+
+        const daysA =
+            getDaysDifference(taskA.date);
+
+        const daysB =
+            getDaysDifference(taskB.date);
+
+
+        const overdueA =
+            !taskA.completed &&
+            daysA !== null &&
+            daysA < 0;
+
+        const overdueB =
+            !taskB.completed &&
+            daysB !== null &&
+            daysB < 0;
+
+
+        if (overdueA !== overdueB) {
+
+            return overdueA ? -1 : 1;
+
+        }
+
+
+        /* الأولوية */
+
+        const priorityA =
+            priorityOrder[
+                taskA.priority || "medium"
+            ];
+
+        const priorityB =
+            priorityOrder[
+                taskB.priority || "medium"
+            ];
+
+
+        if (priorityA !== priorityB) {
+
+            return priorityA - priorityB;
+
+        }
+
+
+        /* التاريخ */
+
+        if (taskA.date && taskB.date) {
+
+            return taskA.date.localeCompare(
+                taskB.date
+            );
+
+        }
+
+
+        if (taskA.date) {
+
+            return -1;
+
+        }
+
+
+        if (taskB.date) {
+
+            return 1;
+
+        }
+
+
+        return 0;
+
+    });
+
+
+    /* إذا لم توجد مهام */
+
+    if (sortedTasks.length === 0) {
+
+        list.innerHTML = `
+            <div style="
+                text-align:center;
+                padding:25px;
+                color:#777;
+                font-size:18px;
+            ">
+                📭 لا توجد مهام حالياً
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    /* إنشاء المهام */
+
+    sortedTasks.forEach(
+        ({ task, index }) => {
+
+        const status =
+            getTaskStatus(task);
+
+
+        const taskDiv =
+            document.createElement("div");
+
+
+        taskDiv.className =
+            "task";
+
+
+        if (
+            status.className ===
+            "status-overdue"
+        ) {
+
+            taskDiv.classList.add(
+                "overdue-task"
+            );
+
+        }
+
+
+        if (
+            status.className ===
+            "status-today"
+        ) {
+
+            taskDiv.classList.add(
+                "today-task"
+            );
+
+        }
+
+
+        if (
+            status.className ===
+            "status-soon"
+        ) {
+
+            taskDiv.classList.add(
+                "soon-task"
+            );
+
+        }
+
+
+        if (task.completed) {
+
+            taskDiv.classList.add(
+                "completed-task"
+            );
+
+        }
+
+
+        /* اسم المهمة */
+
+        const textDiv =
+            document.createElement("div");
+
+
+        textDiv.className =
+            "task-text";
+
+
+        textDiv.textContent =
+            task.text;
+
+
+        if (task.completed) {
+
+            textDiv.style.textDecoration =
+                "line-through";
+
+        }
+
+
+        taskDiv.appendChild(textDiv);
+
+
+        /* معلومات المهمة */
+
+        const infoDiv =
+            document.createElement("div");
+
+
+        infoDiv.className =
+            "task-info";
+
+
+        /* الأولوية */
+
+        const priorityBadge =
+            document.createElement("span");
+
+
+        priorityBadge.className =
+            "badge " +
+            (task.priority || "medium");
+
+
+        if (task.priority === "high") {
+
+            priorityBadge.textContent =
+                "🔴 أولوية عالية";
+
+        }
+        else if (
+            task.priority === "low"
+        ) {
+
+            priorityBadge.textContent =
+                "🟢 أولوية منخفضة";
+
+        }
+        else {
+
+            priorityBadge.textContent =
+                "🟡 أولوية متوسطة";
+
+        }
+
+
+        infoDiv.appendChild(
+            priorityBadge
+        );
+
+
+        /* التاريخ */
+
+        if (task.date) {
+
+            const dateBadge =
+                document.createElement("span");
+
+
+            dateBadge.className =
+                "badge status-normal";
+
+
+            dateBadge.textContent =
+                "📅 " + task.date;
+
+
+            infoDiv.appendChild(
+                dateBadge
+            );
+
+        }
+
+
+        /* الحالة */
+
+        const statusBadge =
+            document.createElement("span");
+
+
+        statusBadge.className =
+            "badge " +
+            status.className;
+
+
+        statusBadge.textContent =
+            status.text;
+
+
+        infoDiv.appendChild(
+            statusBadge
+        );
+
+
+        taskDiv.appendChild(
+            infoDiv
+        );
+
+
+        /* الأزرار */
+
+        const buttons =
+            document.createElement("div");
+
+
+        buttons.className =
+            "task-buttons";
+
+
+        /* زر الإكمال */
+
+        const completeButton =
+            document.createElement("button");
+
+
+        completeButton.className =
+            "complete-btn";
+
+
+        completeButton.type =
+            "button";
+
+
+        completeButton.textContent =
+            task.completed
+                ? "↩️ إعادة"
+                : "✅ إكمال";
+
+
+        completeButton.onclick =
+            function () {
+
+                completeTask(index);
+
+            };
+
+
+        /* زر الحذف */
+
+        const deleteButton =
+            document.createElement("button");
+
+
+        deleteButton.className =
+            "delete-btn";
+
+
+        deleteButton.type =
+            "button";
+
+
+        deleteButton.textContent =
+            "🗑️ حذف";
+
+
+        deleteButton.onclick =
+            function () {
+
+                deleteTask(index);
+
+            };
+
+
+        buttons.appendChild(
+            completeButton
+        );
+
+        buttons.appendChild(
+            deleteButton
+        );
+
+
+        taskDiv.appendChild(
+            buttons
+        );
+
+
+        list.appendChild(
+            taskDiv
+        );
+
+    });
+
+}
+
+
+/* إكمال / إعادة المهمة */
+
+function completeTask(index) {
+
+    tasks[index].completed =
+        !tasks[index].completed;
+
+
+    saveTasks();
+
+    displayTasks();
+
+    updateStats();
+
+}
+
+
+/* حذف مهمة */
+
+function deleteTask(index) {
+
+    if (
+        confirm("هل تريد حذف هذه المهمة؟")
+    ) {
+
+        tasks.splice(index, 1);
+
+        saveTasks();
+
+        displayTasks();
+
+        updateStats();
+
+    }
+
+}
+
+
+/* حذف جميع المهام */
+
+function clearTasks() {
+
+    if (tasks.length === 0) {
+
+        alert("لا توجد مهام لحذفها");
+
+        return;
+
+    }
+
+
+    if (
+        confirm(
+            "⚠️ هل أنت متأكد من حذف جميع المهام؟"
+        )
+    ) {
+
+        tasks = [];
+
+        saveTasks();
+
+        displayTasks();
+
+        updateStats();
+
+    }
+
+}
+
+
+/* تحديث الإحصائيات */
+
+function updateStats() {
+
+    const total =
+        tasks.length;
+
+
+    const completed =
+        tasks.filter(
+            task => task.completed
+        ).length;
+
+
+    const remaining =
+        total - completed;
+
+
+    const overdue =
+        tasks.filter(task => {
+
+            if (task.completed) {
+                return false;
+            }
+
+            if (!task.date) {
+                return false;
+            }
+
+            return (
+                getDaysDifference(task.date) < 0
+            );
+
+        }).length;
+
+
+    let percentage = 0;
+
+
+    if (total > 0) {
+
+        percentage =
+            Math.round(
+                (completed / total) * 100
+            );
+
+    }
+
+
+    document.getElementById(
+        "totalTasks"
+    ).textContent = total;
+
+
+    document.getElementById(
+        "completedTasks"
+    ).textContent = completed;
+
+
+    document.getElementById(
+        "remainingTasks"
+    ).textContent = remaining;
+
+
+    document.getElementById(
+        "overdueTasks"
+    ).textContent = overdue;
+
+
+    document.getElementById(
+        "progressPercent"
+    ).textContent =
+        percentage + "%";
+
+
+    document.getElementById(
+        "progressFill"
+    ).style.width =
+        percentage + "%";
+
+}
+
+
+/* زر Enter لإضافة المهمة */
+
+document.getElementById(
+    "taskInput"
+).addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Enter") {
+
+            event.preventDefault();
+
+            addTask();
+
+        }
+
+    }
+);
+
+
+/* تشغيل المنصة */
+
+displayTasks();
+
+updateStats();
+
+</script>
+
+</body>
+</html>
