@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,19 +23,19 @@ body{
 .container{
     max-width:900px;
     margin:auto;
-    padding:18px;
+    padding:15px;
 }
 
-/* الرأس */
+/* العنوان */
 
 header{
     background:linear-gradient(135deg,#1976d2,#2e7d32);
     color:white;
-    padding:25px 18px;
+    padding:25px 15px;
     border-radius:20px;
     text-align:center;
     margin-bottom:18px;
-    box-shadow:0 8px 20px rgba(0,0,0,.12);
+    box-shadow:0 6px 18px rgba(0,0,0,.12);
 }
 
 header h1{
@@ -58,8 +59,8 @@ header p{
 
 .stat{
     background:white;
-    border-radius:15px;
     padding:15px 8px;
+    border-radius:15px;
     text-align:center;
     box-shadow:0 4px 12px rgba(0,0,0,.08);
 }
@@ -75,56 +76,12 @@ header p{
     font-weight:bold;
 }
 
-/* لوحة الأسبوع */
-
-.dashboard-title{
-    font-size:21px;
-    margin:20px 0 10px;
-}
-
-.dashboard{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:10px;
-    margin-bottom:18px;
-}
-
-.dashboard-card{
-    background:white;
-    border-radius:16px;
-    padding:16px 10px;
-    text-align:center;
-    box-shadow:0 4px 12px rgba(0,0,0,.08);
-    cursor:pointer;
-    transition:.2s;
-}
-
-.dashboard-card:hover{
-    transform:translateY(-2px);
-}
-
-.dashboard-icon{
-    font-size:26px;
-    margin-bottom:5px;
-}
-
-.dashboard-number{
-    font-size:25px;
-    font-weight:bold;
-    margin-bottom:5px;
-}
-
-.dashboard-label{
-    font-size:13px;
-    font-weight:bold;
-}
-
 /* التقدم */
 
 .progress-box{
     background:white;
     padding:16px;
-    border-radius:15px;
+    border-radius:16px;
     margin-bottom:18px;
     box-shadow:0 4px 12px rgba(0,0,0,.08);
 }
@@ -145,8 +102,8 @@ header p{
 
 .progress-bar{
     height:100%;
-    width:0%;
-    background:linear-gradient(90deg,#43a047,#1e88e5);
+    width:0;
+    background:#2e7d32;
     transition:.3s;
 }
 
@@ -162,24 +119,25 @@ header p{
 
 .add-box h2{
     margin-top:0;
-    font-size:20px;
+    font-size:21px;
 }
 
-input,select{
+input,
+select{
     width:100%;
-    padding:13px;
+    padding:14px;
     margin-bottom:10px;
     border:1px solid #ddd;
-    border-radius:10px;
-    font-size:16px;
+    border-radius:11px;
+    font-size:17px;
     background:#fafafa;
 }
 
 button{
     border:none;
-    border-radius:10px;
+    border-radius:11px;
     padding:12px 16px;
-    font-size:15px;
+    font-size:16px;
     font-weight:bold;
     cursor:pointer;
 }
@@ -200,8 +158,21 @@ button{
     box-shadow:0 4px 12px rgba(0,0,0,.08);
 }
 
-.search-box input{
+.search-row{
+    display:flex;
+    gap:8px;
+    align-items:center;
+}
+
+.search-row input{
+    flex:1;
     margin:0;
+}
+
+.search-btn{
+    background:#1976d2;
+    color:white;
+    white-space:nowrap;
 }
 
 /* الفلاتر */
@@ -224,7 +195,7 @@ button{
     color:white;
 }
 
-/* عنوان القائمة */
+/* العنوان */
 
 .section-title{
     display:flex;
@@ -234,15 +205,13 @@ button{
 }
 
 .section-title h2{
-    font-size:21px;
     margin:0;
+    font-size:22px;
 }
 
 .delete-all{
     background:#d32f2f;
     color:white;
-    font-size:13px;
-    padding:9px 12px;
 }
 
 /* المهام */
@@ -255,10 +224,10 @@ button{
 
 .task{
     background:white;
-    border-radius:17px;
     padding:17px;
-    box-shadow:0 4px 12px rgba(0,0,0,.08);
+    border-radius:17px;
     border-right:6px solid #1976d2;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
 }
 
 .task.completed{
@@ -271,7 +240,7 @@ button{
 }
 
 .task-title{
-    font-size:19px;
+    font-size:20px;
     font-weight:bold;
     margin-bottom:10px;
     word-break:break-word;
@@ -289,9 +258,9 @@ button{
 }
 
 .badge{
-    padding:6px 9px;
+    padding:7px 10px;
     border-radius:20px;
-    font-size:12px;
+    font-size:13px;
     font-weight:bold;
 }
 
@@ -341,13 +310,54 @@ button{
     color:white;
 }
 
+/* لا توجد مهام */
+
 .empty{
     background:white;
-    border-radius:17px;
     padding:30px 15px;
+    border-radius:17px;
     text-align:center;
     color:#607d8b;
+    font-size:17px;
     box-shadow:0 4px 12px rgba(0,0,0,.07);
+}
+
+/* لوحة اليوم والأسبوع */
+
+.dashboard-title{
+    font-size:21px;
+    margin:18px 0 10px;
+}
+
+.dashboard{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    margin-bottom:18px;
+}
+
+.dashboard-card{
+    background:white;
+    padding:15px 8px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+    cursor:pointer;
+}
+
+.dashboard-icon{
+    font-size:25px;
+}
+
+.dashboard-number{
+    font-size:24px;
+    font-weight:bold;
+    margin:5px 0;
+}
+
+.dashboard-label{
+    font-size:13px;
+    font-weight:bold;
 }
 
 /* نافذة التعديل */
@@ -364,11 +374,11 @@ button{
 }
 
 .modal-box{
-    background:white;
     width:100%;
     max-width:500px;
-    border-radius:20px;
+    background:white;
     padding:20px;
+    border-radius:20px;
 }
 
 .modal-box h2{
@@ -381,14 +391,14 @@ button{
 }
 
 .save-btn{
+    flex:1;
     background:#1976d2;
     color:white;
-    flex:1;
 }
 
 .cancel-btn{
-    background:#eeeeee;
     flex:1;
+    background:#eeeeee;
 }
 
 /* الهاتف */
@@ -415,14 +425,19 @@ button{
         grid-template-columns:repeat(2,1fr);
     }
 
-    .task-title{
-        font-size:18px;
+    .search-row{
+        gap:6px;
+    }
+
+    .search-btn{
+        padding:13px 12px;
     }
 
     .task-actions button{
         flex:1;
         min-width:90px;
     }
+
 }
 
 </style>
@@ -434,9 +449,9 @@ button{
 
 <header>
 
-    <h1>📋 منصة مهامي الأسبوعية</h1>
+<h1>📋 منصة مهامي الأسبوعية</h1>
 
-    <p>نظّم مهامك وتابع إنجازك بسهولة</p>
+<p>نظّم مهامك وتابع إنجازك بسهولة</p>
 
 </header>
 
@@ -445,119 +460,95 @@ button{
 
 <div class="stats">
 
-    <div class="stat">
-        <strong id="totalCount">0</strong>
-        <span>📋 الكل</span>
-    </div>
+<div class="stat">
+<strong id="totalCount">0</strong>
+<span>📋 الكل</span>
+</div>
 
-    <div class="stat">
-        <strong id="completedCount">0</strong>
-        <span>✅ المكتملة</span>
-    </div>
+<div class="stat">
+<strong id="completedCount">0</strong>
+<span>✅ المكتملة</span>
+</div>
 
-    <div class="stat">
-        <strong id="remainingCount">0</strong>
-        <span>⏳ المتبقية</span>
-    </div>
+<div class="stat">
+<strong id="remainingCount">0</strong>
+<span>⏳ المتبقية</span>
+</div>
 
-    <div class="stat">
-        <strong id="overdueCount">0</strong>
-        <span>🔴 المتأخرة</span>
-    </div>
+<div class="stat">
+<strong id="overdueCount">0</strong>
+<span>🔴 المتأخرة</span>
+</div>
 
 </div>
 
 
-<!-- لوحة الأسبوع -->
+<!-- لوحة اليوم والأسبوع -->
 
 <h2 class="dashboard-title">
-    📊 ملخص الأسبوع
+📊 ملخص المهام
 </h2>
 
 <div class="dashboard">
 
-    <div
-        class="dashboard-card"
-        onclick="setFilter('today')">
+<div class="dashboard-card" onclick="setFilter('today')">
 
-        <div class="dashboard-icon">
-            📅
-        </div>
+<div class="dashboard-icon">📅</div>
 
-        <div
-            class="dashboard-number"
-            id="todayCount">
-            0
-        </div>
+<div class="dashboard-number" id="todayCount">
+0
+</div>
 
-        <div class="dashboard-label">
-            مهام اليوم
-        </div>
+<div class="dashboard-label">
+مهام اليوم
+</div>
 
-    </div>
+</div>
 
 
-    <div
-        class="dashboard-card"
-        onclick="setFilter('week')">
+<div class="dashboard-card" onclick="setFilter('week')">
 
-        <div class="dashboard-icon">
-            📆
-        </div>
+<div class="dashboard-icon">📆</div>
 
-        <div
-            class="dashboard-number"
-            id="weekCount">
-            0
-        </div>
+<div class="dashboard-number" id="weekCount">
+0
+</div>
 
-        <div class="dashboard-label">
-            هذا الأسبوع
-        </div>
+<div class="dashboard-label">
+هذا الأسبوع
+</div>
 
-    </div>
+</div>
 
 
-    <div
-        class="dashboard-card"
-        onclick="setFilter('remaining')">
+<div class="dashboard-card" onclick="setFilter('remaining')">
 
-        <div class="dashboard-icon">
-            ⏳
-        </div>
+<div class="dashboard-icon">⏳</div>
 
-        <div
-            class="dashboard-number"
-            id="upcomingCount">
-            0
-        </div>
+<div class="dashboard-number" id="upcomingCount">
+0
+</div>
 
-        <div class="dashboard-label">
-            المهام القادمة
-        </div>
+<div class="dashboard-label">
+القادمة
+</div>
 
-    </div>
+</div>
 
 
-    <div
-        class="dashboard-card"
-        onclick="setFilter('overdue')">
+<div class="dashboard-card" onclick="setFilter('overdue')">
 
-        <div class="dashboard-icon">
-            🔴
-        </div>
+<div class="dashboard-icon">🔴</div>
 
-        <div
-            class="dashboard-number"
-            id="dashboardOverdue">
-            0
-        </div>
+<div class="dashboard-number" id="dashboardOverdue">
+0
+</div>
 
-        <div class="dashboard-label">
-            المتأخرة
-        </div>
+<div class="dashboard-label">
+المتأخرة
+</div>
 
-    </div>
+</div>
 
 </div>
 
@@ -566,22 +557,24 @@ button{
 
 <div class="progress-box">
 
-    <div class="progress-title">
+<div class="progress-title">
 
-        <span>📊 نسبة الإنجاز</span>
+<span>📊 نسبة الإنجاز</span>
 
-        <span id="progressText">0%</span>
+<span id="progressText">
+0%
+</span>
 
-    </div>
+</div>
 
-    <div class="progress">
+<div class="progress">
 
-        <div
-            class="progress-bar"
-            id="progressBar">
-        </div>
+<div
+class="progress-bar"
+id="progressBar">
+</div>
 
-    </div>
+</div>
 
 </div>
 
@@ -590,44 +583,44 @@ button{
 
 <div class="add-box">
 
-    <h2>➕ إضافة مهمة جديدة</h2>
+<h2>
+➕ إضافة مهمة جديدة
+</h2>
 
-    <input
-        type="text"
-        id="taskInput"
-        placeholder="اكتب اسم المهمة..."
-    >
+<input
+type="text"
+id="taskInput"
+placeholder="اكتب اسم المهمة..."
+>
 
-    <input
-        type="date"
-        id="dateInput"
-    >
+<input
+type="date"
+id="dateInput"
+>
 
-    <select id="priorityInput">
+<select id="priorityInput">
 
-        <option value="high">
-            🔴 أولوية عالية
-        </option>
+<option value="high">
+🔴 أولوية عالية
+</option>
 
-        <option
-            value="medium"
-            selected>
-            🟠 أولوية متوسطة
-        </option>
+<option value="medium" selected>
+🟠 أولوية متوسطة
+</option>
 
-        <option value="low">
-            🟢 أولوية منخفضة
-        </option>
+<option value="low">
+🟢 أولوية منخفضة
+</option>
 
-    </select>
+</select>
 
-    <button
-        class="add-btn"
-        onclick="addTask()">
+<button
+class="add-btn"
+onclick="addTask()">
 
-        ➕ إضافة المهمة
+➕ إضافة المهمة
 
-    </button>
+</button>
 
 </div>
 
@@ -636,12 +629,23 @@ button{
 
 <div class="search-box">
 
-    <input
-        type="text"
-        id="searchInput"
-        placeholder="🔎 ابحث عن مهمة..."
-        oninput="renderTasks()"
-    >
+<div class="search-row">
+
+<input
+type="text"
+id="searchInput"
+placeholder="اكتب اسم المهمة للبحث..."
+>
+
+<button
+class="search-btn"
+onclick="searchTasks()">
+
+🔎 بحث
+
+</button>
+
+</div>
 
 </div>
 
@@ -650,59 +654,59 @@ button{
 
 <div class="filters">
 
-    <button
-        class="filter-btn active"
-        data-filter="all"
-        onclick="setFilter('all')">
+<button
+class="filter-btn active"
+data-filter="all"
+onclick="setFilter('all')">
 
-        📋 الكل
+📋 الكل
 
-    </button>
+</button>
 
-    <button
-        class="filter-btn"
-        data-filter="today"
-        onclick="setFilter('today')">
+<button
+class="filter-btn"
+data-filter="today"
+onclick="setFilter('today')">
 
-        📅 اليوم
+📅 اليوم
 
-    </button>
+</button>
 
-    <button
-        class="filter-btn"
-        data-filter="week"
-        onclick="setFilter('week')">
+<button
+class="filter-btn"
+data-filter="week"
+onclick="setFilter('week')">
 
-        📆 هذا الأسبوع
+📆 هذا الأسبوع
 
-    </button>
+</button>
 
-    <button
-        class="filter-btn"
-        data-filter="remaining"
-        onclick="setFilter('remaining')">
+<button
+class="filter-btn"
+data-filter="remaining"
+onclick="setFilter('remaining')">
 
-        ⏳ المتبقية
+⏳ المتبقية
 
-    </button>
+</button>
 
-    <button
-        class="filter-btn"
-        data-filter="completed"
-        onclick="setFilter('completed')">
+<button
+class="filter-btn"
+data-filter="completed"
+onclick="setFilter('completed')">
 
-        ✅ المكتملة
+✅ المكتملة
 
-    </button>
+</button>
 
-    <button
-        class="filter-btn"
-        data-filter="overdue"
-        onclick="setFilter('overdue')">
+<button
+class="filter-btn"
+data-filter="overdue"
+onclick="setFilter('overdue')">
 
-        🔴 المتأخرة
+🔴 المتأخرة
 
-    </button>
+</button>
 
 </div>
 
@@ -711,21 +715,24 @@ button{
 
 <div class="section-title">
 
-    <h2>📝 قائمة المهام</h2>
+<h2>
+📝 قائمة المهام
+</h2>
 
-    <button
-        class="delete-all"
-        onclick="deleteAllTasks()">
+<button
+class="delete-all"
+onclick="deleteAllTasks()">
 
-        🗑️ حذف الكل
+🗑️ حذف الكل
 
-    </button>
+</button>
 
 </div>
 
+
 <div
-    id="taskList"
-    class="task-list">
+id="taskList"
+class="task-list">
 </div>
 
 </div>
@@ -734,78 +741,90 @@ button{
 <!-- نافذة التعديل -->
 
 <div
-    class="modal"
-    id="editModal">
+class="modal"
+id="editModal">
 
-    <div class="modal-box">
+<div class="modal-box">
 
-        <h2>✏️ تعديل المهمة</h2>
+<h2>
+✏️ تعديل المهمة
+</h2>
 
-        <input
-            type="text"
-            id="editTitle"
-            placeholder="اسم المهمة"
-        >
+<input
+type="text"
+id="editTitle"
+placeholder="اسم المهمة"
+>
 
-        <input
-            type="date"
-            id="editDate"
-        >
+<input
+type="date"
+id="editDate"
+>
 
-        <select id="editPriority">
+<select id="editPriority">
 
-            <option value="high">
-                🔴 أولوية عالية
-            </option>
+<option value="high">
+🔴 أولوية عالية
+</option>
 
-            <option value="medium">
-                🟠 أولوية متوسطة
-            </option>
+<option value="medium">
+🟠 أولوية متوسطة
+</option>
 
-            <option value="low">
-                🟢 أولوية منخفضة
-            </option>
+<option value="low">
+🟢 أولوية منخفضة
+</option>
 
-        </select>
+</select>
 
-        <div class="modal-actions">
+<div class="modal-actions">
 
-            <button
-                class="save-btn"
-                onclick="saveEdit()">
+<button
+class="save-btn"
+onclick="saveEdit()">
 
-                💾 حفظ
+💾 حفظ
 
-            </button>
+</button>
 
-            <button
-                class="cancel-btn"
-                onclick="closeModal()">
+<button
+class="cancel-btn"
+onclick="closeModal()">
 
-                إلغاء
+إلغاء
 
-            </button>
+</button>
 
-        </div>
+</div>
 
-    </div>
+</div>
 
 </div>
 
 
 <script>
 
-let tasks =
+let tasks = [];
+
+try{
+
+    tasks =
     JSON.parse(
         localStorage.getItem("myTasks")
     ) || [];
+
+}catch(error){
+
+    tasks = [];
+
+}
 
 let currentFilter = "all";
 
 let editingId = null;
 
 
-/* حفظ */
+/* حفظ المهام */
 
 function saveTasks(){
 
@@ -824,24 +843,24 @@ function getToday(){
     const now = new Date();
 
     const year =
-        now.getFullYear();
+    now.getFullYear();
 
     const month =
-        String(
-            now.getMonth()+1
-        ).padStart(2,"0");
+    String(
+        now.getMonth()+1
+    ).padStart(2,"0");
 
     const day =
-        String(
-            now.getDate()
-        ).padStart(2,"0");
+    String(
+        now.getDate()
+    ).padStart(2,"0");
 
-    return `${year}-${month}-${day}`;
+    return year+"-"+month+"-"+day;
 
 }
 
 
-/* اليوم */
+/* هل المهمة اليوم؟ */
 
 function isToday(date){
 
@@ -850,42 +869,40 @@ function isToday(date){
 }
 
 
-/* هذا الأسبوع */
+/* هل المهمة هذا الأسبوع؟ */
 
 function isThisWeek(dateString){
 
     if(!dateString){
-
         return false;
-
     }
 
     const target =
-        new Date(
-            dateString+"T00:00:00"
-        );
+    new Date(
+        dateString+"T00:00:00"
+    );
 
     const today =
-        new Date(
-            getToday()+"T00:00:00"
-        );
+    new Date(
+        getToday()+"T00:00:00"
+    );
 
     const day =
-        today.getDay();
+    today.getDay();
 
     const daysFromMonday =
-        day === 0 ? 6 : day-1;
+    day === 0 ? 6 : day-1;
 
     const start =
-        new Date(today);
+    new Date(today);
 
     start.setDate(
         today.getDate()
-        - daysFromMonday
+        -daysFromMonday
     );
 
     const end =
-        new Date(start);
+    new Date(start);
 
     end.setDate(
         start.getDate()+6
@@ -899,7 +916,7 @@ function isThisWeek(dateString){
 }
 
 
-/* متأخرة */
+/* هل المهمة متأخرة؟ */
 
 function isOverdue(task){
 
@@ -923,95 +940,54 @@ function getStatus(task){
 
     if(task.completed){
 
-        return {
-            text:"✅ مكتملة",
-            class:"status"
-        };
+        return "✅ مكتملة";
 
     }
 
     if(isOverdue(task)){
 
-        return {
-            text:"🔴 متأخرة",
-            class:"status"
-        };
+        return "🔴 متأخرة";
 
     }
 
     if(isToday(task.date)){
 
-        return {
-            text:"📅 اليوم",
-            class:"status"
-        };
+        return "📅 اليوم";
 
     }
 
     if(task.date){
 
-        const today =
-            new Date(getToday());
-
-        const taskDate =
-            new Date(
-                task.date+
-                "T00:00:00"
-            );
-
-        const diff =
-            Math.ceil(
-                (
-                    taskDate-today
-                ) /
-                (
-                    1000*60*60*24
-                )
-            );
-
-        if(diff <= 2){
-
-            return {
-                text:"⏰ قريباً",
-                class:"status"
-            };
-
-        }
-
-        return {
-            text:"📆 مجدولة",
-            class:"status"
-        };
+        return "📆 مجدولة";
 
     }
 
-    return {
-        text:"📌 بدون موعد",
-        class:"status"
-    };
+    return "📌 بدون موعد";
 
 }
 
 
-/* إضافة */
+/* إضافة مهمة */
 
 function addTask(){
 
+    const input =
+    document.getElementById(
+        "taskInput"
+    );
+
+    const dateInput =
+    document.getElementById(
+        "dateInput"
+    );
+
+    const priorityInput =
+    document.getElementById(
+        "priorityInput"
+    );
+
     const title =
-        document
-        .getElementById("taskInput")
-        .value
-        .trim();
-
-    const date =
-        document
-        .getElementById("dateInput")
-        .value;
-
-    const priority =
-        document
-        .getElementById("priorityInput")
-        .value;
+    input.value.trim();
 
     if(!title){
 
@@ -1023,29 +999,29 @@ function addTask(){
 
     }
 
-    tasks.push({
+    const task = {
 
         id:Date.now(),
 
         title:title,
 
-        date:date,
+        date:dateInput.value,
 
-        priority:priority,
+        priority:priorityInput.value,
 
         completed:false
 
-    });
+    };
+
+    tasks.push(task);
 
     saveTasks();
 
-    document
-        .getElementById("taskInput")
-        .value="";
+    input.value="";
 
-    document
-        .getElementById("dateInput")
-        .value="";
+    dateInput.value="";
+
+    priorityInput.value="medium";
 
     renderTasks();
 
@@ -1054,72 +1030,112 @@ function addTask(){
 }
 
 
-/* ترتيب */
+/* البحث */
 
-function sortTasks(list){
+function searchTasks(){
 
-    return list.sort(
-        (a,b)=>{
+    renderTasks();
 
-            if(
-                a.completed !==
-                b.completed
-            ){
+}
 
-                return a.completed
-                    ? 1
-                    : -1;
 
-            }
+/* فلترة المهام */
 
-            if(a.date && b.date){
+function filterTasks(){
 
-                if(a.date !== b.date){
+    const search =
+    document.getElementById(
+        "searchInput"
+    ).value
+    .trim()
+    .toLowerCase();
 
-                    return a.date
-                        .localeCompare(
-                            b.date
-                        );
+    let result =
+    tasks.filter(function(task){
 
-                }
+        const matchesSearch =
+        task.title
+        .toLowerCase()
+        .includes(search);
 
-            }
+        if(!matchesSearch){
 
-            if(
-                a.date &&
-                !b.date
-            ){
+            return false;
 
-                return -1;
+        }
 
-            }
+        if(currentFilter === "today"){
 
-            if(
-                !a.date &&
+            return isToday(task.date);
+
+        }
+
+        if(currentFilter === "week"){
+
+            return isThisWeek(task.date);
+
+        }
+
+        if(currentFilter === "remaining"){
+
+            return !task.completed;
+
+        }
+
+        if(currentFilter === "completed"){
+
+            return task.completed;
+
+        }
+
+        if(currentFilter === "overdue"){
+
+            return isOverdue(task);
+
+        }
+
+        return true;
+
+    });
+
+    result.sort(function(a,b){
+
+        if(
+            a.completed !==
+            b.completed
+        ){
+
+            return a.completed
+            ? 1
+            : -1;
+
+        }
+
+        if(a.date && b.date){
+
+            return a.date.localeCompare(
                 b.date
-            ){
-
-                return 1;
-
-            }
-
-            const priorityValue={
-
-                high:1,
-
-                medium:2,
-
-                low:3
-
-            };
-
-            return (
-                priorityValue[a.priority] -
-                priorityValue[b.priority]
             );
 
         }
-    );
+
+        if(a.date){
+
+            return -1;
+
+        }
+
+        if(b.date){
+
+            return 1;
+
+        }
+
+        return 0;
+
+    });
+
+    return result;
 
 }
 
@@ -1129,76 +1145,12 @@ function sortTasks(list){
 function escapeHtml(text){
 
     const div =
-        document.createElement("div");
+    document.createElement("div");
 
-    div.textContent=text;
+    div.textContent =
+    text;
 
     return div.innerHTML;
-
-}
-
-
-/* الفلترة */
-
-function filterTasks(){
-
-    const search =
-        document
-        .getElementById("searchInput")
-        .value
-        .toLowerCase()
-        .trim();
-
-    let filtered =
-        tasks.filter(task=>{
-
-            if(
-                !task.title
-                .toLowerCase()
-                .includes(search)
-            ){
-
-                return false;
-
-            }
-
-            switch(currentFilter){
-
-                case "today":
-
-                    return isToday(
-                        task.date
-                    );
-
-                case "week":
-
-                    return isThisWeek(
-                        task.date
-                    );
-
-                case "remaining":
-
-                    return !task.completed;
-
-                case "completed":
-
-                    return task.completed;
-
-                case "overdue":
-
-                    return isOverdue(
-                        task
-                    );
-
-                default:
-
-                    return true;
-
-            }
-
-        });
-
-    return sortTasks(filtered);
 
 }
 
@@ -1208,185 +1160,210 @@ function filterTasks(){
 function renderTasks(){
 
     const list =
-        document
-        .getElementById("taskList");
+    document.getElementById(
+        "taskList"
+    );
 
     const filtered =
-        filterTasks();
+    filterTasks();
 
-    if(filtered.length===0){
+    if(filtered.length === 0){
 
         let message =
-            "📭 لا توجد مهام مطابقة";
+        "📭 لا توجد مهام مطابقة";
 
-        if(
-            currentFilter==="today"
-        ){
+        if(currentFilter === "today"){
 
             message =
-                "📅 لا توجد مهام لهذا اليوم";
+            "📅 لا توجد مهام اليوم";
 
         }
 
-        if(
-            currentFilter==="week"
-        ){
+        if(currentFilter === "week"){
 
             message =
-                "📆 لا توجد مهام لهذا الأسبوع";
+            "📆 لا توجد مهام هذا الأسبوع";
+
+        }
+
+        if(currentFilter === "remaining"){
+
+            message =
+            "⏳ لا توجد مهام متبقية";
+
+        }
+
+        if(currentFilter === "completed"){
+
+            message =
+            "✅ لا توجد مهام مكتملة";
+
+        }
+
+        if(currentFilter === "overdue"){
+
+            message =
+            "🔴 لا توجد مهام متأخرة";
 
         }
 
         list.innerHTML =
-            `<div class="empty">
-                ${message}
-            </div>`;
-
-        updateStats();
+        '<div class="empty">'+
+        message+
+        '</div>';
 
         return;
 
     }
 
-    list.innerHTML =
-        filtered.map(task=>{
 
-            const status =
-                getStatus(task);
+    let html = "";
 
-            let dateText =
-                "بدون موعد";
 
-            if(task.date){
+    filtered.forEach(function(task){
 
-                const d =
-                    new Date(
-                        task.date+
-                        "T00:00:00"
-                    );
+        let dateText =
+        "بدون موعد";
 
-                dateText =
-                    d.toLocaleDateString(
-                        "ar-EG",
-                        {
-                            year:"numeric",
-                            month:"long",
-                            day:"numeric"
-                        }
-                    );
+        if(task.date){
 
-            }
+            const d =
+            new Date(
+                task.date+
+                "T00:00:00"
+            );
 
-            let priorityText="";
-
-            if(
-                task.priority==="high"
-            ){
-
-                priorityText =
-                    `<span class="badge high">
-                        🔴 عالية
-                    </span>`;
-
-            }
-
-            if(
-                task.priority==="medium"
-            ){
-
-                priorityText =
-                    `<span class="badge medium">
-                        🟠 متوسطة
-                    </span>`;
-
-            }
-
-            if(
-                task.priority==="low"
-            ){
-
-                priorityText =
-                    `<span class="badge low">
-                        🟢 منخفضة
-                    </span>`;
-
-            }
-
-            return `
-
-            <div class="task
-                ${task.completed
-                    ?"completed":""
+            dateText =
+            d.toLocaleDateString(
+                "ar-EG",
+                {
+                    year:"numeric",
+                    month:"long",
+                    day:"numeric"
                 }
-                ${isOverdue(task)
-                    ?"overdue":""
-                }">
+            );
 
-                <div class="task-title">
+        }
 
-                    ${escapeHtml(
-                        task.title
-                    )}
 
-                </div>
+        let priorityText =
+        "🟠 متوسطة";
 
-                <div class="task-info">
+        let priorityClass =
+        "medium";
 
-                    <span class="badge date-badge">
+        if(task.priority === "high"){
 
-                        📅 ${dateText}
+            priorityText =
+            "🔴 عالية";
 
-                    </span>
+            priorityClass =
+            "high";
 
-                    ${priorityText}
+        }
 
-                    <span class="badge status">
+        if(task.priority === "low"){
 
-                        ${status.text}
+            priorityText =
+            "🟢 منخفضة";
 
-                    </span>
+            priorityClass =
+            "low";
 
-                </div>
+        }
 
-                <div class="task-actions">
 
-                    <button
-                        class="complete-btn"
-                        onclick="toggleComplete(${task.id})">
+        const status =
+        getStatus(task);
 
-                        ${
-                            task.completed
-                            ?"↩️ إعادة فتح"
-                            :"✅ إنجاز"
-                        }
 
-                    </button>
+        html +=
 
-                    <button
-                        class="edit-btn"
-                        onclick="openEdit(${task.id})">
+        '<div class="task '+
+        (task.completed ? "completed " : "")+
+        (isOverdue(task) ? "overdue" : "")+
+        '">';
 
-                        ✏️ تعديل
 
-                    </button>
+        html +=
+        '<div class="task-title">'+
+        escapeHtml(task.title)+
+        '</div>';
 
-                    <button
-                        class="delete-btn"
-                        onclick="deleteTask(${task.id})">
 
-                        🗑️ حذف
+        html +=
+        '<div class="task-info">';
 
-                    </button>
 
-                </div>
+        html +=
+        '<span class="badge date-badge">'+
+        '📅 '+dateText+
+        '</span>';
 
-            </div>
 
-            `;
+        html +=
+        '<span class="badge '+
+        priorityClass+
+        '">'+
+        priorityText+
+        '</span>';
 
-        }).join("");
 
-    updateStats();
+        html +=
+        '<span class="badge status">'+
+        status+
+        '</span>';
+
+
+        html +=
+        '</div>';
+
+
+        html +=
+        '<div class="task-actions">';
+
+
+        html +=
+        '<button class="complete-btn" '+
+        'onclick="toggleComplete('+
+        task.id+
+        ')">'+
+        (task.completed
+        ? "↩️ إعادة فتح"
+        : "✅ إنجاز")+
+        '</button>';
+
+
+        html +=
+        '<button class="edit-btn" '+
+        'onclick="openEdit('+
+        task.id+
+        ')">'+
+        '✏️ تعديل'+
+        '</button>';
+
+
+        html +=
+        '<button class="delete-btn" '+
+        'onclick="deleteTask('+
+        task.id+
+        ')">'+
+        '🗑️ حذف'+
+        '</button>';
+
+
+        html +=
+        '</div>';
+
+
+        html +=
+        '</div>';
+
+    });
+
+
+    list.innerHTML =
+    html;
 
 }
 
@@ -1395,51 +1372,57 @@ function renderTasks(){
 
 function setFilter(filter){
 
-    currentFilter=filter;
+    currentFilter =
+    filter;
 
-    document
-        .querySelectorAll(".filter-btn")
-        .forEach(button=>{
+    const buttons =
+    document.querySelectorAll(
+        ".filter-btn"
+    );
 
-            button.classList.remove(
+    buttons.forEach(
+    function(button){
+
+        button.classList.remove(
+            "active"
+        );
+
+        if(
+            button.dataset.filter ===
+            filter
+        ){
+
+            button.classList.add(
                 "active"
             );
 
-            if(
-                button.dataset.filter
-                ===filter
-            ){
+        }
 
-                button.classList.add(
-                    "active"
-                );
+    });
 
-            }
-
-        });
 
     renderTasks();
 
 }
 
 
-/* إنجاز */
+/* إنجاز المهمة */
 
 function toggleComplete(id){
 
     const task =
-        tasks.find(
-            t=>t.id===id
-        );
+    tasks.find(
+        function(item){
+            return item.id === id;
+        }
+    );
 
     if(!task){
-
         return;
-
     }
 
     task.completed =
-        !task.completed;
+    !task.completed;
 
     saveTasks();
 
@@ -1450,31 +1433,36 @@ function toggleComplete(id){
 }
 
 
-/* حذف */
+/* حذف مهمة */
 
 function deleteTask(id){
 
     const task =
-        tasks.find(
-            t=>t.id===id
-        );
+    tasks.find(
+        function(item){
+            return item.id === id;
+        }
+    );
 
     if(!task){
-
         return;
-
     }
 
-    if(
-        confirm(
-            `هل تريد حذف المهمة "${task.title}"؟`
-        )
-    ){
+    const answer =
+    confirm(
+        'هل تريد حذف المهمة "'+
+        task.title+
+        '"؟'
+    );
+
+    if(answer){
 
         tasks =
-            tasks.filter(
-                t=>t.id!==id
-            );
+        tasks.filter(
+            function(item){
+                return item.id !== id;
+            }
+        );
 
         saveTasks();
 
@@ -1491,7 +1479,7 @@ function deleteTask(id){
 
 function deleteAllTasks(){
 
-    if(tasks.length===0){
+    if(tasks.length === 0){
 
         alert(
             "لا توجد مهام لحذفها"
@@ -1501,13 +1489,14 @@ function deleteAllTasks(){
 
     }
 
-    if(
-        confirm(
-            "⚠️ هل أنت متأكد من حذف جميع المهام؟"
-        )
-    ){
+    const answer =
+    confirm(
+        "⚠️ هل أنت متأكد من حذف جميع المهام؟"
+    );
 
-        tasks=[];
+    if(answer){
+
+        tasks = [];
 
         saveTasks();
 
@@ -1525,33 +1514,38 @@ function deleteAllTasks(){
 function openEdit(id){
 
     const task =
-        tasks.find(
-            t=>t.id===id
-        );
+    tasks.find(
+        function(item){
+            return item.id === id;
+        }
+    );
 
     if(!task){
-
         return;
-
     }
 
-    editingId=id;
+    editingId =
+    id;
 
-    document
-        .getElementById("editTitle")
-        .value=task.title;
+    document.getElementById(
+        "editTitle"
+    ).value =
+    task.title;
 
-    document
-        .getElementById("editDate")
-        .value=task.date||"";
+    document.getElementById(
+        "editDate"
+    ).value =
+    task.date || "";
 
-    document
-        .getElementById("editPriority")
-        .value=task.priority;
+    document.getElementById(
+        "editPriority"
+    ).value =
+    task.priority || "medium";
 
-    document
-        .getElementById("editModal")
-        .style.display="flex";
+    document.getElementById(
+        "editModal"
+    ).style.display =
+    "flex";
 
 }
 
@@ -1561,21 +1555,20 @@ function openEdit(id){
 function saveEdit(){
 
     const task =
-        tasks.find(
-            t=>t.id===editingId
-        );
+    tasks.find(
+        function(item){
+            return item.id === editingId;
+        }
+    );
 
     if(!task){
-
         return;
-
     }
 
     const title =
-        document
-        .getElementById("editTitle")
-        .value
-        .trim();
+    document.getElementById(
+        "editTitle"
+    ).value.trim();
 
     if(!title){
 
@@ -1587,17 +1580,18 @@ function saveEdit(){
 
     }
 
-    task.title=title;
+    task.title =
+    title;
 
     task.date =
-        document
-        .getElementById("editDate")
-        .value;
+    document.getElementById(
+        "editDate"
+    ).value;
 
     task.priority =
-        document
-        .getElementById("editPriority")
-        .value;
+    document.getElementById(
+        "editPriority"
+    ).value;
 
     saveTasks();
 
@@ -1610,162 +1604,204 @@ function saveEdit(){
 }
 
 
-/* إغلاق */
+/* إغلاق نافذة التعديل */
 
 function closeModal(){
 
-    document
-        .getElementById("editModal")
-        .style.display="none";
+    document.getElementById(
+        "editModal"
+    ).style.display =
+    "none";
 
-    editingId=null;
+    editingId =
+    null;
 
 }
 
 
-/* الضغط خارج النافذة */
-
-document
-    .getElementById("editModal")
-    .addEventListener(
-        "click",
-        function(event){
-
-            if(
-                event.target===this
-            ){
-
-                closeModal();
-
-            }
-
-        }
-    );
-
-
-/* الإحصائيات واللوحة */
+/* الإحصائيات */
 
 function updateStats(){
 
     const total =
-        tasks.length;
+    tasks.length;
 
     const completed =
-        tasks.filter(
-            t=>t.completed
-        ).length;
+    tasks.filter(
+        function(task){
+            return task.completed;
+        }
+    ).length;
 
     const remaining =
-        total-completed;
+    total -
+    completed;
 
     const overdue =
-        tasks.filter(
-            t=>isOverdue(t)
-        ).length;
+    tasks.filter(
+        function(task){
+            return isOverdue(task);
+        }
+    ).length;
 
     const today =
-        tasks.filter(
-            t=>isToday(t.date)
-        ).length;
+    tasks.filter(
+        function(task){
+            return isToday(
+                task.date
+            );
+        }
+    ).length;
 
     const week =
-        tasks.filter(
-            t=>isThisWeek(t.date)
-        ).length;
+    tasks.filter(
+        function(task){
+            return isThisWeek(
+                task.date
+            );
+        }
+    ).length;
 
     const upcoming =
-        tasks.filter(task=>{
-
-            if(
-                task.completed ||
-                !task.date
-            ){
-
-                return false;
-
-            }
+    tasks.filter(
+        function(task){
 
             return (
+                !task.completed &&
+                task.date &&
                 task.date >= getToday()
             );
 
-        }).length;
-
-    document
-        .getElementById("totalCount")
-        .textContent=total;
-
-    document
-        .getElementById("completedCount")
-        .textContent=completed;
-
-    document
-        .getElementById("remainingCount")
-        .textContent=remaining;
-
-    document
-        .getElementById("overdueCount")
-        .textContent=overdue;
+        }
+    ).length;
 
 
-    document
-        .getElementById("todayCount")
-        .textContent=today;
+    document.getElementById(
+        "totalCount"
+    ).textContent =
+    total;
 
-    document
-        .getElementById("weekCount")
-        .textContent=week;
 
-    document
-        .getElementById("upcomingCount")
-        .textContent=upcoming;
+    document.getElementById(
+        "completedCount"
+    ).textContent =
+    completed;
 
-    document
-        .getElementById("dashboardOverdue")
-        .textContent=overdue;
+
+    document.getElementById(
+        "remainingCount"
+    ).textContent =
+    remaining;
+
+
+    document.getElementById(
+        "overdueCount"
+    ).textContent =
+    overdue;
+
+
+    document.getElementById(
+        "todayCount"
+    ).textContent =
+    today;
+
+
+    document.getElementById(
+        "weekCount"
+    ).textContent =
+    week;
+
+
+    document.getElementById(
+        "upcomingCount"
+    ).textContent =
+    upcoming;
+
+
+    document.getElementById(
+        "dashboardOverdue"
+    ).textContent =
+    overdue;
 
 
     const percentage =
-        total===0
-        ?0
-        :Math.round(
-            (completed/total)*100
-        );
+    total === 0
+    ? 0
+    : Math.round(
+        (completed / total) *
+        100
+    );
 
-    document
-        .getElementById("progressBar")
-        .style.width=
-        percentage+"%";
 
-    document
-        .getElementById("progressText")
-        .textContent=
-        percentage+"%";
+    document.getElementById(
+        "progressBar"
+    ).style.width =
+    percentage+"%";
+
+
+    document.getElementById(
+        "progressText"
+    ).textContent =
+    percentage+"%";
 
 }
 
 
-/* Enter */
+/* Enter لإضافة مهمة */
 
-document
-    .getElementById("taskInput")
-    .addEventListener(
-        "keydown",
-        function(event){
+document.getElementById(
+    "taskInput"
+).addEventListener(
+    "keydown",
+    function(event){
 
-            if(
-                event.key==="Enter"
-            ){
+        if(event.key === "Enter"){
 
-                addTask();
-
-            }
+            addTask();
 
         }
-    );
+
+    }
+);
 
 
-/* التشغيل */
+/* Enter للبحث */
+
+document.getElementById(
+    "searchInput"
+).addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Enter"){
+
+            searchTasks();
+
+        }
+
+    }
+);
+
+
+/* الضغط خارج نافذة التعديل */
+
+document.getElementById(
+    "editModal"
+).addEventListener(
+    "click",
+    function(event){
+
+        if(event.target === this){
+
+            closeModal();
+
+        }
+
+    }
+);
+
+
+/* تشغيل الصفحة */
 
 renderTasks();
 
