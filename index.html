@@ -26,6 +26,10 @@ body{
     padding:15px;
 }
 
+.icon{
+    font-size:.8em;
+}
+
 /* العنوان */
 
 header{
@@ -346,7 +350,7 @@ button{
 }
 
 .dashboard-icon{
-    font-size:25px;
+    font-size:18px;
 }
 
 .dashboard-number{
@@ -440,6 +444,32 @@ button{
 
 }
 
+
+footer.dev-footer{
+    text-align:center;
+    padding:22px 15px 30px;
+    color:#607d8b;
+    font-size:13.5px;
+}
+
+footer.dev-footer .dev-name{
+    font-weight:bold;
+    color:#37474f;
+    font-size:14.5px;
+    margin-bottom:6px;
+}
+
+footer.dev-footer a{
+    color:#1976d2;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+footer.dev-footer a:hover,
+footer.dev-footer a:focus-visible{
+    text-decoration:underline;
+}
+
 </style>
 </head>
 
@@ -449,7 +479,7 @@ button{
 
 <header>
 
-<h1>📋 منصة مهامي الأسبوعية</h1>
+<h1><span class="icon">📋</span> منصة مهامي الأسبوعية</h1>
 
 <p>نظّم مهامك وتابع إنجازك بسهولة</p>
 
@@ -462,22 +492,22 @@ button{
 
 <div class="stat">
 <strong id="totalCount">0</strong>
-<span>📋 الكل</span>
+<span><span class="icon">📋</span> الكل</span>
 </div>
 
 <div class="stat">
 <strong id="completedCount">0</strong>
-<span>✅ المكتملة</span>
+<span><span class="icon">✅</span> المكتملة</span>
 </div>
 
 <div class="stat">
 <strong id="remainingCount">0</strong>
-<span>⏳ المتبقية</span>
+<span><span class="icon">⏳</span> المتبقية</span>
 </div>
 
 <div class="stat">
 <strong id="overdueCount">0</strong>
-<span>🔴 المتأخرة</span>
+<span><span class="icon">🔴</span> المتأخرة</span>
 </div>
 
 </div>
@@ -486,7 +516,7 @@ button{
 <!-- لوحة اليوم والأسبوع -->
 
 <h2 class="dashboard-title">
-📊 ملخص المهام
+<span class="icon">📊</span> ملخص المهام
 </h2>
 
 <div class="dashboard">
@@ -559,7 +589,7 @@ button{
 
 <div class="progress-title">
 
-<span>📊 نسبة الإنجاز</span>
+<span><span class="icon">📊</span> نسبة الإنجاز</span>
 
 <span id="progressText">
 0%
@@ -584,7 +614,7 @@ id="progressBar">
 <div class="add-box">
 
 <h2>
-➕ إضافة مهمة جديدة
+<span class="icon">➕</span> إضافة مهمة جديدة
 </h2>
 
 <input
@@ -618,7 +648,7 @@ id="dateInput"
 class="add-btn"
 onclick="addTask()">
 
-➕ إضافة المهمة
+<span class="icon">➕</span> إضافة المهمة
 
 </button>
 
@@ -641,7 +671,7 @@ placeholder="اكتب اسم المهمة للبحث..."
 class="search-btn"
 onclick="searchTasks()">
 
-🔎 بحث
+<span class="icon">🔎</span> بحث
 
 </button>
 
@@ -659,7 +689,7 @@ class="filter-btn active"
 data-filter="all"
 onclick="setFilter('all')">
 
-📋 الكل
+<span class="icon">📋</span> الكل
 
 </button>
 
@@ -668,7 +698,7 @@ class="filter-btn"
 data-filter="today"
 onclick="setFilter('today')">
 
-📅 اليوم
+<span class="icon">📅</span> اليوم
 
 </button>
 
@@ -677,7 +707,7 @@ class="filter-btn"
 data-filter="week"
 onclick="setFilter('week')">
 
-📆 هذا الأسبوع
+<span class="icon">📆</span> هذا الأسبوع
 
 </button>
 
@@ -686,7 +716,7 @@ class="filter-btn"
 data-filter="remaining"
 onclick="setFilter('remaining')">
 
-⏳ المتبقية
+<span class="icon">⏳</span> المتبقية
 
 </button>
 
@@ -695,7 +725,7 @@ class="filter-btn"
 data-filter="completed"
 onclick="setFilter('completed')">
 
-✅ المكتملة
+<span class="icon">✅</span> المكتملة
 
 </button>
 
@@ -704,7 +734,7 @@ class="filter-btn"
 data-filter="overdue"
 onclick="setFilter('overdue')">
 
-🔴 المتأخرة
+<span class="icon">🔴</span> المتأخرة
 
 </button>
 
@@ -716,14 +746,14 @@ onclick="setFilter('overdue')">
 <div class="section-title">
 
 <h2>
-📝 قائمة المهام
+<span class="icon">📝</span> قائمة المهام
 </h2>
 
 <button
 class="delete-all"
 onclick="deleteAllTasks()">
 
-🗑️ حذف الكل
+<span class="icon">🗑️</span> حذف الكل
 
 </button>
 
@@ -747,7 +777,7 @@ id="editModal">
 <div class="modal-box">
 
 <h2>
-✏️ تعديل المهمة
+<span class="icon">✏️</span> تعديل المهمة
 </h2>
 
 <input
@@ -783,7 +813,7 @@ id="editDate"
 class="save-btn"
 onclick="saveEdit()">
 
-💾 حفظ
+<span class="icon">💾</span> حفظ
 
 </button>
 
@@ -869,6 +899,66 @@ function isToday(date){
 }
 
 
+/* بداية ونهاية أسبوع تاريخ معيّن (الاثنين إلى الأحد) */
+
+function getWeekRange(dateString){
+
+    const target =
+    new Date(
+        dateString+"T00:00:00"
+    );
+
+    const day =
+    target.getDay();
+
+    const daysFromMonday =
+    day === 0 ? 6 : day-1;
+
+    const start =
+    new Date(target);
+
+    start.setDate(
+        target.getDate()
+        -daysFromMonday
+    );
+
+    const end =
+    new Date(start);
+
+    end.setDate(
+        start.getDate()+6
+    );
+
+    return { start:start, end:end };
+
+}
+
+
+/* مفتاح يمثل أسبوع تاريخ معيّن */
+
+function weekKey(dateString){
+
+    const range =
+    getWeekRange(dateString);
+
+    const y =
+    range.start.getFullYear();
+
+    const m =
+    String(
+        range.start.getMonth()+1
+    ).padStart(2,"0");
+
+    const d =
+    String(
+        range.start.getDate()
+    ).padStart(2,"0");
+
+    return y+"-"+m+"-"+d;
+
+}
+
+
 /* هل المهمة هذا الأسبوع؟ */
 
 function isThisWeek(dateString){
@@ -940,29 +1030,29 @@ function getStatus(task){
 
     if(task.completed){
 
-        return "✅ مكتملة";
+        return '<span class="icon">✅</span> مكتملة';
 
     }
 
     if(isOverdue(task)){
 
-        return "🔴 متأخرة";
+        return '<span class="icon">🔴</span> متأخرة';
 
     }
 
     if(isToday(task.date)){
 
-        return "📅 اليوم";
+        return '<span class="icon">📅</span> اليوم';
 
     }
 
     if(task.date){
 
-        return "📆 مجدولة";
+        return '<span class="icon">📆</span> مجدولة';
 
     }
 
-    return "📌 بدون موعد";
+    return '<span class="icon">📌</span> بدون موعد';
 
 }
 
@@ -1170,40 +1260,40 @@ function renderTasks(){
     if(filtered.length === 0){
 
         let message =
-        "📭 لا توجد مهام مطابقة";
+        '<span class="icon">📭</span> لا توجد مهام مطابقة';
 
         if(currentFilter === "today"){
 
             message =
-            "📅 لا توجد مهام اليوم";
+            '<span class="icon">📅</span> لا توجد مهام اليوم';
 
         }
 
         if(currentFilter === "week"){
 
             message =
-            "📆 لا توجد مهام هذا الأسبوع";
+            '<span class="icon">📆</span> لا توجد مهام هذا الأسبوع';
 
         }
 
         if(currentFilter === "remaining"){
 
             message =
-            "⏳ لا توجد مهام متبقية";
+            '<span class="icon">⏳</span> لا توجد مهام متبقية';
 
         }
 
         if(currentFilter === "completed"){
 
             message =
-            "✅ لا توجد مهام مكتملة";
+            '<span class="icon">✅</span> لا توجد مهام مكتملة';
 
         }
 
         if(currentFilter === "overdue"){
 
             message =
-            "🔴 لا توجد مهام متأخرة";
+            '<span class="icon">🔴</span> لا توجد مهام متأخرة';
 
         }
 
@@ -1247,7 +1337,7 @@ function renderTasks(){
 
 
         let priorityText =
-        "🟠 متوسطة";
+        '<span class="icon">🟠</span> متوسطة';
 
         let priorityClass =
         "medium";
@@ -1255,7 +1345,7 @@ function renderTasks(){
         if(task.priority === "high"){
 
             priorityText =
-            "🔴 عالية";
+            '<span class="icon">🔴</span> عالية';
 
             priorityClass =
             "high";
@@ -1265,7 +1355,7 @@ function renderTasks(){
         if(task.priority === "low"){
 
             priorityText =
-            "🟢 منخفضة";
+            '<span class="icon">🟢</span> منخفضة';
 
             priorityClass =
             "low";
@@ -1297,7 +1387,7 @@ function renderTasks(){
 
         html +=
         '<span class="badge date-badge">'+
-        '📅 '+dateText+
+        '<span class="icon">📅</span> '+dateText+
         '</span>';
 
 
@@ -1329,8 +1419,8 @@ function renderTasks(){
         task.id+
         ')">'+
         (task.completed
-        ? "↩️ إعادة فتح"
-        : "✅ إنجاز")+
+        ? '<span class="icon">↩️</span> إعادة فتح'
+        : '<span class="icon">✅</span> إنجاز')+
         '</button>';
 
 
@@ -1339,7 +1429,7 @@ function renderTasks(){
         'onclick="openEdit('+
         task.id+
         ')">'+
-        '✏️ تعديل'+
+        '<span class="icon">✏️</span> تعديل'+
         '</button>';
 
 
@@ -1348,7 +1438,7 @@ function renderTasks(){
         'onclick="deleteTask('+
         task.id+
         ')">'+
-        '🗑️ حذف'+
+        '<span class="icon">🗑️</span> حذف'+
         '</button>';
 
 
@@ -1406,6 +1496,68 @@ function setFilter(filter){
 }
 
 
+/* حذف مهام أسبوع منتهٍ تمّت كل مهامه */
+
+function cleanupFinishedWeek(task){
+
+    if(!task.date){
+        return;
+    }
+
+    const range =
+    getWeekRange(task.date);
+
+    const todayDate =
+    new Date(
+        getToday()+"T00:00:00"
+    );
+
+    if(range.end >= todayDate){
+
+        return;
+
+    }
+
+    const wk =
+    weekKey(task.date);
+
+    const weekTasks =
+    tasks.filter(function(item){
+
+        return (
+            item.date &&
+            weekKey(item.date) === wk
+        );
+
+    });
+
+    const allDone =
+    weekTasks.length > 0 &&
+    weekTasks.every(function(item){
+
+        return item.completed;
+
+    });
+
+    if(allDone){
+
+        tasks =
+        tasks.filter(function(item){
+
+            return !(
+                item.date &&
+                weekKey(item.date) === wk
+            );
+
+        });
+
+        saveTasks();
+
+    }
+
+}
+
+
 /* إنجاز المهمة */
 
 function toggleComplete(id){
@@ -1425,6 +1577,12 @@ function toggleComplete(id){
     !task.completed;
 
     saveTasks();
+
+    if(task.completed){
+
+        cleanupFinishedWeek(task);
+
+    }
 
     renderTasks();
 
@@ -1808,6 +1966,14 @@ renderTasks();
 updateStats();
 
 </script>
+
+
+<footer class="dev-footer">
+<div class="dev-name">Developer: Ali</div>
+<a href="https://wa.me/201226820665" target="_blank" rel="noopener">
+<span class="icon">💬</span> WhatsApp: 01226820665
+</a>
+</footer>
 
 </body>
 </html>
