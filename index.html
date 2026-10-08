@@ -62,6 +62,12 @@ header{
 header h1{
     margin:0 0 8px;
     font-size:28px;
+    white-space:nowrap;
+}
+
+#titleInner{
+    display:inline-block;
+    white-space:nowrap;
 }
 
 header p{
@@ -503,7 +509,7 @@ footer.dev-footer a:focus-visible{
 
 <header>
 
-<h1><span class="icon">📋</span> مهام الاسبوع</h1>
+<h1><span id="titleInner"><span id="word1">مهـــام</span> <span id="word2">الأسبـــوع</span></span></h1>
 
 <p>نظّم مهامك وتابع إنجازك بسهولة</p>
 
@@ -1981,6 +1987,87 @@ document.getElementById(
 
     }
 );
+
+
+/* مدّ عنوان الترويسة بالمسطرة (ـ) ليملأ أغلب العرض ويبقى في المنتصف */
+
+function fitTitle(){
+
+    const header =
+    document.querySelector("header");
+
+    const inner =
+    document.getElementById("titleInner");
+
+    const w1 =
+    document.getElementById("word1");
+
+    const w2 =
+    document.getElementById("word2");
+
+    if(!header || !inner || !w1 || !w2){
+        return;
+    }
+
+    const style =
+    getComputedStyle(header);
+
+    const available =
+    header.clientWidth -
+    parseFloat(style.paddingLeft) -
+    parseFloat(style.paddingRight);
+
+    const target =
+    available * 0.94;
+
+    function setCount(k){
+
+        const bar =
+        "\u0640".repeat(k);
+
+        w1.textContent =
+        "مه" + bar + "ام";
+
+        w2.textContent =
+        "الأسب" + bar + "وع";
+
+    }
+
+    let low = 0;
+    let high = 300;
+
+    while(low < high){
+
+        const mid =
+        Math.ceil((low + high) / 2);
+
+        setCount(mid);
+
+        if(inner.offsetWidth <= target){
+
+            low = mid;
+
+        }else{
+
+            high = mid - 1;
+
+        }
+
+    }
+
+    setCount(low);
+
+}
+
+fitTitle();
+
+if(document.fonts && document.fonts.ready){
+
+    document.fonts.ready.then(fitTitle);
+
+}
+
+window.addEventListener("resize", fitTitle);
 
 
 /* تشغيل الصفحة */
