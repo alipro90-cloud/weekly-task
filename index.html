@@ -493,6 +493,38 @@ button:active{transform:translateY(0)}
     border:1px solid var(--border);
 }
 
+/* ===== Sync box ===== */
+
+.sync-box{
+    background:var(--card);
+    padding:16px;
+    border-radius:18px;
+    margin-top:14px;
+    box-shadow:var(--shadow);
+}
+
+.sync-box h2{margin:0 0 6px;font-size:17px}
+
+.sync-box .st{
+    font-size:13.5px;
+    color:var(--muted);
+    line-height:1.7;
+    margin:6px 0 10px;
+}
+
+.sync-box label{
+    display:block;
+    font-size:13px;
+    color:var(--muted);
+    margin-bottom:4px;
+}
+
+.sync-row{display:flex;gap:8px}
+.sync-row button{flex:1}
+.sync-btn{width:100%;background:var(--primary);color:#fff}
+.sync-alt{background:var(--card);color:var(--primary);border:1px solid var(--primary)}
+.sync-bad{background:var(--card);color:var(--danger);border:1px solid var(--danger)}
+
 /* ===== Toast ===== */
 
 #toastWrap{
@@ -717,6 +749,21 @@ footer.dev-footer a:hover{text-decoration:underline}
     <input type="file" id="importFile" accept=".json,application/json" style="display:none">
 </div>
 
+<!-- المزامنة مع Google Sheets -->
+<div class="sync-box">
+    <h2>☁️ المزامنة مع Google Sheets</h2>
+    <div class="st" id="sync-st"></div>
+    <label for="sy-url">رابط التطبيق (Web app URL)</label>
+    <input id="sy-url" dir="ltr" placeholder="https://script.google.com/macros/s/.../exec" autocomplete="off">
+    <label for="sy-key">كلمة السر</label>
+    <input id="sy-key" dir="ltr" type="password" autocomplete="off">
+    <button class="sync-btn" onclick="connectSync()">🔗 ربط وبدء المزامنة</button>
+    <div class="sync-row" style="margin-top:8px">
+        <button class="sync-alt" onclick="syncNow(true)">🔄 مزامنة الآن</button>
+        <button class="sync-bad" onclick="disconnectSync()">فصل الربط</button>
+    </div>
+</div>
+
 </div>
 
 <!-- نافذة التعديل -->
@@ -878,6 +925,7 @@ function saveTasks(silent){
         if(channel && !silent){
             channel.postMessage({type:"update", tasks});
         }
+        if(!silent) scheduleFlush();
     }catch(e){
         console.error(e);
         toast("تعذر حفظ البيانات", "error");
@@ -1006,6 +1054,7 @@ function cleanupFinishedWeek(task){
     if(!allDone) return false;
 
     const removed = weekTasks.length;
+    weekTasks.forEach(t => queueOp(t.id, true));
     tasks = tasks.filter(t => !(t.date && weekKey(t.date) === wk));
     saveTasks();
     toast(`تم حذف ${removed} مهمة من أسبوع منتهي`, "success");
@@ -1028,13 +1077,15 @@ function addTask(){
         return;
     }
 
-    tasks.push({
+    const newTask = {
         id: Date.now(),
         title,
         date: dateInput.value,
         priority: priorityInput.value,
         completed: false
-    });
+    };
+    tasks.push(newTask);
+    queueOp(newTask.id);
 
     saveTasks();
     input.value = "";
@@ -1210,6 +1261,7 @@ function toggleTask(id){
     const task = tasks.find(t => t.id === id);
     if(!task) return;
     task.completed = !task.completed;
+    queueOp(task.id);
     saveTasks();
     if(task.completed && cleanupFinishedWeek(task)){
         refreshAll();
@@ -1223,12 +1275,14 @@ function deleteTask(id){
     const idx = tasks.findIndex(t => t.id === id);
     if(idx < 0) return;
     const removed = tasks.splice(idx, 1)[0];
+    queueOp(removed.id, true);
     saveTasks();
     refreshAll();
     toast("تم حذف المهمة", "warn", {
         actionLabel: "تراجع",
         onAction: () => {
             tasks.splice(Math.min(idx, tasks.length), 0, removed);
+            queueOp(removed.id);
             saveTasks();
             refreshAll();
         }
@@ -1247,6 +1301,7 @@ async function deleteAllTasks(){
     });
     if(!ok) return;
     const backup = tasks;
+    backup.forEach(t => queueOp(t.id, true));
     tasks = [];
     saveTasks();
     refreshAll();
@@ -1254,6 +1309,7 @@ async function deleteAllTasks(){
         actionLabel: "تراجع",
         onAction: () => {
             tasks = backup;
+            backup.forEach(t => queueOp(t.id));
             saveTasks();
             refreshAll();
         }
@@ -1288,6 +1344,7 @@ function saveEdit(){
     task.title = title;
     task.date = $("editDate").value;
     task.priority = $("editPriority").value;
+    queueOp(task.id);
     saveTasks();
     closeModal();
     refreshAll();
@@ -1326,6 +1383,9 @@ $("importFile").addEventListener("change", (e) => {
                 yesLabel: "استرجاع"
             });
             if(!ok) return;
+            const keep = new Set(data.map(t => t.id));
+            tasks.forEach(t => { if(!keep.has(t.id)) queueOp(t.id, true); });
+            data.forEach(t => queueOp(t.id));
             tasks = data;
             saveTasks();
             refreshAll();
@@ -1401,6 +1461,202 @@ document.addEventListener("visibilitychange", () => {
 });
 
 /* =========================================================
+   المزامنة مع Google Sheets
+========================================================= */
+
+const SYNC_KEY = "myTasksSyncCfg";
+let sync = loadSync();   /* { url, key, queue: [{id, del}] } */
+let syncing = false, syncErr = "", lastSync = "", flushT = null;
+
+function loadSync(){
+    try{
+        const s = JSON.parse(localStorage.getItem(SYNC_KEY));
+        if(s && typeof s === "object"){
+            return { url: s.url || "", key: s.key || "", queue: Array.isArray(s.queue) ? s.queue : [] };
+        }
+    }catch(e){}
+    return { url: "", key: "", queue: [] };
+}
+
+function saveSync(){
+    try{ localStorage.setItem(SYNC_KEY, JSON.stringify(sync)); }catch(e){}
+}
+
+function syncOn(){ return !!(sync.url && sync.key); }
+
+/* عملية مؤجلة لمهمة: إرسال أو حذف. آخر عملية لنفس المهمة تحل محل ما قبلها */
+function queueOp(id, del){
+    if(!syncOn()) return;
+    sync.queue = sync.queue.filter(o => o.id !== id);
+    sync.queue.push({ id, del: !!del });
+    saveSync();
+}
+
+function scheduleFlush(){
+    if(!syncOn()) return;
+    clearTimeout(flushT);
+    flushT = setTimeout(() => syncNow(false, false), 400);
+}
+
+function errMsg(e){
+    if(e && e.name === "AbortError") return "انتهت مهلة الاتصال";
+    if(!navigator.onLine) return "لا يوجد اتصال بالإنترنت";
+    if(e instanceof SyntaxError) return "الرابط غير صحيح أو لم يُنشر السكربت للجميع";
+    if(e instanceof TypeError) return "تعذر الوصول للسكربت. تأكد أن الوصول «أي شخص» وأن الرابط ينتهي بـ /exec";
+    return (e && e.message) || "خطأ غير معروف";
+}
+
+async function api(body){
+    const ctl = new AbortController();
+    const h = setTimeout(() => ctl.abort(), 25000);
+    try{
+        const r = await fetch(sync.url, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify(Object.assign({ key: sync.key }, body)),
+            signal: ctl.signal
+        });
+        const j = await r.json();
+        if(!j.ok) throw new Error(j.error || "خطأ غير معروف");
+        return j;
+    }finally{
+        clearTimeout(h);
+    }
+}
+
+/* إرسال العمليات المؤجلة على دفعات */
+async function pushQueue(){
+    while(sync.queue.length){
+        const chunk = sync.queue.slice(0, 100);
+        const ops = [];
+        chunk.forEach((op) => {
+            if(op.del) ops.push({ del: true, id: op.id });
+            else{
+                const t = tasks.find(x => x.id === op.id);
+                if(t) ops.push({ id: op.id, task: t });
+            }
+        });
+        if(ops.length) await api({ action: "batchTasks", ops });
+        sync.queue = sync.queue.filter(o => !chunk.includes(o));
+        saveSync();
+    }
+}
+
+function mergeRemote(r){
+    const pend = new Set(sync.queue.map(o => o.id));
+    const dels = new Set((r.deleted || []).map(Number));
+    const remote = sanitizeTasks(r.tasks || []);
+    const remoteIds = new Set(remote.map(t => t.id));
+
+    tasks = tasks.filter(t => !dels.has(t.id) || pend.has(t.id));
+
+    remote.forEach((rt) => {
+        if(dels.has(rt.id) || pend.has(rt.id)) return;
+        const k = tasks.findIndex(x => x.id === rt.id);
+        if(k >= 0) tasks[k] = rt; else tasks.push(rt);
+    });
+
+    /* مهام موجودة هنا فقط (قبل الربط) تُرفع للشيت */
+    tasks.forEach((t) => {
+        if(!remoteIds.has(t.id) && !pend.has(t.id)) queueOp(t.id);
+    });
+}
+
+async function syncNow(manual, pull = true){
+    if(!syncOn()){
+        if(manual) toast("اربط الشيت أولاً", "warn");
+        return;
+    }
+    if(syncing){
+        if(manual) toast("المزامنة جارية", "warn");
+        return;
+    }
+    syncing = true;
+    syncErr = "";
+    try{
+        await pushQueue();
+        if(pull){
+            mergeRemote(await api({ action: "pullTasks" }));
+            saveTasks(true);
+            await pushQueue();
+        }
+        lastSync = new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+        if(manual) toast("تمت المزامنة ✅", "success");
+    }catch(e){
+        syncErr = errMsg(e);
+        if(manual) toast("تعذرت المزامنة: " + syncErr, "error", { duration: 5000 });
+    }finally{
+        syncing = false;
+        renderSync();
+        if(pull) refreshAll();
+        if(!syncErr && sync.queue.length) scheduleFlush();
+    }
+}
+
+function renderSync(){
+    const st = $("sync-st");
+    if(!st) return;
+    if(!syncOn()){
+        st.textContent = "غير مربوط. المهام محفوظة على هذا الجوال فقط.";
+        return;
+    }
+    const n = sync.queue.length;
+    st.textContent = syncErr ? "تعذرت المزامنة: " + syncErr
+        : n ? "مربوط. بانتظار الإرسال: " + n
+        : "مربوط ومتزامن" + (lastSync ? "، آخر مزامنة " + lastSync : "");
+    if(document.activeElement !== $("sy-url")) $("sy-url").value = sync.url;
+    $("sy-key").placeholder = "محفوظة (اتركها فارغة)";
+}
+
+async function connectSync(){
+    const url = $("sy-url").value.trim();
+    const key = $("sy-key").value.trim() || sync.key;
+    if(!/^https:\/\/script\.google\.com\/.+\/exec$/.test(url)){
+        toast("الرابط يجب أن يبدأ بـ https://script.google.com وينتهي بـ /exec", "warn", { duration: 5000 });
+        return;
+    }
+    if(!key){
+        toast("اكتب كلمة السر", "warn");
+        return;
+    }
+    const prev = { url: sync.url, key: sync.key };
+    sync.url = url;
+    sync.key = key;
+    try{
+        await api({ action: "ping" });
+    }catch(e){
+        sync.url = prev.url;
+        sync.key = prev.key;
+        toast("فشل الربط: " + errMsg(e), "error", { duration: 6000 });
+        renderSync();
+        return;
+    }
+    $("sy-key").value = "";
+    saveSync();
+    syncNow(true);
+}
+
+async function disconnectSync(){
+    if(!syncOn()) return;
+    const ok = await confirmDialog({
+        title: "فصل الربط",
+        body: "سيتوقف إرسال المهام إلى الشيت. مهامك تبقى على الجوال وفي الشيت.",
+        yesLabel: "فصل"
+    });
+    if(!ok) return;
+    sync = { url: "", key: "", queue: [] };
+    syncErr = "";
+    saveSync();
+    renderSync();
+    toast("تم فصل الربط", "success");
+}
+
+window.addEventListener("online", () => syncNow(false));
+document.addEventListener("visibilitychange", () => {
+    if(!document.hidden) syncNow(false);
+});
+
+/* =========================================================
    التشغيل
 ========================================================= */
 
@@ -1415,6 +1671,8 @@ document.addEventListener("visibilitychange", () => {
     tasks = loadTasks();
     [...tasks].forEach((t) => { if(tasks.includes(t)) cleanupFinishedWeek(t); });
     refreshAll();
+    renderSync();
+    syncNow(false);
 })();
 </script>
 </body>
