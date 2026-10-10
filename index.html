@@ -1,1678 +1,445 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#1976d2">
-<title>منصة مهامي الأسبوعية</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مهامي الأسبوعية</title>
 <style>
 :root{
-    --bg1:#e8f5e9;
-    --bg2:#e3f2fd;
-    --card:#ffffff;
-    --text:#263238;
-    --muted:#607d8b;
-    --primary:#1976d2;
-    --success:#2e7d32;
-    --danger:#d32f2f;
-    --warning:#b85600;
-    --border:#e0e0e0;
-    --shadow:0 4px 12px rgba(0,0,0,.08);
-    --shadow-lg:0 10px 30px rgba(0,0,0,.15);
-}
-
-html[data-theme="dark"]{
-    --bg1:#0f1720;
-    --bg2:#0b1220;
-    --card:#1a2431;
-    --text:#e6eef8;
-    --muted:#8aa0b6;
-    --primary:#42a5f5;
-    --success:#66bb6a;
-    --danger:#ef5350;
-    --warning:#ffb74d;
-    --border:#2b3849;
-    --shadow:0 4px 12px rgba(0,0,0,.35);
-    --shadow-lg:0 10px 30px rgba(0,0,0,.5);
-}
-
-*{box-sizing:border-box}
-
-body{
-    margin:0;
-    font-family:'Segoe UI',Tahoma,'Noto Kufi Arabic',Arial,sans-serif;
-    background:linear-gradient(135deg,var(--bg1),var(--bg2));
-    color:var(--text);
-    transition:background .3s,color .3s;
-    min-height:100vh;
-}
-
-.container{
-    max-width:900px;
-    margin:auto;
-    padding:15px;
-}
-
-.icon{font-size:.95em}
-
-/* ===== Header ===== */
-
-header{
-    position:relative;
-    background:linear-gradient(135deg,var(--primary),var(--success));
-    color:#fff;
-    padding:22px 15px;
-    border-radius:20px;
-    text-align:center;
-    margin-bottom:18px;
-    box-shadow:var(--shadow);
-}
-
-header h1{
-    margin:0 0 6px;
-    font-size:26px;
-    letter-spacing:.5px;
-}
-
-header p{
-    margin:0;
-    font-size:15px;
-    opacity:.95;
-}
-
-.header-tools{
-    position:absolute;
-    top:12px;
-    left:12px;
-    display:flex;
-    gap:6px;
-}
-
-.icon-btn{
-    background:rgba(255,255,255,.2);
-    color:#fff;
-    border:none;
-    width:36px;
-    height:36px;
-    border-radius:10px;
-    font-size:16px;
-    cursor:pointer;
-    transition:.2s;
-}
-
-.icon-btn:hover{
-    background:rgba(255,255,255,.35);
-    transform:translateY(-1px);
-}
-
-/* ===== Stats ===== */
-
-.stats{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:10px;
-    margin-bottom:18px;
-}
-
-.stat{
-    background:var(--card);
-    padding:15px 8px;
-    border-radius:15px;
-    text-align:center;
-    box-shadow:var(--shadow);
-}
-
-.stat strong{
-    display:block;
-    font-size:24px;
-    margin-bottom:5px;
-}
-
-.stat span{font-size:13px;font-weight:bold}
-
-/* ===== Progress ===== */
-
-.progress-box{
-    background:var(--card);
-    padding:16px;
-    border-radius:16px;
-    margin-bottom:18px;
-    box-shadow:var(--shadow);
-}
-
-.progress-title{
-    display:flex;
-    justify-content:space-between;
-    font-weight:bold;
-    margin-bottom:8px;
-    font-size:14px;
-}
-
-.progress{
-    height:12px;
-    background:var(--border);
-    border-radius:20px;
-    overflow:hidden;
-}
-
-.progress-bar{
-    height:100%;
-    width:0;
-    background:linear-gradient(90deg,var(--primary),var(--success));
-    transition:width .4s ease;
-}
-
-/* ===== Add box ===== */
-
-.add-box{
-    background:var(--card);
-    padding:18px;
-    border-radius:18px;
-    margin-bottom:18px;
-    box-shadow:var(--shadow);
-}
-
-.add-box h2{
-    margin-top:0;
-    font-size:19px;
-}
-
-input,select,button{
-    font-family:inherit;
-    font-size:16px;
-}
-
-input,select{
-    width:100%;
-    padding:13px;
-    margin-bottom:10px;
-    border:1px solid var(--border);
-    border-radius:11px;
-    background:var(--card);
-    color:var(--text);
-    transition:.2s;
-}
-
-input:focus,select:focus{
-    outline:none;
-    border-color:var(--primary);
-    box-shadow:0 0 0 3px rgba(25,118,210,.15);
-}
-
-button{
-    border:none;
-    border-radius:11px;
-    padding:12px 16px;
-    font-weight:bold;
-    cursor:pointer;
-    transition:.2s;
-}
-
-button:hover{transform:translateY(-1px)}
-button:active{transform:translateY(0)}
-
-.add-btn{
-    width:100%;
-    background:var(--success);
-    color:#fff;
-}
-
-.add-btn:hover{filter:brightness(1.08)}
-
-/* ===== Search ===== */
-
-.search-box{
-    background:var(--card);
-    padding:14px;
-    border-radius:18px;
-    margin-bottom:14px;
-    box-shadow:var(--shadow);
-}
-
-.search-row{display:flex;gap:8px;align-items:center}
-.search-row input{flex:1;margin:0}
-
-.search-btn{
-    background:var(--primary);
-    color:#fff;
-    white-space:nowrap;
-}
-
-/* ===== Filters ===== */
-
-.filters{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:8px;
-    margin-bottom:18px;
-}
-
-.filter-btn{
-    background:var(--card);
-    color:var(--text);
-    border:1px solid var(--border);
-    font-size:14px;
-}
-
-.filter-btn.active{
-    background:var(--primary);
-    color:#fff;
-    border-color:var(--primary);
-}
-
-/* ===== Section Title ===== */
-
-.section-title{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:10px;
-    gap:8px;
-}
-
-.section-title h2{
-    margin:0;
-    font-size:20px;
-}
-
-.delete-all{
-    background:var(--danger);
-    color:#fff;
-    font-size:14px;
-    padding:9px 12px;
-}
-
-/* ===== Tasks ===== */
-
-.task-list{
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-}
-
-.task{
-    background:var(--card);
-    padding:16px;
-    border-radius:17px;
-    border-right:6px solid var(--primary);
-    box-shadow:var(--shadow);
-    transition:transform .2s,box-shadow .2s;
-    animation:slideIn .25s ease;
-}
-
-@keyframes slideIn{
-    from{opacity:0;transform:translateY(-8px)}
-    to{opacity:1;transform:translateY(0)}
-}
-
-.task:hover{
-    transform:translateY(-2px);
-    box-shadow:var(--shadow-lg);
-}
-
-.task.completed{
-    border-right-color:var(--success);
-    opacity:.75;
-}
-
-.task.overdue{
-    border-right-color:var(--danger);
-}
-
-.task-title{
-    font-size:18px;
-    font-weight:bold;
-    margin-bottom:10px;
-    word-break:break-word;
-}
-
-.task.completed .task-title{
-    text-decoration:line-through;
-    color:var(--muted);
-}
-
-.task-info{
-    display:flex;
-    flex-wrap:wrap;
-    gap:6px;
-    margin-bottom:12px;
-}
-
-.badge{
-    padding:6px 10px;
-    border-radius:20px;
-    font-size:13px;
-    font-weight:bold;
-}
-
-.date-badge{background:rgba(25,118,210,.12);color:var(--primary)}
-.high{background:rgba(211,47,47,.12);color:var(--danger)}
-.medium{background:rgba(184,86,0,.12);color:var(--warning)}
-.low{background:rgba(46,125,50,.12);color:var(--success)}
-.status{background:rgba(120,120,120,.12);color:var(--muted)}
-
-.task-actions{
-    display:flex;
-    gap:7px;
-    flex-wrap:wrap;
-}
-
-.task-actions button{
-    flex:1;
-    min-width:90px;
-    font-size:14px;
-    padding:10px 12px;
-}
-
-.complete-btn{background:var(--success);color:#fff}
-.edit-btn{background:var(--primary);color:#fff}
-.delete-btn{background:var(--danger);color:#fff}
-
-/* ===== Empty ===== */
-
-.empty{
-    background:var(--card);
-    padding:35px 15px;
-    border-radius:17px;
-    text-align:center;
-    color:var(--muted);
-    font-size:16px;
-    box-shadow:var(--shadow);
-}
-
-.empty .big{
-    display:block;
-    font-size:44px;
-    margin-bottom:8px;
-}
-
-/* ===== Dashboard ===== */
-
-.dashboard-title{
-    font-size:19px;
-    margin:18px 0 10px;
-}
-
-.dashboard{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:10px;
-    margin-bottom:18px;
-}
-
-.dashboard-card{
-    background:var(--card);
-    padding:14px 8px;
-    border-radius:15px;
-    text-align:center;
-    box-shadow:var(--shadow);
-    cursor:pointer;
-    transition:.2s;
-}
-
-.dashboard-card:hover{
-    transform:translateY(-3px);
-    box-shadow:var(--shadow-lg);
-}
-
-.dashboard-icon{font-size:18px}
-.dashboard-number{font-size:23px;font-weight:bold;margin:4px 0}
-.dashboard-label{font-size:12px;font-weight:bold;color:var(--muted)}
-
-/* ===== Modal ===== */
-
-.modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.55);
-    align-items:center;
-    justify-content:center;
-    padding:15px;
-    z-index:1000;
-    backdrop-filter:blur(4px);
-}
-
-.modal.show{display:flex;animation:fadeIn .2s}
-
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-
-.modal-box{
-    width:100%;
-    max-width:500px;
-    background:var(--card);
-    color:var(--text);
-    padding:22px;
-    border-radius:20px;
-    box-shadow:var(--shadow-lg);
-    animation:popIn .25s ease;
-}
-
-@keyframes popIn{
-    from{opacity:0;transform:scale(.95)}
-    to{opacity:1;transform:scale(1)}
-}
-
-.modal-box h2{
-    margin-top:0;
-    font-size:19px;
-}
-
-.modal-actions{
-    display:flex;
-    gap:10px;
-    margin-top:6px;
-}
-
-.save-btn{
-    flex:1;
-    background:var(--primary);
-    color:#fff;
-}
-
-.cancel-btn{
-    flex:1;
-    background:var(--border);
-    color:var(--text);
-}
-
-/* ===== Backup ===== */
-
-.backup-box{
-    display:flex;
-    gap:8px;
-    margin-top:18px;
-}
-
-.backup-btn{
-    flex:1;
-    background:var(--card);
-    color:var(--text);
-    border:1px solid var(--border);
-}
-
-/* ===== Sync box ===== */
-
-.sync-box{
-    background:var(--card);
-    padding:16px;
-    border-radius:18px;
-    margin-top:14px;
-    box-shadow:var(--shadow);
-}
-
-.sync-box h2{margin:0 0 6px;font-size:17px}
-
-.sync-box .st{
-    font-size:13.5px;
-    color:var(--muted);
-    line-height:1.7;
-    margin:6px 0 10px;
-}
-
-.sync-box label{
-    display:block;
-    font-size:13px;
-    color:var(--muted);
-    margin-bottom:4px;
-}
-
-.sync-row{display:flex;gap:8px}
-.sync-row button{flex:1}
-.sync-btn{width:100%;background:var(--primary);color:#fff}
-.sync-alt{background:var(--card);color:var(--primary);border:1px solid var(--primary)}
-.sync-bad{background:var(--card);color:var(--danger);border:1px solid var(--danger)}
-
-/* ===== Toast ===== */
-
-#toastWrap{
-    position:fixed;
-    bottom:20px;
-    left:50%;
-    transform:translateX(-50%);
-    z-index:2000;
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-    width:min(92%,420px);
-}
-
-.toast{
-    background:var(--card);
-    color:var(--text);
-    padding:12px 16px;
-    border-radius:12px;
-    box-shadow:var(--shadow-lg);
-    border-right:5px solid var(--primary);
-    display:flex;
-    align-items:center;
-    gap:10px;
-    animation:toastIn .3s ease;
-    font-size:14px;
-    font-weight:600;
-}
-
-.toast.success{border-right-color:var(--success)}
-.toast.error{border-right-color:var(--danger)}
-.toast.warn{border-right-color:var(--warning)}
-.toast .undo{
-    margin-inline-start:auto;
-    background:transparent;
-    color:var(--primary);
-    padding:6px 10px;
-    font-size:13px;
-    border:1px solid var(--primary);
-    border-radius:8px;
-}
-
-@keyframes toastIn{
-    from{opacity:0;transform:translateY(20px)}
-    to{opacity:1;transform:translateY(0)}
-}
-
-.toast.out{
-    animation:toastOut .3s ease forwards;
-}
-
-@keyframes toastOut{
-    to{opacity:0;transform:translateY(20px)}
-}
-
-/* ===== Footer ===== */
-
-footer.dev-footer{
-    text-align:center;
-    padding:16px 15px 24px;
-    color:var(--warning);
-    font-size:11px;
-}
-
-footer.dev-footer .dev-name{
-    font-weight:bold;
-    font-size:12px;
-    margin-bottom:3px;
-}
-
-footer.dev-footer a{
-    color:var(--warning);
-    text-decoration:none;
-    font-weight:bold;
-}
-
-footer.dev-footer a:hover{text-decoration:underline}
-
-/* ===== Confirm dialog ===== */
-
-.confirm-body{
-    padding:6px 2px 12px;
-    color:var(--muted);
-    font-size:14px;
-    line-height:1.6;
-}
-
-.confirm-actions{
-    display:flex;
-    gap:10px;
-}
-
-.confirm-actions button{
-    flex:1;
-}
-
-.confirm-yes{background:var(--danger);color:#fff}
-.confirm-no{background:var(--border);color:var(--text)}
-
-/* ===== Mobile ===== */
-
-@media(max-width:600px){
-
-    .container{padding:12px}
-
-    header h1{font-size:22px}
-
-    .stats{grid-template-columns:repeat(2,1fr)}
-    .dashboard{grid-template-columns:repeat(2,1fr)}
-    .filters{grid-template-columns:repeat(2,1fr)}
-
-    .task-actions button{
-        flex:1 1 calc(50% - 4px);
-        min-width:0;
-    }
-}
+  --bg:#f4f6fb;--card:#fff;--text:#16203a;--muted:#6b7794;--border:#e3e8f0;
+  --primary:#4f6ef7;--success:#22b573;--warning:#f5a623;--danger:#e5484d;
+  --shadow:0 2px 12px rgba(20,40,80,.07);--chip:#eef1f8;
+}
+[data-theme="dark"]{
+  --bg:#0d121c;--card:#161d2c;--text:#e8eefb;--muted:#8a95ad;--border:#252e44;
+  --primary:#6c85ff;--chip:#1f2840;--shadow:0 2px 12px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--bg);color:var(--text);transition:background .2s,color .2s;min-height:100vh}
+.container{max-width:760px;margin:0 auto;padding:14px}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{font-size:28px}
+h1{font-size:20px;margin:0}
+.sub{font-size:12px;color:var(--muted);margin:2px 0 0}
+.icon-btn{background:var(--card);border:1px solid var(--border);color:var(--text);width:40px;height:40px;border-radius:12px;font-size:18px;cursor:pointer;box-shadow:var(--shadow)}
+.icon-btn:active{transform:scale(.95)}
+.icon-btn.spin{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sync-status{font-size:12px;padding:8px 12px;border-radius:10px;background:var(--card);border:1px solid var(--border);margin-bottom:12px;display:flex;align-items:center;gap:8px;color:var(--muted);box-shadow:var(--shadow)}
+.sync-status.ok{color:var(--success)}
+.sync-status.err{color:var(--danger)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+.sync-status.ok .dot{background:var(--success)}
+.sync-status.err .dot{background:var(--danger)}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 6px;text-align:center;box-shadow:var(--shadow)}
+.stat .v{display:block;font-size:20px;font-weight:700}
+.stat .l{display:block;font-size:10px;color:var(--muted);margin-top:3px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
+.card h2{font-size:15px;margin:0 0 10px}
+input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--border);background:var(--bg);color:var(--text);border-radius:10px;font-family:inherit;font-size:14px;margin-bottom:8px;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--primary)}
+textarea{resize:vertical;min-height:56px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:480px){.stats{grid-template-columns:repeat(3,1fr)}.row{grid-template-columns:1fr}}
+.btn{width:100%;padding:12px;border:none;border-radius:10px;background:var(--primary);color:#fff;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit}
+.btn:active{transform:scale(.99)}
+.filters{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.chip{background:var(--chip);border:1px solid var(--border);color:var(--text);padding:6px 14px;border-radius:20px;font-size:13px;cursor:pointer;font-family:inherit}
+.chip.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.tasks{display:flex;flex-direction:column;gap:8px}
+.task{display:flex;gap:10px;align-items:flex-start;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:12px;border-right:4px solid var(--primary)}
+.task.done{opacity:.6;border-right-color:var(--success)}
+.task.overdue{border-right-color:var(--danger)}
+.task.high{border-right-color:var(--danger)}
+.task.medium{border-right-color:var(--warning)}
+.task.low{border-right-color:var(--success)}
+.check{width:22px;height:22px;border-radius:50%;border:2px solid var(--muted);background:transparent;cursor:pointer;flex-shrink:0;margin-top:2px;position:relative}
+.check.on{background:var(--success);border-color:var(--success)}
+.check.on::after{content:'✓';color:#fff;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:bold}
+.task-main{flex:1;min-width:0}
+.task-title{font-size:14px;font-weight:600;margin:0 0 4px;word-break:break-word}
+.task.done .task-title{text-decoration:line-through}
+.task-meta{font-size:11px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap}
+.tag{padding:2px 8px;border-radius:6px;background:var(--chip);font-size:10px}
+.tag.high{background:rgba(229,72,77,.15);color:var(--danger)}
+.tag.medium{background:rgba(245,166,35,.18);color:var(--warning)}
+.tag.low{background:rgba(34,181,115,.15);color:var(--success)}
+.task-notes{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5}
+.del{background:transparent;border:none;color:var(--muted);font-size:18px;cursor:pointer;padding:4px}
+.del:hover{color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:30px 0;font-size:14px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--text);color:var(--bg);padding:10px 18px;border-radius:10px;font-size:13px;transition:transform .3s;z-index:99}
+.toast.show{transform:translateX(-50%) translateY(0)}
 </style>
 </head>
-
 <body>
-
 <div class="container">
 
-<header>
-    <div class="header-tools">
-        <button class="icon-btn" id="themeBtn" title="تبديل الوضع الليلي" aria-label="تبديل الوضع الليلي">🌙</button>
+  <header>
+    <div class="brand">
+      <span class="logo">📋</span>
+      <div>
+        <h1>مهامي الأسبوعية</h1>
+        <p class="sub" id="weekRange">—</p>
+      </div>
     </div>
-    <h1>📋 مهام الأسبوع</h1>
-    <p>نظّم مهامك وتابع إنجازك بسهولة</p>
-</header>
-
-<!-- الإحصائيات -->
-<div class="stats">
-    <div class="stat"><strong id="totalCount">0</strong><span>📋 الكل</span></div>
-    <div class="stat"><strong id="completedCount">0</strong><span>✅ المكتملة</span></div>
-    <div class="stat"><strong id="remainingCount">0</strong><span>⏳ المتبقية</span></div>
-    <div class="stat"><strong id="overdueCount">0</strong><span>🔴 المتأخرة</span></div>
-</div>
-
-<!-- لوحة الملخص -->
-<h2 class="dashboard-title">📊 ملخص المهام</h2>
-
-<div class="dashboard">
-    <div class="dashboard-card" onclick="setFilter('today')" role="button" tabindex="0">
-        <div class="dashboard-icon">📅</div>
-        <div class="dashboard-number" id="todayCount">0</div>
-        <div class="dashboard-label">مهام اليوم</div>
+    <div style="display:flex;gap:8px">
+      <button id="themeBtn" class="icon-btn" title="تبديل الوضع">🌙</button>
+      <button id="syncBtn" class="icon-btn" title="مزامنة">🔄</button>
     </div>
-    <div class="dashboard-card" onclick="setFilter('week')" role="button" tabindex="0">
-        <div class="dashboard-icon">📆</div>
-        <div class="dashboard-number" id="weekCount">0</div>
-        <div class="dashboard-label">هذا الأسبوع</div>
-    </div>
-    <div class="dashboard-card" onclick="setFilter('upcoming')" role="button" tabindex="0">
-        <div class="dashboard-icon">⏳</div>
-        <div class="dashboard-number" id="upcomingCount">0</div>
-        <div class="dashboard-label">القادمة</div>
-    </div>
-    <div class="dashboard-card" onclick="setFilter('overdue')" role="button" tabindex="0">
-        <div class="dashboard-icon">🔴</div>
-        <div class="dashboard-number" id="dashboardOverdue">0</div>
-        <div class="dashboard-label">المتأخرة</div>
-    </div>
-</div>
+  </header>
 
-<!-- نسبة الإنجاز -->
-<div class="progress-box">
-    <div class="progress-title">
-        <span>📊 نسبة الإنجاز</span>
-        <span id="progressText">0%</span>
-    </div>
-    <div class="progress">
-        <div class="progress-bar" id="progressBar"></div>
-    </div>
-</div>
+  <div class="sync-status" id="syncStatus">
+    <span class="dot"></span><span id="syncText">جارٍ التحميل…</span>
+  </div>
 
-<!-- إضافة مهمة -->
-<div class="add-box">
-    <h2>➕ إضافة مهمة جديدة</h2>
-    <input type="text" id="taskInput" placeholder="اكتب اسم المهمة..." autocomplete="off">
-    <input type="date" id="dateInput">
-    <select id="priorityInput">
-        <option value="high">🔴 أولوية عالية</option>
-        <option value="medium" selected>🟠 أولوية متوسطة</option>
-        <option value="low">🟢 أولوية منخفضة</option>
-    </select>
-    <button class="add-btn" onclick="addTask()">➕ إضافة المهمة</button>
-</div>
+  <section class="stats">
+    <div class="stat"><span class="v" id="stToday">0</span><span class="l">مهام اليوم</span></div>
+    <div class="stat"><span class="v" id="stWeek">0</span><span class="l">هذا الأسبوع</span></div>
+    <div class="stat"><span class="v" id="stUpcoming">0</span><span class="l">قادمة</span></div>
+    <div class="stat"><span class="v" id="stOverdue">0</span><span class="l">متأخرة</span></div>
+    <div class="stat"><span class="v" id="stRate">0%</span><span class="l">نسبة الإنجاز</span></div>
+  </section>
 
-<!-- البحث -->
-<div class="search-box">
-    <div class="search-row">
-        <input type="text" id="searchInput" placeholder="ابحث عن مهمة..." oninput="searchTasks()">
-        <button class="search-btn" onclick="searchTasks()">🔎 بحث</button>
-    </div>
-</div>
-
-<!-- الفلاتر -->
-<div class="filters">
-    <button class="filter-btn active" data-filter="all" onclick="setFilter('all')">📋 الكل</button>
-    <button class="filter-btn" data-filter="today" onclick="setFilter('today')">📅 اليوم</button>
-    <button class="filter-btn" data-filter="week" onclick="setFilter('week')">📆 الأسبوع</button>
-    <button class="filter-btn" data-filter="remaining" onclick="setFilter('remaining')">⏳ المتبقية</button>
-    <button class="filter-btn" data-filter="completed" onclick="setFilter('completed')">✅ المكتملة</button>
-    <button class="filter-btn" data-filter="overdue" onclick="setFilter('overdue')">🔴 المتأخرة</button>
-    <button class="filter-btn" data-filter="nodate" onclick="setFilter('nodate')">📌 بدون موعد</button>
-    <button class="filter-btn" data-filter="high" onclick="setFilter('high')">⚡ عالية الأهمية</button>
-</div>
-
-<!-- قائمة المهام -->
-<div class="section-title">
-    <h2>📝 قائمة المهام</h2>
-    <button class="delete-all" onclick="deleteAllTasks()">🗑️ حذف الكل</button>
-</div>
-
-<div id="taskList" class="task-list"></div>
-
-<!-- نسخة احتياطية -->
-<div class="backup-box">
-    <button class="backup-btn" onclick="exportTasks()">⬇️ حفظ نسخة</button>
-    <button class="backup-btn" onclick="document.getElementById('importFile').click()">⬆️ استرجاع</button>
-    <input type="file" id="importFile" accept=".json,application/json" style="display:none">
-</div>
-
-<!-- المزامنة مع Google Sheets -->
-<div class="sync-box">
-    <h2>☁️ المزامنة مع Google Sheets</h2>
-    <div class="st" id="sync-st"></div>
-    <label for="sy-url">رابط التطبيق (Web app URL)</label>
-    <input id="sy-url" dir="ltr" placeholder="https://script.google.com/macros/s/.../exec" autocomplete="off">
-    <label for="sy-key">كلمة السر</label>
-    <input id="sy-key" dir="ltr" type="password" autocomplete="off">
-    <button class="sync-btn" onclick="connectSync()">🔗 ربط وبدء المزامنة</button>
-    <div class="sync-row" style="margin-top:8px">
-        <button class="sync-alt" onclick="syncNow(true)">🔄 مزامنة الآن</button>
-        <button class="sync-bad" onclick="disconnectSync()">فصل الربط</button>
-    </div>
-</div>
-
-</div>
-
-<!-- نافذة التعديل -->
-<div class="modal" id="editModal" role="dialog" aria-modal="true">
-    <div class="modal-box">
-        <h2>✏️ تعديل المهمة</h2>
-        <input type="text" id="editTitle" placeholder="اسم المهمة">
-        <input type="date" id="editDate">
-        <select id="editPriority">
-            <option value="high">🔴 أولوية عالية</option>
-            <option value="medium">🟠 أولوية متوسطة</option>
-            <option value="low">🟢 أولوية منخفضة</option>
+  <section class="card">
+    <h2>➕ إضافة مهمة</h2>
+    <form id="taskForm">
+      <input id="fTitle" placeholder="عنوان المهمة…" required maxlength="120">
+      <div class="row">
+        <input id="fDate" type="date" required>
+        <select id="fPriority">
+          <option value="عالية">عالية</option>
+          <option value="متوسطة" selected>متوسطة</option>
+          <option value="منخفضة">منخفضة</option>
         </select>
-        <div class="modal-actions">
-            <button class="save-btn" onclick="saveEdit()">💾 حفظ</button>
-            <button class="cancel-btn" onclick="closeModal()">إلغاء</button>
-        </div>
+      </div>
+      <div class="row">
+        <select id="fCat">
+          <option value="عمل">عمل</option>
+          <option value="شخصي">شخصي</option>
+          <option value="دراسة">دراسة</option>
+          <option value="أخرى">أخرى</option>
+        </select>
+        <select id="fStatus">
+          <option value="قيد التنفيذ" selected>قيد التنفيذ</option>
+          <option value="منجزة">منجزة</option>
+        </select>
+      </div>
+      <textarea id="fNotes" placeholder="ملاحظات (اختياري)…" maxlength="400"></textarea>
+      <button type="submit" class="btn">إضافة المهمة</button>
+    </form>
+  </section>
+
+  <section class="card">
+    <div class="filters">
+      <button class="chip active" data-filter="all">الكل</button>
+      <button class="chip" data-filter="pending">متبقية</button>
+      <button class="chip" data-filter="done">منجزة</button>
+      <button class="chip" data-filter="overdue">متأخرة</button>
     </div>
+    <div id="taskList" class="tasks"></div>
+  </section>
+
 </div>
-
-<!-- نافذة التأكيد -->
-<div class="modal" id="confirmModal" role="dialog" aria-modal="true">
-    <div class="modal-box">
-        <h2 id="confirmTitle">تأكيد</h2>
-        <div class="confirm-body" id="confirmBody"></div>
-        <div class="confirm-actions">
-            <button class="confirm-yes" id="confirmYes">تأكيد</button>
-            <button class="confirm-no" id="confirmNo">إلغاء</button>
-        </div>
-    </div>
-</div>
-
-<!-- حاوية التنبيهات -->
-<div id="toastWrap" aria-live="polite"></div>
-
-<footer class="dev-footer">
-    <div class="dev-name">Developer: Ali</div>
-    <a href="https://wa.me/201226820665" target="_blank" rel="noopener">
-        💬 WhatsApp: 01226820665
-    </a>
-</footer>
+<div class="toast" id="toast"></div>
 
 <script>
-"use strict";
+/* ============================================================
+   ⚙️ الإعدادات — عدّل هذين السطرين فقط
+   ============================================================ */
+const CONFIG = {
+  API_URL: 'ضع-رابط-نشر-Apps-Script-هنا',
+  SECRET:  'ضع-كلمة-السر-هنا'
+};
+/* ============================================================ */
 
-/* =========================================================
-   الحالة العامة
-========================================================= */
+const AR_DAYS = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+const STORE_KEY = 'tasks_weekly_v1';
 
-const STORAGE_KEY = "myTasks";
-const THEME_KEY   = "myTasksTheme";
-const AUTO_CLEAN_WEEK = true;   // ✅ مُفعّلة الآن
-const CHANNEL_NAME = "myTasksSync";
-
-let tasks = [];
-let currentFilter = "all";
-let editingId = null;
-let confirmCallback = null;
-
-/* مزامنة بين التبويبات */
-const channel = ("BroadcastChannel" in window)
-    ? new BroadcastChannel(CHANNEL_NAME)
-    : null;
-
-/* =========================================================
-   أدوات مساعدة
-========================================================= */
-
-const $ = (id) => document.getElementById(id);
-
-function escapeHtml(text){
-    const div = document.createElement("div");
-    div.textContent = String(text);
-    return div.innerHTML;
-}
-
-function getToday(){
-    const now = new Date();
-    return now.getFullYear() + "-" +
-        String(now.getMonth()+1).padStart(2,"0") + "-" +
-        String(now.getDate()).padStart(2,"0");
-}
-
-function normalizeArabic(text){
-    return String(text)
-        .toLowerCase()
-        .replace(/[\u064B-\u065F\u0670\u0640]/g,"")
-        .replace(/[\u0623\u0625\u0622\u0671]/g,"\u0627")
-        .replace(/\u0649/g,"\u064A")
-        .replace(/\u0629/g,"\u0647");
-}
-
-/* =========================================================
-   Toast (تنبيهات أنيقة)
-========================================================= */
-
-function toast(message, type = "info", opts = {}){
-    const wrap = $("toastWrap");
-    const el = document.createElement("div");
-    el.className = "toast " + type;
-    el.innerHTML = '<span>' + escapeHtml(message) + '</span>';
-
-    if(opts.actionLabel && typeof opts.onAction === "function"){
-        const btn = document.createElement("button");
-        btn.className = "undo";
-        btn.textContent = opts.actionLabel;
-        btn.onclick = () => {
-            opts.onAction();
-            remove();
-        };
-        el.appendChild(btn);
-    }
-
-    wrap.appendChild(el);
-
-    const timeout = opts.duration || (opts.actionLabel ? 6000 : 3000);
-    const t = setTimeout(remove, timeout);
-
-    function remove(){
-        clearTimeout(t);
-        el.classList.add("out");
-        setTimeout(() => el.remove(), 300);
-    }
-}
-
-/* =========================================================
-   Confirm مخصص
-========================================================= */
-
-function confirmDialog({title = "تأكيد", body = "", yesLabel = "تأكيد", noLabel = "إلغاء"} = {}){
-    return new Promise((resolve) => {
-        $("confirmTitle").textContent = title;
-        $("confirmBody").innerHTML = body;
-        $("confirmYes").textContent = yesLabel;
-        $("confirmNo").textContent = noLabel;
-        $("confirmModal").classList.add("show");
-
-        confirmCallback = (ok) => {
-            $("confirmModal").classList.remove("show");
-            confirmCallback = null;
-            resolve(ok);
-        };
-    });
-}
-
-$("confirmYes").onclick = () => confirmCallback && confirmCallback(true);
-$("confirmNo").onclick  = () => confirmCallback && confirmCallback(false);
-$("confirmModal").addEventListener("click", (e) => {
-    if(e.target === $("confirmModal") && confirmCallback) confirmCallback(false);
-});
-
-/* =========================================================
-   حفظ / تحميل
-========================================================= */
-
-function saveTasks(silent){
-    try{
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
-        if(channel && !silent){
-            channel.postMessage({type:"update", tasks});
-        }
-        if(!silent) scheduleFlush();
-    }catch(e){
-        console.error(e);
-        toast("تعذر حفظ البيانات", "error");
-    }
-}
-
-function loadTasks(){
-    try{
-        const raw = localStorage.getItem(STORAGE_KEY);
-        return raw ? sanitizeTasks(JSON.parse(raw)) : [];
-    }catch(e){
-        return [];
-    }
-}
-
-function sanitizeTasks(data){
-    if(!Array.isArray(data)) return [];
-    const used = {};
-    const clean = [];
-
-    data.forEach((item, index) => {
-        if(!item || typeof item.title !== "string") return;
-        const title = item.title.trim();
-        if(!title) return;
-
-        let id = Number(item.id);
-        if(!Number.isSafeInteger(id) || used[id]){
-            id = Date.now() + index;
-            while(used[id]) id++;
-        }
-        used[id] = true;
-
-        let date = "";
-        if(typeof item.date === "string" &&
-           /^\d{4}-\d{2}-\d{2}$/.test(item.date) &&
-           !isNaN(new Date(item.date+"T00:00:00").getTime())){
-            date = item.date;
-        }
-
-        let priority = "medium";
-        if(item.priority === "high" || item.priority === "low"){
-            priority = item.priority;
-        }
-
-        clean.push({
-            id,
-            title,
-            date,
-            priority,
-            completed: item.completed === true
-        });
-    });
-
-    return clean;
-}
-
-/* =========================================================
-   حساب التواريخ
-========================================================= */
-
-function isToday(date){
-    return date === getToday();
-}
-
-function getWeekRange(dateString){
-    const target = new Date(dateString+"T00:00:00");
-    const day = target.getDay();
-    const daysFromMonday = day === 0 ? 6 : day - 1;
-    const start = new Date(target);
-    start.setDate(target.getDate() - daysFromMonday);
-    const end = new Date(start);
-    end.setDate(start.getDate() + 6);
-    return { start, end };
-}
-
-function weekKey(dateString){
-    const range = getWeekRange(dateString);
-    const y = range.start.getFullYear();
-    const m = String(range.start.getMonth()+1).padStart(2,"0");
-    const d = String(range.start.getDate()).padStart(2,"0");
-    return y+"-"+m+"-"+d;
-}
-
-function isThisWeek(dateString){
-    if(!dateString) return false;
-    const target = new Date(dateString+"T00:00:00");
-    const range = getWeekRange(getToday());
-    return target >= range.start && target <= range.end;
-}
-
-function isOverdue(task){
-    if(!task.date || task.completed) return false;
-    return task.date < getToday();
-}
-
-function priorityRank(task){
-    if(task.priority === "high") return 0;
-    if(task.priority === "low") return 2;
-    return 1;
-}
-
-function getStatus(task){
-    if(task.completed) return "✅ مكتملة";
-    if(isOverdue(task)) return "🔴 متأخرة";
-    if(isToday(task.date)) return "📅 اليوم";
-    if(task.date) return "📆 مجدولة";
-    return "📌 بدون موعد";
-}
-
-/* =========================================================
-   التنظيف التلقائي للأسبوع المنتهي
-========================================================= */
-
-function cleanupFinishedWeek(task){
-    if(!AUTO_CLEAN_WEEK || !task.date) return false;
-
-    const range = getWeekRange(task.date);
-    const today = new Date(getToday()+"T00:00:00");
-    if(range.end >= today) return false;
-
-    const wk = weekKey(task.date);
-    const weekTasks = tasks.filter(t => t.date && weekKey(t.date) === wk);
-    if(weekTasks.length === 0) return false;
-
-    const allDone = weekTasks.every(t => t.completed);
-    if(!allDone) return false;
-
-    const removed = weekTasks.length;
-    weekTasks.forEach(t => queueOp(t.id, true));
-    tasks = tasks.filter(t => !(t.date && weekKey(t.date) === wk));
-    saveTasks();
-    toast(`تم حذف ${removed} مهمة من أسبوع منتهي`, "success");
-    return true;
-}
-
-/* =========================================================
-   إضافة مهمة
-========================================================= */
-
-function addTask(){
-    const input = $("taskInput");
-    const dateInput = $("dateInput");
-    const priorityInput = $("priorityInput");
-
-    const title = input.value.trim();
-    if(!title){
-        toast("اكتب اسم المهمة أولاً", "warn");
-        input.focus();
-        return;
-    }
-
-    const newTask = {
-        id: Date.now(),
-        title,
-        date: dateInput.value,
-        priority: priorityInput.value,
-        completed: false
-    };
-    tasks.push(newTask);
-    queueOp(newTask.id);
-
-    saveTasks();
-    input.value = "";
-    dateInput.value = "";
-    priorityInput.value = "medium";
-    input.focus();
-
-    renderTasks();
-    updateStats();
-    toast("تمت إضافة المهمة ✅", "success");
-}
-
-/* =========================================================
-   الفلترة والترتيب
-========================================================= */
-
-function searchTasks(){ renderTasks(); }
-
-function filterTasks(){
-    const search = $("searchInput").value.trim();
-    const normalizedSearch = normalizeArabic(search);
-
-    let result = tasks.filter((task) => {
-        if(!normalizeArabic(task.title).includes(normalizedSearch)) return false;
-
-        switch(currentFilter){
-            case "today":     return isToday(task.date);
-            case "week":      return isThisWeek(task.date);
-            case "remaining": return !task.completed;
-            case "completed": return task.completed;
-            case "overdue":   return isOverdue(task);
-            case "upcoming":
-                return !task.completed && task.date && task.date >= getToday();
-            case "nodate":    return !task.date;
-            case "high":      return task.priority === "high" && !task.completed;
-            default:          return true;
-        }
-    });
-
-    result.sort((a, b) => {
-        if(a.completed !== b.completed) return a.completed ? 1 : -1;
-
-        if(a.date && b.date){
-            const byDate = a.date.localeCompare(b.date);
-            if(byDate !== 0) return byDate;
-            return priorityRank(a) - priorityRank(b);
-        }
-        if(a.date) return -1;
-        if(b.date) return 1;
-        return priorityRank(a) - priorityRank(b);
-    });
-
-    return result;
-}
-
-/* =========================================================
-   عرض المهام
-========================================================= */
-
-const EMPTY_MSGS = {
-    all:       ["📭", "لا توجد مهام مطابقة"],
-    today:     ["📅", "لا توجد مهام اليوم"],
-    week:      ["📆", "لا توجد مهام هذا الأسبوع"],
-    remaining: ["⏳", "لا توجد مهام متبقية"],
-    completed: ["✅", "لا توجد مهام مكتملة"],
-    overdue:   ["🔴", "لا توجد مهام متأخرة"],
-    upcoming:  ["⏳", "لا توجد مهام قادمة"],
-    nodate:    ["📌", "لا توجد مهام بدون موعد"],
-    high:      ["⚡", "لا توجد مهام عالية الأهمية"]
+const state = {
+  tasks: [],
+  filter: 'all',
+  syncing: false,
+  online: false
 };
 
-function renderTasks(){
-    const list = $("taskList");
-    const filtered = filterTasks();
+/* ---------- أدوات ---------- */
+const $  = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+const todayISO = () => new Date().toISOString().slice(0,10);
+const uid = () => Date.now() * 1000 + Math.floor(Math.random()*1000);
 
-    if(filtered.length === 0){
-        const [icon, msg] = EMPTY_MSGS[currentFilter] || EMPTY_MSGS.all;
-        list.innerHTML =
-            '<div class="empty"><span class="big">'+icon+'</span>'+msg+'</div>';
-        return;
-    }
+function dayName(iso) {
+  if (!iso) return '';
+  const d = new Date(iso + 'T00:00:00');
+  return AR_DAYS[d.getDay()] || '';
+}
+function weekBounds() {
+  const now = new Date();
+  const start = new Date(now);
+  start.setDate(now.getDate() - now.getDay()); // الأحد
+  start.setHours(0,0,0,0);
+  const end = new Date(start);
+  end.setDate(start.getDate() + 6);
+  end.setHours(23,59,59,999);
+  return { start, end };
+}
+function inThisWeek(iso) {
+  if (!iso) return false;
+  const d = new Date(iso + 'T00:00:00');
+  const { start, end } = weekBounds();
+  return d >= start && d <= end;
+}
+function isOverdue(t) {
+  return t.status !== 'منجزة' && t.date && t.date < todayISO();
+}
+function isDone(t){ return t.status === 'منجزة'; }
 
-    const frag = document.createDocumentFragment();
-
-    filtered.forEach((task) => {
-        const el = document.createElement("div");
-        el.className = "task" +
-            (task.completed ? " completed" : "") +
-            (isOverdue(task) ? " overdue" : "");
-
-        let dateText = "بدون موعد";
-        if(task.date){
-            const d = new Date(task.date + "T00:00:00");
-            dateText = d.toLocaleDateString("ar-EG", {
-                year:"numeric", month:"long", day:"numeric"
-            });
-        }
-
-        let priorityText = "🟠 متوسطة";
-        let priorityClass = "medium";
-        if(task.priority === "high"){ priorityText = "🔴 عالية"; priorityClass = "high"; }
-        if(task.priority === "low"){ priorityText = "🟢 منخفضة"; priorityClass = "low"; }
-
-        el.innerHTML =
-            '<div class="task-title">' + escapeHtml(task.title) + '</div>' +
-            '<div class="task-info">' +
-                '<span class="badge date-badge">📅 ' + dateText + '</span>' +
-                '<span class="badge ' + priorityClass + '">' + priorityText + '</span>' +
-                '<span class="badge status">' + getStatus(task) + '</span>' +
-            '</div>' +
-            '<div class="task-actions">' +
-                '<button class="complete-btn" data-action="toggle" data-id="' + task.id + '">' +
-                    (task.completed ? '↩️ إلغاء الإكمال' : '✅ إكمال') + '</button>' +
-                '<button class="edit-btn" data-action="edit" data-id="' + task.id + '">✏️ تعديل</button>' +
-                '<button class="delete-btn" data-action="delete" data-id="' + task.id + '">🗑️ حذف</button>' +
-            '</div>';
-
-        frag.appendChild(el);
-    });
-
-    list.innerHTML = "";
-    list.appendChild(frag);
+function toast(msg, ms=2200) {
+  const el = $('#toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(()=>el.classList.remove('show'), ms);
 }
 
-/* =========================================================
-   الإحصائيات
-========================================================= */
-
-function updateStats(){
-    const total = tasks.length;
-    const done = tasks.filter(t => t.completed).length;
-    const overdue = tasks.filter(isOverdue).length;
-    const today = getToday();
-
-    $("totalCount").textContent = total;
-    $("completedCount").textContent = done;
-    $("remainingCount").textContent = total - done;
-    $("overdueCount").textContent = overdue;
-
-    $("todayCount").textContent = tasks.filter(t => isToday(t.date)).length;
-    $("weekCount").textContent = tasks.filter(t => isThisWeek(t.date)).length;
-    $("upcomingCount").textContent =
-        tasks.filter(t => !t.completed && t.date && t.date >= today).length;
-    $("dashboardOverdue").textContent = overdue;
-
-    const pct = total ? Math.round(done / total * 100) : 0;
-    $("progressText").textContent = pct + "%";
-    $("progressBar").style.width = pct + "%";
+/* ---------- التخزين المحلي ---------- */
+function loadLocal() {
+  try { state.tasks = JSON.parse(localStorage.getItem(STORE_KEY)) || []; }
+  catch { state.tasks = []; }
+}
+function saveLocal() {
+  localStorage.setItem(STORE_KEY, JSON.stringify(state.tasks));
 }
 
-function refreshAll(){
-    renderTasks();
-    updateStats();
+/* ---------- الاتصال بالخادم ---------- */
+function apiReady() {
+  return CONFIG.API_URL && CONFIG.API_URL.startsWith('http') && !CONFIG.API_URL.includes('ضع-');
 }
 
-/* =========================================================
-   الفلاتر
-========================================================= */
-
-function setFilter(name){
-    currentFilter = name;
-    document.querySelectorAll(".filter-btn").forEach((b) => {
-        b.classList.toggle("active", b.dataset.filter === name);
-    });
-    renderTasks();
+async function apiCall(payload) {
+  const res = await fetch(CONFIG.API_URL, {
+    method: 'POST',
+    body: JSON.stringify({ key: CONFIG.SECRET, ...payload }),
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' } // يمنع CORS preflight مع Apps Script
+  });
+  return await res.json();
 }
 
-/* =========================================================
-   إكمال / حذف / تعديل
-========================================================= */
-
-function toggleTask(id){
-    const task = tasks.find(t => t.id === id);
-    if(!task) return;
-    task.completed = !task.completed;
-    queueOp(task.id);
-    saveTasks();
-    if(task.completed && cleanupFinishedWeek(task)){
-        refreshAll();
-        return;
-    }
-    refreshAll();
-    toast(task.completed ? "أحسنت! تم إكمال المهمة 🎉" : "تمت إعادة المهمة", "success");
+function setSync(text, cls='') {
+  $('#syncText').textContent = text;
+  const el = $('#syncStatus');
+  el.className = 'sync-status ' + cls;
 }
 
-function deleteTask(id){
-    const idx = tasks.findIndex(t => t.id === id);
-    if(idx < 0) return;
-    const removed = tasks.splice(idx, 1)[0];
-    queueOp(removed.id, true);
-    saveTasks();
-    refreshAll();
-    toast("تم حذف المهمة", "warn", {
-        actionLabel: "تراجع",
-        onAction: () => {
-            tasks.splice(Math.min(idx, tasks.length), 0, removed);
-            queueOp(removed.id);
-            saveTasks();
-            refreshAll();
-        }
-    });
+/* ---------- المزامنة ---------- */
+async function pullCloud(silent=false) {
+  if (!apiReady()) {
+    setSync('غير مربوط — البيانات محفوظة على هذا الجهاز فقط.', '');
+    state.online = false;
+    return false;
+  }
+  if (!silent) $('#syncBtn').classList.add('spin');
+  try {
+    const r = await apiCall({ action: 'pull' });
+    if (!r.ok) throw new Error(r.error || 'فشل');
+    const deleted = new Set((r.deleted || []).map(Number));
+    state.tasks = (r.tasks || [])
+      .filter(t => !deleted.has(Number(t.id)))
+      .map(t => ({ ...t, day: t.day || dayName(t.date) }));
+    saveLocal();
+    state.online = true;
+    setSync('متزامن مع Google Sheets ✓', 'ok');
+    return true;
+  } catch (e) {
+    state.online = false;
+    setSync('تعذّر الاتصال — البيانات محفوظة محلياً.', 'err');
+    if (!silent) toast('فشل الاتصال بالخادم');
+    return false;
+  } finally {
+    $('#syncBtn').classList.remove('spin');
+  }
 }
 
-async function deleteAllTasks(){
-    if(!tasks.length){
-        toast("لا توجد مهام لحذفها", "warn");
-        return;
-    }
-    const ok = await confirmDialog({
-        title: "حذف كل المهام",
-        body: "سيتم حذف جميع المهام (" + tasks.length + "). يمكنك التراجع بعد الحذف مباشرة.",
-        yesLabel: "حذف الكل"
-    });
-    if(!ok) return;
-    const backup = tasks;
-    backup.forEach(t => queueOp(t.id, true));
-    tasks = [];
-    saveTasks();
-    refreshAll();
-    toast("تم حذف كل المهام", "warn", {
-        actionLabel: "تراجع",
-        onAction: () => {
-            tasks = backup;
-            backup.forEach(t => queueOp(t.id));
-            saveTasks();
-            refreshAll();
-        }
-    });
+async function pushTask(task) {
+  if (!apiReady()) return;
+  try {
+    await apiCall({ action: 'saveTask', task });
+    state.online = true;
+    setSync('متزامن مع Google Sheets ✓', 'ok');
+  } catch {
+    state.online = false;
+    setSync('تعذّر الرفع — سيُحفظ محلياً فقط.', 'err');
+  }
+}
+async function pushDelete(id) {
+  if (!apiReady()) return;
+  try {
+    await apiCall({ action: 'deleteTask', id });
+  } catch {}
 }
 
-function openEdit(id){
-    const task = tasks.find(t => t.id === id);
-    if(!task) return;
-    editingId = id;
-    $("editTitle").value = task.title;
-    $("editDate").value = task.date;
-    $("editPriority").value = task.priority;
-    $("editModal").classList.add("show");
-    $("editTitle").focus();
+/* ---------- العرض ---------- */
+function renderStats() {
+  const today = todayISO();
+  const week = state.tasks.filter(t => inThisWeek(t.date));
+  const tdy  = state.tasks.filter(t => t.date === today && !isDone(t));
+  const upc  = state.tasks.filter(t => t.date > today && !isDone(t));
+  const ovd  = state.tasks.filter(isOverdue);
+  const done = state.tasks.filter(isDone).length;
+  const rate = state.tasks.length ? Math.round(done / state.tasks.length * 100) : 0;
+
+  $('#stToday').textContent   = tdy.length;
+  $('#stWeek').textContent    = week.length;
+  $('#stUpcoming').textContent= upc.length;
+  $('#stOverdue').textContent = ovd.length;
+  $('#stRate').textContent    = rate + '%';
+
+  const { start, end } = weekBounds();
+  const fmt = d => d.toLocaleDateString('ar-EG',{day:'2-digit',month:'short'});
+  $('#weekRange').textContent = `أسبوع ${fmt(start)} → ${fmt(end)}`;
 }
 
-function closeModal(){
-    $("editModal").classList.remove("show");
-    editingId = null;
+function renderTasks() {
+  const list = $('#taskList');
+  let arr = [...state.tasks];
+
+  if (state.filter === 'done')     arr = arr.filter(isDone);
+  else if (state.filter === 'pending') arr = arr.filter(t => !isDone(t));
+  else if (state.filter === 'overdue') arr = arr.filter(isOverdue);
+
+  arr.sort((a,b) => {
+    const da = a.date || '9999', db = b.date || '9999';
+    if (da !== db) return da.localeCompare(db);
+    const p = { 'عالية':0,'متوسطة':1,'منخفضة':2 };
+    return (p[a.priority]??3) - (p[b.priority]??3);
+  });
+
+  if (!arr.length) {
+    list.innerHTML = '<div class="empty">لا توجد مهام هنا 🌿</div>';
+    return;
+  }
+
+  const prioCls = { 'عالية':'high','متوسطة':'medium','منخفضة':'low' };
+
+  list.innerHTML = arr.map(t => {
+    const cls = [
+      'task',
+      isDone(t) ? 'done' : '',
+      isOverdue(t) ? 'overdue' : '',
+      prioCls[t.priority] || ''
+    ].filter(Boolean).join(' ');
+    return `
+      <div class="${cls}" data-id="${t.id}">
+        <button class="check ${isDone(t)?'on':''}" data-act="toggle" title="تبديل الحالة"></button>
+        <div class="task-main">
+          <p class="task-title">${esc(t.title)}</p>
+          <div class="task-meta">
+            <span>📅 ${t.date || '—'} · ${esc(t.day || dayName(t.date))}</span>
+            <span class="tag ${prioCls[t.priority]||''}">${esc(t.priority||'')}</span>
+            <span class="tag">${esc(t.category||'')}</span>
+          </div>
+          ${t.notes ? `<div class="task-notes">${esc(t.notes)}</div>` : ''}
+        </div>
+        <button class="del" data-act="del" title="حذف">✕</button>
+      </div>`;
+  }).join('');
 }
 
-function saveEdit(){
-    const task = tasks.find(t => t.id === editingId);
-    if(!task){ closeModal(); return; }
-    const title = $("editTitle").value.trim();
-    if(!title){
-        toast("اسم المهمة لا يمكن أن يكون فارغاً", "warn");
-        $("editTitle").focus();
-        return;
-    }
-    task.title = title;
-    task.date = $("editDate").value;
-    task.priority = $("editPriority").value;
-    queueOp(task.id);
-    saveTasks();
-    closeModal();
-    refreshAll();
-    toast("تم حفظ التعديل", "success");
+function esc(s){
+  return String(s??'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
-/* =========================================================
-   نسخة احتياطية
-========================================================= */
+function renderAll(){ renderStats(); renderTasks(); }
 
-function exportTasks(){
-    const blob = new Blob([JSON.stringify(tasks, null, 2)], {type:"application/json"});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "مهامي-" + getToday() + ".json";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    toast("تم حفظ النسخة الاحتياطية", "success");
-}
+/* ---------- الأحداث ---------- */
+$('#taskForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const title = $('#fTitle').value.trim();
+  const date  = $('#fDate').value;
+  if (!title || !date) return;
 
-$("importFile").addEventListener("change", (e) => {
-    const file = e.target.files[0];
-    if(!file) return;
-    const reader = new FileReader();
-    reader.onload = async () => {
-        try{
-            const parsed = JSON.parse(reader.result);
-            if(!Array.isArray(parsed)) throw new Error("bad");
-            const data = sanitizeTasks(parsed);
-            const ok = await confirmDialog({
-                title: "استرجاع نسخة",
-                body: "سيتم استبدال المهام الحالية (" + tasks.length + ") بـ " + data.length + " مهمة من النسخة. متابعة؟",
-                yesLabel: "استرجاع"
-            });
-            if(!ok) return;
-            const keep = new Set(data.map(t => t.id));
-            tasks.forEach(t => { if(!keep.has(t.id)) queueOp(t.id, true); });
-            data.forEach(t => queueOp(t.id));
-            tasks = data;
-            saveTasks();
-            refreshAll();
-            toast("تم استرجاع المهام", "success");
-        }catch(err){
-            toast("الملف غير صالح", "error");
-        }
-    };
-    reader.readAsText(file);
-    e.target.value = "";
+  const task = {
+    id: uid(),
+    title,
+    date,
+    day: dayName(date),
+    category: $('#fCat').value,
+    priority: $('#fPriority').value,
+    status: $('#fStatus').value,
+    notes: $('#fNotes').value.trim()
+  };
+
+  state.tasks.push(task);
+  saveLocal(); renderAll();
+  $('#taskForm').reset();
+  $('#fDate').value = todayISO();
+  toast('تمت إضافة المهمة ✓');
+  pushTask(task);
 });
 
-/* =========================================================
-   الوضع الليلي
-========================================================= */
+$('#taskList').addEventListener('click', async e => {
+  const btn = e.target.closest('[data-act]');
+  if (!btn) return;
+  const id = Number(btn.closest('.task').dataset.id);
+  const t = state.tasks.find(x => Number(x.id) === id);
+  if (!t) return;
 
-function applyTheme(theme){
-    document.documentElement.setAttribute("data-theme", theme);
-    $("themeBtn").textContent = theme === "dark" ? "☀️" : "🌙";
-}
-
-$("themeBtn").addEventListener("click", () => {
-    const next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
-    applyTheme(next);
-    try{ localStorage.setItem(THEME_KEY, next); }catch(e){}
+  if (btn.dataset.act === 'toggle') {
+    t.status = isDone(t) ? 'قيد التنفيذ' : 'منجزة';
+    saveLocal(); renderAll();
+    pushTask(t);
+  } else if (btn.dataset.act === 'del') {
+    if (!confirm('حذف هذه المهمة؟')) return;
+    state.tasks = state.tasks.filter(x => Number(x.id) !== id);
+    saveLocal(); renderAll();
+    toast('تم الحذف');
+    pushDelete(id);
+  }
 });
 
-/* =========================================================
-   الأحداث
-========================================================= */
+$$('.chip').forEach(c => c.addEventListener('click', () => {
+  $$('.chip').forEach(x => x.classList.remove('active'));
+  c.classList.add('active');
+  state.filter = c.dataset.filter;
+  renderTasks();
+}));
 
-$("taskList").addEventListener("click", (e) => {
-    const btn = e.target.closest("button[data-action]");
-    if(!btn) return;
-    const id = Number(btn.dataset.id);
-    const action = btn.dataset.action;
-    if(action === "toggle") toggleTask(id);
-    else if(action === "edit") openEdit(id);
-    else if(action === "delete") deleteTask(id);
+$('#syncBtn').addEventListener('click', async () => {
+  if (state.syncing) return;
+  state.syncing = true;
+  await pullCloud();
+  renderAll();
+  state.syncing = false;
 });
 
-$("taskInput").addEventListener("keydown", (e) => {
-    if(e.key === "Enter"){ e.preventDefault(); addTask(); }
+/* الوضع الليلي/النهاري */
+const THEME_KEY = 'tasks_theme';
+function applyTheme(t) {
+  document.documentElement.dataset.theme = t;
+  $('#themeBtn').textContent = t === 'dark' ? '☀️' : '🌙';
+  localStorage.setItem(THEME_KEY, t);
+}
+$('#themeBtn').addEventListener('click', () => {
+  applyTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
 });
 
-$("editModal").addEventListener("click", (e) => {
-    if(e.target === $("editModal")) closeModal();
-});
+/* ---------- التشغيل ---------- */
+(async function init() {
+  applyTheme(localStorage.getItem(THEME_KEY) || 'light');
+  loadLocal();
+  $('#fDate').value = todayISO();
+  renderAll();
 
-document.addEventListener("keydown", (e) => {
-    if(e.key !== "Escape") return;
-    if(confirmCallback) confirmCallback(false);
-    else if($("editModal").classList.contains("show")) closeModal();
-});
-
-document.querySelectorAll(".dashboard-card").forEach((card) => {
-    card.addEventListener("keydown", (e) => {
-        if(e.key === "Enter" || e.key === " "){ e.preventDefault(); card.click(); }
-    });
-});
-
-if(channel){
-    channel.onmessage = (e) => {
-        if(e.data && e.data.type === "update"){
-            tasks = sanitizeTasks(e.data.tasks);
-            refreshAll();
-        }
-    };
-}
-
-document.addEventListener("visibilitychange", () => {
-    if(!document.hidden) refreshAll();
-});
-
-/* =========================================================
-   المزامنة مع Google Sheets
-========================================================= */
-
-const SYNC_KEY = "myTasksSyncCfg";
-let sync = loadSync();   /* { url, key, queue: [{id, del}] } */
-let syncing = false, syncErr = "", lastSync = "", flushT = null;
-
-function loadSync(){
-    try{
-        const s = JSON.parse(localStorage.getItem(SYNC_KEY));
-        if(s && typeof s === "object"){
-            return { url: s.url || "", key: s.key || "", queue: Array.isArray(s.queue) ? s.queue : [] };
-        }
-    }catch(e){}
-    return { url: "", key: "", queue: [] };
-}
-
-function saveSync(){
-    try{ localStorage.setItem(SYNC_KEY, JSON.stringify(sync)); }catch(e){}
-}
-
-function syncOn(){ return !!(sync.url && sync.key); }
-
-/* عملية مؤجلة لمهمة: إرسال أو حذف. آخر عملية لنفس المهمة تحل محل ما قبلها */
-function queueOp(id, del){
-    if(!syncOn()) return;
-    sync.queue = sync.queue.filter(o => o.id !== id);
-    sync.queue.push({ id, del: !!del });
-    saveSync();
-}
-
-function scheduleFlush(){
-    if(!syncOn()) return;
-    clearTimeout(flushT);
-    flushT = setTimeout(() => syncNow(false, false), 400);
-}
-
-function errMsg(e){
-    if(e && e.name === "AbortError") return "انتهت مهلة الاتصال";
-    if(!navigator.onLine) return "لا يوجد اتصال بالإنترنت";
-    if(e instanceof SyntaxError) return "الرابط غير صحيح أو لم يُنشر السكربت للجميع";
-    if(e instanceof TypeError) return "تعذر الوصول للسكربت. تأكد أن الوصول «أي شخص» وأن الرابط ينتهي بـ /exec";
-    return (e && e.message) || "خطأ غير معروف";
-}
-
-async function api(body){
-    const ctl = new AbortController();
-    const h = setTimeout(() => ctl.abort(), 25000);
-    try{
-        const r = await fetch(sync.url, {
-            method: "POST",
-            headers: { "Content-Type": "text/plain;charset=utf-8" },
-            body: JSON.stringify(Object.assign({ key: sync.key }, body)),
-            signal: ctl.signal
-        });
-        const j = await r.json();
-        if(!j.ok) throw new Error(j.error || "خطأ غير معروف");
-        return j;
-    }finally{
-        clearTimeout(h);
-    }
-}
-
-/* إرسال العمليات المؤجلة على دفعات */
-async function pushQueue(){
-    while(sync.queue.length){
-        const chunk = sync.queue.slice(0, 100);
-        const ops = [];
-        chunk.forEach((op) => {
-            if(op.del) ops.push({ del: true, id: op.id });
-            else{
-                const t = tasks.find(x => x.id === op.id);
-                if(t) ops.push({ id: op.id, task: t });
-            }
-        });
-        if(ops.length) await api({ action: "batchTasks", ops });
-        sync.queue = sync.queue.filter(o => !chunk.includes(o));
-        saveSync();
-    }
-}
-
-function mergeRemote(r){
-    const pend = new Set(sync.queue.map(o => o.id));
-    const dels = new Set((r.deleted || []).map(Number));
-    const remote = sanitizeTasks(r.tasks || []);
-    const remoteIds = new Set(remote.map(t => t.id));
-
-    tasks = tasks.filter(t => !dels.has(t.id) || pend.has(t.id));
-
-    remote.forEach((rt) => {
-        if(dels.has(rt.id) || pend.has(rt.id)) return;
-        const k = tasks.findIndex(x => x.id === rt.id);
-        if(k >= 0) tasks[k] = rt; else tasks.push(rt);
-    });
-
-    /* مهام موجودة هنا فقط (قبل الربط) تُرفع للشيت */
-    tasks.forEach((t) => {
-        if(!remoteIds.has(t.id) && !pend.has(t.id)) queueOp(t.id);
-    });
-}
-
-async function syncNow(manual, pull = true){
-    if(!syncOn()){
-        if(manual) toast("اربط الشيت أولاً", "warn");
-        return;
-    }
-    if(syncing){
-        if(manual) toast("المزامنة جارية", "warn");
-        return;
-    }
-    syncing = true;
-    syncErr = "";
-    try{
-        await pushQueue();
-        if(pull){
-            mergeRemote(await api({ action: "pullTasks" }));
-            saveTasks(true);
-            await pushQueue();
-        }
-        lastSync = new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
-        if(manual) toast("تمت المزامنة ✅", "success");
-    }catch(e){
-        syncErr = errMsg(e);
-        if(manual) toast("تعذرت المزامنة: " + syncErr, "error", { duration: 5000 });
-    }finally{
-        syncing = false;
-        renderSync();
-        if(pull) refreshAll();
-        if(!syncErr && sync.queue.length) scheduleFlush();
-    }
-}
-
-function renderSync(){
-    const st = $("sync-st");
-    if(!st) return;
-    if(!syncOn()){
-        st.textContent = "غير مربوط. المهام محفوظة على هذا الجوال فقط.";
-        return;
-    }
-    const n = sync.queue.length;
-    st.textContent = syncErr ? "تعذرت المزامنة: " + syncErr
-        : n ? "مربوط. بانتظار الإرسال: " + n
-        : "مربوط ومتزامن" + (lastSync ? "، آخر مزامنة " + lastSync : "");
-    if(document.activeElement !== $("sy-url")) $("sy-url").value = sync.url;
-    $("sy-key").placeholder = "محفوظة (اتركها فارغة)";
-}
-
-async function connectSync(){
-    const url = $("sy-url").value.trim();
-    const key = $("sy-key").value.trim() || sync.key;
-    if(!/^https:\/\/script\.google\.com\/.+\/exec$/.test(url)){
-        toast("الرابط يجب أن يبدأ بـ https://script.google.com وينتهي بـ /exec", "warn", { duration: 5000 });
-        return;
-    }
-    if(!key){
-        toast("اكتب كلمة السر", "warn");
-        return;
-    }
-    const prev = { url: sync.url, key: sync.key };
-    sync.url = url;
-    sync.key = key;
-    try{
-        await api({ action: "ping" });
-    }catch(e){
-        sync.url = prev.url;
-        sync.key = prev.key;
-        toast("فشل الربط: " + errMsg(e), "error", { duration: 6000 });
-        renderSync();
-        return;
-    }
-    $("sy-key").value = "";
-    saveSync();
-    syncNow(true);
-}
-
-async function disconnectSync(){
-    if(!syncOn()) return;
-    const ok = await confirmDialog({
-        title: "فصل الربط",
-        body: "سيتوقف إرسال المهام إلى الشيت. مهامك تبقى على الجوال وفي الشيت.",
-        yesLabel: "فصل"
-    });
-    if(!ok) return;
-    sync = { url: "", key: "", queue: [] };
-    syncErr = "";
-    saveSync();
-    renderSync();
-    toast("تم فصل الربط", "success");
-}
-
-window.addEventListener("online", () => syncNow(false));
-document.addEventListener("visibilitychange", () => {
-    if(!document.hidden) syncNow(false);
-});
-
-/* =========================================================
-   التشغيل
-========================================================= */
-
-(function init(){
-    let theme = "light";
-    try{
-        theme = localStorage.getItem(THEME_KEY) ||
-            (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-    }catch(e){}
-    applyTheme(theme);
-
-    tasks = loadTasks();
-    [...tasks].forEach((t) => { if(tasks.includes(t)) cleanupFinishedWeek(t); });
-    refreshAll();
-    renderSync();
-    syncNow(false);
+  if (apiReady()) {
+    setSync('جارٍ الاتصال بالخادم…');
+    await pullCloud(true);
+    renderAll();
+  } else {
+    setSync('غير مربوط — البيانات محفوظة على هذا الجهاز فقط.');
+  }
 })();
 </script>
 </body>
