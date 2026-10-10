@@ -1146,4 +1146,276 @@ function renderTasks(){
                 '<span class="badge status">' + getStatus(task) + '</span>' +
             '</div>' +
             '<div class="task-actions">' +
-                '<button class="complete-btn" data-action="toggle" data-id="' + task
+                '<button class="complete-btn" data-action="toggle" data-id="' + task.id + '">' +
+                    (task.completed ? '↩️ إلغاء الإكمال' : '✅ إكمال') + '</button>' +
+                '<button class="edit-btn" data-action="edit" data-id="' + task.id + '">✏️ تعديل</button>' +
+                '<button class="delete-btn" data-action="delete" data-id="' + task.id + '">🗑️ حذف</button>' +
+            '</div>';
+
+        frag.appendChild(el);
+    });
+
+    list.innerHTML = "";
+    list.appendChild(frag);
+}
+
+/* =========================================================
+   الإحصائيات
+========================================================= */
+
+function updateStats(){
+    const total = tasks.length;
+    const done = tasks.filter(t => t.completed).length;
+    const overdue = tasks.filter(isOverdue).length;
+    const today = getToday();
+
+    $("totalCount").textContent = total;
+    $("completedCount").textContent = done;
+    $("remainingCount").textContent = total - done;
+    $("overdueCount").textContent = overdue;
+
+    $("todayCount").textContent = tasks.filter(t => isToday(t.date)).length;
+    $("weekCount").textContent = tasks.filter(t => isThisWeek(t.date)).length;
+    $("upcomingCount").textContent =
+        tasks.filter(t => !t.completed && t.date && t.date >= today).length;
+    $("dashboardOverdue").textContent = overdue;
+
+    const pct = total ? Math.round(done / total * 100) : 0;
+    $("progressText").textContent = pct + "%";
+    $("progressBar").style.width = pct + "%";
+}
+
+function refreshAll(){
+    renderTasks();
+    updateStats();
+}
+
+/* =========================================================
+   الفلاتر
+========================================================= */
+
+function setFilter(name){
+    currentFilter = name;
+    document.querySelectorAll(".filter-btn").forEach((b) => {
+        b.classList.toggle("active", b.dataset.filter === name);
+    });
+    renderTasks();
+}
+
+/* =========================================================
+   إكمال / حذف / تعديل
+========================================================= */
+
+function toggleTask(id){
+    const task = tasks.find(t => t.id === id);
+    if(!task) return;
+    task.completed = !task.completed;
+    saveTasks();
+    if(task.completed && cleanupFinishedWeek(task)){
+        refreshAll();
+        return;
+    }
+    refreshAll();
+    toast(task.completed ? "أحسنت! تم إكمال المهمة 🎉" : "تمت إعادة المهمة", "success");
+}
+
+function deleteTask(id){
+    const idx = tasks.findIndex(t => t.id === id);
+    if(idx < 0) return;
+    const removed = tasks.splice(idx, 1)[0];
+    saveTasks();
+    refreshAll();
+    toast("تم حذف المهمة", "warn", {
+        actionLabel: "تراجع",
+        onAction: () => {
+            tasks.splice(Math.min(idx, tasks.length), 0, removed);
+            saveTasks();
+            refreshAll();
+        }
+    });
+}
+
+async function deleteAllTasks(){
+    if(!tasks.length){
+        toast("لا توجد مهام لحذفها", "warn");
+        return;
+    }
+    const ok = await confirmDialog({
+        title: "حذف كل المهام",
+        body: "سيتم حذف جميع المهام (" + tasks.length + "). يمكنك التراجع بعد الحذف مباشرة.",
+        yesLabel: "حذف الكل"
+    });
+    if(!ok) return;
+    const backup = tasks;
+    tasks = [];
+    saveTasks();
+    refreshAll();
+    toast("تم حذف كل المهام", "warn", {
+        actionLabel: "تراجع",
+        onAction: () => {
+            tasks = backup;
+            saveTasks();
+            refreshAll();
+        }
+    });
+}
+
+function openEdit(id){
+    const task = tasks.find(t => t.id === id);
+    if(!task) return;
+    editingId = id;
+    $("editTitle").value = task.title;
+    $("editDate").value = task.date;
+    $("editPriority").value = task.priority;
+    $("editModal").classList.add("show");
+    $("editTitle").focus();
+}
+
+function closeModal(){
+    $("editModal").classList.remove("show");
+    editingId = null;
+}
+
+function saveEdit(){
+    const task = tasks.find(t => t.id === editingId);
+    if(!task){ closeModal(); return; }
+    const title = $("editTitle").value.trim();
+    if(!title){
+        toast("اسم المهمة لا يمكن أن يكون فارغاً", "warn");
+        $("editTitle").focus();
+        return;
+    }
+    task.title = title;
+    task.date = $("editDate").value;
+    task.priority = $("editPriority").value;
+    saveTasks();
+    closeModal();
+    refreshAll();
+    toast("تم حفظ التعديل", "success");
+}
+
+/* =========================================================
+   نسخة احتياطية
+========================================================= */
+
+function exportTasks(){
+    const blob = new Blob([JSON.stringify(tasks, null, 2)], {type:"application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "مهامي-" + getToday() + ".json";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    toast("تم حفظ النسخة الاحتياطية", "success");
+}
+
+$("importFile").addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = async () => {
+        try{
+            const parsed = JSON.parse(reader.result);
+            if(!Array.isArray(parsed)) throw new Error("bad");
+            const data = sanitizeTasks(parsed);
+            const ok = await confirmDialog({
+                title: "استرجاع نسخة",
+                body: "سيتم استبدال المهام الحالية (" + tasks.length + ") بـ " + data.length + " مهمة من النسخة. متابعة؟",
+                yesLabel: "استرجاع"
+            });
+            if(!ok) return;
+            tasks = data;
+            saveTasks();
+            refreshAll();
+            toast("تم استرجاع المهام", "success");
+        }catch(err){
+            toast("الملف غير صالح", "error");
+        }
+    };
+    reader.readAsText(file);
+    e.target.value = "";
+});
+
+/* =========================================================
+   الوضع الليلي
+========================================================= */
+
+function applyTheme(theme){
+    document.documentElement.setAttribute("data-theme", theme);
+    $("themeBtn").textContent = theme === "dark" ? "☀️" : "🌙";
+}
+
+$("themeBtn").addEventListener("click", () => {
+    const next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    applyTheme(next);
+    try{ localStorage.setItem(THEME_KEY, next); }catch(e){}
+});
+
+/* =========================================================
+   الأحداث
+========================================================= */
+
+$("taskList").addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-action]");
+    if(!btn) return;
+    const id = Number(btn.dataset.id);
+    const action = btn.dataset.action;
+    if(action === "toggle") toggleTask(id);
+    else if(action === "edit") openEdit(id);
+    else if(action === "delete") deleteTask(id);
+});
+
+$("taskInput").addEventListener("keydown", (e) => {
+    if(e.key === "Enter"){ e.preventDefault(); addTask(); }
+});
+
+$("editModal").addEventListener("click", (e) => {
+    if(e.target === $("editModal")) closeModal();
+});
+
+document.addEventListener("keydown", (e) => {
+    if(e.key !== "Escape") return;
+    if(confirmCallback) confirmCallback(false);
+    else if($("editModal").classList.contains("show")) closeModal();
+});
+
+document.querySelectorAll(".dashboard-card").forEach((card) => {
+    card.addEventListener("keydown", (e) => {
+        if(e.key === "Enter" || e.key === " "){ e.preventDefault(); card.click(); }
+    });
+});
+
+if(channel){
+    channel.onmessage = (e) => {
+        if(e.data && e.data.type === "update"){
+            tasks = sanitizeTasks(e.data.tasks);
+            refreshAll();
+        }
+    };
+}
+
+document.addEventListener("visibilitychange", () => {
+    if(!document.hidden) refreshAll();
+});
+
+/* =========================================================
+   التشغيل
+========================================================= */
+
+(function init(){
+    let theme = "light";
+    try{
+        theme = localStorage.getItem(THEME_KEY) ||
+            (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    }catch(e){}
+    applyTheme(theme);
+
+    tasks = loadTasks();
+    [...tasks].forEach((t) => { if(tasks.includes(t)) cleanupFinishedWeek(t); });
+    refreshAll();
+})();
+</script>
+</body>
+</html>
