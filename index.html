@@ -146,14 +146,18 @@ textarea{resize:vertical;min-height:56px}
 <div class="toast" id="toast"></div>
 
 <script>
-/* ============================================================
-   ⚙️ الإعدادات — عدّل هذين السطرين فقط
-   ============================================================ */
+/* ══════════════════════════════════════════════════════════
+   ⚙️⚙️⚙️  عدّل السطرين التاليين فقط  ⚙️⚙️⚙️
+   ══════════════════════════════════════════════════════════
+   1) API_URL:https://script.google.com/macros/s/AKfycbwGNtGqybQ5xfLoPO5yslO-3dh0ODhLLURl9mnB8FF8qa97Tugq06ECfB4UPfyRQHNnSg/exec
+     
+   2) SECRET: ali mosa
+   ══════════════════════════════════════════════════════════ */
 const CONFIG = {
   API_URL: 'ضع-رابط-نشر-Apps-Script-هنا',
   SECRET:  'ضع-كلمة-السر-هنا'
 };
-/* ============================================================ */
+/* ══════════════════════════════════════════════════════════ */
 
 const AR_DAYS = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
 const STORE_KEY = 'tasks_weekly_v1';
@@ -179,7 +183,7 @@ function dayName(iso) {
 function weekBounds() {
   const now = new Date();
   const start = new Date(now);
-  start.setDate(now.getDate() - now.getDay()); // الأحد
+  start.setDate(now.getDate() - now.getDay());
   start.setHours(0,0,0,0);
   const end = new Date(start);
   end.setDate(start.getDate() + 6);
@@ -216,14 +220,18 @@ function saveLocal() {
 
 /* ---------- الاتصال بالخادم ---------- */
 function apiReady() {
-  return CONFIG.API_URL && CONFIG.API_URL.startsWith('http') && !CONFIG.API_URL.includes('ضع-');
+  return CONFIG.API_URL
+    && CONFIG.API_URL.startsWith('http')
+    && !CONFIG.API_URL.includes('ضع-')
+    && CONFIG.SECRET
+    && !CONFIG.SECRET.includes('ضع-');
 }
 
 async function apiCall(payload) {
   const res = await fetch(CONFIG.API_URL, {
     method: 'POST',
     body: JSON.stringify({ key: CONFIG.SECRET, ...payload }),
-    headers: { 'Content-Type': 'text/plain;charset=utf-8' } // يمنع CORS preflight مع Apps Script
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
   });
   return await res.json();
 }
