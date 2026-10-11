@@ -2,75 +2,116 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>مهامي الأسبوعية</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>مهام الأسبوع</title>
+<meta name="theme-color" content="#4f6ef7">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="مهام الأسبوع">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%234f6ef7'/%3E%3Cpath d='M26 52l16 16 32-34' stroke='white' stroke-width='11' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style>
+/* ── الخط ──
+   لتضمين خط ثمانية داخل الملف: استبدل هذا الجزء بـ
+   @font-face{font-family:'Thmanyah Sans';font-weight:400;src:url(data:font/woff2;base64,....) format('woff2')}
+   @font-face{font-family:'Thmanyah Sans';font-weight:700;src:url(data:font/woff2;base64,....) format('woff2')} */
+@font-face{font-family:'Thmanyah Sans';font-weight:400 700;src:local('Thmanyah Sans'),local('ThmanyahSans')}
+
 :root{
   --bg:#f4f6fb;--card:#fff;--text:#16203a;--muted:#6b7794;--border:#e3e8f0;
   --primary:#4f6ef7;--success:#22b573;--warning:#f5a623;--danger:#e5484d;
-  --shadow:0 2px 12px rgba(20,40,80,.07);--chip:#eef1f8;
+  --shadow:0 2px 12px rgba(20,40,80,.07);--chip:#eef1f8;--bright:#0ea5e9;
 }
 [data-theme="dark"]{
   --bg:#0d121c;--card:#161d2c;--text:#e8eefb;--muted:#8a95ad;--border:#252e44;
-  --primary:#6c85ff;--chip:#1f2840;--shadow:0 2px 12px rgba(0,0,0,.45);
+  --primary:#6c85ff;--chip:#1f2840;--shadow:0 2px 12px rgba(0,0,0,.45);--bright:#5eead4;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--bg);color:var(--text);transition:background .2s,color .2s;min-height:100vh}
-.container{max-width:760px;margin:0 auto;padding:14px}
-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.brand{display:flex;align-items:center;gap:10px}
-.logo{font-size:28px}
-h1{font-size:20px;margin:0}
-.sub{font-size:12px;color:var(--muted);margin:2px 0 0}
-.icon-btn{background:var(--card);border:1px solid var(--border);color:var(--text);width:40px;height:40px;border-radius:12px;font-size:18px;cursor:pointer;box-shadow:var(--shadow)}
+html{overscroll-behavior-y:none}
+body{margin:0;font-family:'Thmanyah Sans','Segoe UI',Tahoma,Arial,sans-serif;background:var(--bg);color:var(--text);transition:background .2s,color .2s;min-height:100vh;-webkit-user-select:none;user-select:none}
+input,textarea{-webkit-user-select:text;user-select:text}
+.container{max-width:760px;margin:0 auto;padding:calc(14px + env(safe-area-inset-top)) 14px calc(24px + env(safe-area-inset-bottom))}
+:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+
+header{text-align:center;margin-bottom:12px}
+h1{font-size:28px;margin:0;font-weight:700;letter-spacing:.5px}
+.sub{font-size:12px;color:var(--muted);margin:4px 0 10px}
+.toolbar{display:flex;justify-content:center;gap:8px}
+.icon-btn{background:var(--card);border:1px solid var(--border);color:var(--text);width:42px;height:42px;border-radius:12px;font-size:18px;cursor:pointer;box-shadow:var(--shadow)}
 .icon-btn:active{transform:scale(.95)}
 .icon-btn.spin{animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.icon-btn.spin{animation:none;opacity:.6}}
+
 .sync-status{font-size:12px;padding:8px 12px;border-radius:10px;background:var(--card);border:1px solid var(--border);margin-bottom:12px;display:flex;align-items:center;gap:8px;color:var(--muted);box-shadow:var(--shadow)}
 .sync-status.ok{color:var(--success)}
 .sync-status.err{color:var(--danger)}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex-shrink:0}
 .sync-status.ok .dot{background:var(--success)}
 .sync-status.err .dot{background:var(--danger)}
+
 .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px}
-.stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 6px;text-align:center;box-shadow:var(--shadow)}
+.stat{font-family:inherit;color:var(--text);background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 6px;text-align:center;box-shadow:var(--shadow);cursor:pointer}
+.stat.static{cursor:default}
+.stat.on{border-color:var(--primary);box-shadow:0 0 0 2px var(--primary) inset}
 .stat .v{display:block;font-size:20px;font-weight:700}
 .stat .l{display:block;font-size:10px;color:var(--muted);margin-top:3px}
+
 .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
 .card h2{font-size:15px;margin:0 0 10px}
 input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--border);background:var(--bg);color:var(--text);border-radius:10px;font-family:inherit;font-size:14px;margin-bottom:8px;outline:none}
 input:focus,select:focus,textarea:focus{border-color:var(--primary)}
 textarea{resize:vertical;min-height:56px}
+label.f{display:block;font-size:12px;color:var(--muted);margin:0 0 4px}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 @media(max-width:480px){.stats{grid-template-columns:repeat(3,1fr)}.row{grid-template-columns:1fr}}
 .btn{width:100%;padding:12px;border:none;border-radius:10px;background:var(--primary);color:#fff;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit}
+.btn.ghost{background:var(--chip);color:var(--text);border:1px solid var(--border);margin-top:8px}
 .btn:active{transform:scale(.99)}
+
+.tools{display:grid;grid-template-columns:1fr 150px;gap:8px}
+@media(max-width:480px){.tools{grid-template-columns:1fr 120px}}
 .filters{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
 .chip{background:var(--chip);border:1px solid var(--border);color:var(--text);padding:6px 14px;border-radius:20px;font-size:13px;cursor:pointer;font-family:inherit}
 .chip.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+
 .tasks{display:flex;flex-direction:column;gap:8px}
 .task{display:flex;gap:10px;align-items:flex-start;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:12px;border-right:4px solid var(--primary)}
+.task.high{border-right-color:var(--warning)}
+.task.medium{border-right-color:var(--primary)}
+.task.low{border-right-color:var(--success)}
 .task.done{opacity:.6;border-right-color:var(--success)}
 .task.overdue{border-right-color:var(--danger)}
-.task.high{border-right-color:var(--danger)}
-.task.medium{border-right-color:var(--warning)}
-.task.low{border-right-color:var(--success)}
-.check{width:22px;height:22px;border-radius:50%;border:2px solid var(--muted);background:transparent;cursor:pointer;flex-shrink:0;margin-top:2px;position:relative}
+.check{width:22px;height:22px;border-radius:50%;border:2px solid var(--muted);background:transparent;cursor:pointer;flex-shrink:0;margin-top:2px;position:relative;padding:0}
 .check.on{background:var(--success);border-color:var(--success)}
 .check.on::after{content:'✓';color:#fff;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:bold}
-.task-main{flex:1;min-width:0}
+.task-main{flex:1;min-width:0;cursor:pointer}
 .task-title{font-size:14px;font-weight:600;margin:0 0 4px;word-break:break-word}
 .task.done .task-title{text-decoration:line-through}
-.task-meta{font-size:11px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap}
+.task-meta{font-size:11px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .tag{padding:2px 8px;border-radius:6px;background:var(--chip);font-size:10px}
-.tag.high{background:rgba(229,72,77,.15);color:var(--danger)}
-.tag.medium{background:rgba(245,166,35,.18);color:var(--warning)}
+.tag.high{background:rgba(245,166,35,.18);color:var(--warning)}
+.tag.medium{background:rgba(79,110,247,.15);color:var(--primary)}
 .tag.low{background:rgba(34,181,115,.15);color:var(--success)}
-.task-notes{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5}
-.del{background:transparent;border:none;color:var(--muted);font-size:18px;cursor:pointer;padding:4px}
-.del:hover{color:var(--danger)}
+.tag.late{background:rgba(229,72,77,.15);color:var(--danger)}
+.task-notes{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5;word-break:break-word}
+.acts{display:flex;flex-direction:column}
+.act{background:transparent;border:none;color:var(--muted);font-size:16px;cursor:pointer;padding:4px 6px}
+.act:hover{color:var(--primary)}
+.acts{gap:4px;align-items:stretch}
+.act.edit{font-family:inherit;font-size:12px;color:var(--primary);background:var(--chip);border:1px solid var(--border);border-radius:8px;padding:5px 10px;white-space:nowrap}
+.act.del:hover{color:var(--danger)}
 .empty{text-align:center;color:var(--muted);padding:30px 0;font-size:14px}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--text);color:var(--bg);padding:10px 18px;border-radius:10px;font-size:13px;transition:transform .3s;z-index:99}
+
+footer{text-align:center;font-size:11px;color:var(--bright);margin-top:18px;letter-spacing:.3px}
+
+dialog{border:1px solid var(--border);border-radius:16px;background:var(--card);color:var(--text);width:min(92vw,420px);padding:18px;box-shadow:0 10px 40px rgba(0,0,0,.35)}
+dialog::backdrop{background:rgba(5,10,25,.55)}
+dialog h2{margin:0 0 6px;font-size:16px}
+dialog p.hint{font-size:12px;color:var(--muted);margin:0 0 12px;line-height:1.6}
+.link-btn{background:none;border:none;color:var(--danger);font-family:inherit;font-size:12px;cursor:pointer;margin-top:10px;padding:4px}
+
+.toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(90px);background:var(--text);color:var(--bg);padding:10px 18px;border-radius:10px;font-size:13px;transition:transform .3s;z-index:99;max-width:90vw;text-align:center}
 .toast.show{transform:translateX(-50%) translateY(0)}
 </style>
 </head>
@@ -78,354 +119,495 @@ textarea{resize:vertical;min-height:56px}
 <div class="container">
 
   <header>
-    <div class="brand">
-      <span class="logo">📋</span>
-      <div>
-        <h1>مهامي الأسبوعية</h1>
-        <p class="sub" id="weekRange">—</p>
-      </div>
-    </div>
-    <div style="display:flex;gap:8px">
-      <button id="themeBtn" class="icon-btn" title="تبديل الوضع">🌙</button>
-      <button id="syncBtn" class="icon-btn" title="مزامنة">🔄</button>
+    <h1>مهـام الأسبـوع</h1>
+    <p class="sub" id="weekRange">—</p>
+    <div class="toolbar">
+      <button id="themeBtn" class="icon-btn" title="تبديل الوضع" aria-label="تبديل الوضع">🌙</button>
+      <button id="syncBtn" class="icon-btn" title="مزامنة" aria-label="مزامنة">🔄</button>
+      <button id="cfgBtn" class="icon-btn" title="إعدادات الربط" aria-label="إعدادات الربط">⚙️</button>
+      <button id="backupBtn" class="icon-btn" title="نسخة احتياطية" aria-label="نسخة احتياطية">💾</button>
+      <button id="restoreBtn" class="icon-btn" title="استعادة نسخة" aria-label="استعادة نسخة">📂</button>
     </div>
   </header>
 
-  <div class="sync-status" id="syncStatus">
+  <div class="sync-status" id="syncStatus" role="status">
     <span class="dot"></span><span id="syncText">جارٍ التحميل…</span>
   </div>
 
-  <section class="stats">
-    <div class="stat"><span class="v" id="stToday">0</span><span class="l">مهام اليوم</span></div>
-    <div class="stat"><span class="v" id="stWeek">0</span><span class="l">هذا الأسبوع</span></div>
-    <div class="stat"><span class="v" id="stUpcoming">0</span><span class="l">قادمة</span></div>
-    <div class="stat"><span class="v" id="stOverdue">0</span><span class="l">متأخرة</span></div>
-    <div class="stat"><span class="v" id="stRate">0%</span><span class="l">نسبة الإنجاز</span></div>
+  <section class="stats" aria-label="الإحصائيات">
+    <button class="stat" data-filter="today"><span class="v" id="stToday">0</span><span class="l">مهام اليوم</span></button>
+    <button class="stat" data-filter="week"><span class="v" id="stWeek">0</span><span class="l">هذا الأسبوع</span></button>
+    <button class="stat" data-filter="upcoming"><span class="v" id="stUpcoming">0</span><span class="l">القادمة</span></button>
+    <button class="stat" data-filter="overdue"><span class="v" id="stOverdue">0</span><span class="l">متأخرة</span></button>
+    <div class="stat static"><span class="v" id="stRate">0%</span><span class="l">إنجاز الأسبوع</span></div>
   </section>
 
   <section class="card">
-    <h2>➕ إضافة مهمة</h2>
+    <h2 id="formTitle">➕ إضافة مهمة</h2>
     <form id="taskForm">
-      <input id="fTitle" placeholder="عنوان المهمة…" required maxlength="120">
+      <input id="fTitle" placeholder="عنوان المهمة…" required maxlength="120" aria-label="عنوان المهمة">
       <div class="row">
-        <input id="fDate" type="date" required>
-        <select id="fPriority">
+        <input id="fDate" type="date" required aria-label="التاريخ">
+        <select id="fPriority" aria-label="الأولوية">
           <option value="عالية">عالية</option>
           <option value="متوسطة" selected>متوسطة</option>
           <option value="منخفضة">منخفضة</option>
         </select>
       </div>
       <div class="row">
-        <select id="fCat">
+        <select id="fCat" aria-label="التصنيف">
           <option value="عمل">عمل</option>
           <option value="شخصي">شخصي</option>
           <option value="دراسة">دراسة</option>
           <option value="أخرى">أخرى</option>
         </select>
-        <select id="fStatus">
+        <select id="fStatus" aria-label="الحالة">
           <option value="قيد التنفيذ" selected>قيد التنفيذ</option>
           <option value="منجزة">منجزة</option>
         </select>
       </div>
-      <textarea id="fNotes" placeholder="ملاحظات (اختياري)…" maxlength="400"></textarea>
-      <button type="submit" class="btn">إضافة المهمة</button>
+      <textarea id="fNotes" placeholder="ملاحظات (اختياري)…" maxlength="400" aria-label="ملاحظات"></textarea>
+      <button type="submit" class="btn" id="submitBtn">إضافة المهمة</button>
+      <button type="button" class="btn ghost" id="cancelEdit" hidden>إلغاء التعديل</button>
     </form>
   </section>
 
   <section class="card">
+    <div class="tools">
+      <input id="search" type="search" placeholder="🔍 ابحث في المهام…" aria-label="بحث">
+      <select id="sortBy" aria-label="الترتيب">
+        <option value="date">ترتيب: التاريخ</option>
+        <option value="priority">ترتيب: الأولوية</option>
+      </select>
+    </div>
     <div class="filters">
       <button class="chip active" data-filter="all">الكل</button>
       <button class="chip" data-filter="pending">متبقية</button>
       <button class="chip" data-filter="done">منجزة</button>
-      <button class="chip" data-filter="overdue">متأخرة</button>
     </div>
     <div id="taskList" class="tasks"></div>
   </section>
 
+  <footer>تطوير: <span id="dev"></span></footer>
 </div>
+
+<dialog id="cfgDlg">
+  <h2>إعدادات الربط مع Google Sheets</h2>
+  <p class="hint">أدخل كلمة السر مرة واحدة فقط. تُحفظ على هذا الجهاز ولا توجد داخل الصفحة.</p>
+  <label class="f" for="cfgUrl">رابط الخادم (Apps Script)</label>
+  <input id="cfgUrl" type="url" dir="ltr" placeholder="https://script.google.com/macros/s/…/exec" autocomplete="off">
+  <label class="f" for="cfgKey">كلمة السر</label>
+  <input id="cfgKey" type="password" dir="ltr" autocomplete="off">
+  <button type="button" class="btn" id="cfgSave">حفظ ومزامنة</button>
+  <button type="button" class="btn ghost" id="cfgClose">إغلاق</button>
+  <button type="button" class="link-btn" id="cfgClear">نسيان كلمة السر على هذا الجهاز</button>
+</dialog>
+
+<input type="file" id="fileIn" accept="application/json,.json" hidden>
 <div class="toast" id="toast"></div>
 
 <script>
-/* ═════════════════════════════════════════════════════════ ⚙️⚙️⚙️عدّل السطرين التاليين فقط ⚙️⚙️
-   ══════════════════════════════════════════════════════════
-   1) API_URL:https://script.google.com/macros/s/AKfycbwGNtGqybQ5xfLoPO5yslO-3dh0ODhLLURl9mnB8FF8qa97Tugq06ECfB4UPfyRQHNnSg/exec
-   2) SECRET: ali mosa
-   ══════════════════════════════════════════════════════════ */
-   const CONFIG = {
-  API_URL: 'https://script.google.com/macros/s/AKfycbwGNtGyBQ5xFLOo5ys1o-3dhO0DHLUR19mMB8Ff8qp9O7TugGo0ECFB4UPyfQRI',
-  SECRET:  'ali mosa'
+/* رابط الخادم وحده مضمّن (لا يعمل دون كلمة السر).
+   كلمة السر لا توجد في الملف: تُدخل مرة واحدة على كل جهاز وتُحفظ فيه فقط. */
+const DEFAULT_CFG = {
+  url: 'https://script.google.com/macros/s/AKfycbwGNtGqybQ5xfLoPO5yslO-3dh0ODhLLURl9mnB8FF8qa97Tugq06ECfB4UPfyRQHNnSg/exec',
+  key: ''
 };
-/* ══════════════════════════════════════════════════════════ */
+const DEV_NAME   = ''; // اتركه فارغاً لإخفاء التذييل
+const WEEK_START = 0; // 0 = الأحد، 6 = السبت
 
-const AR_DAYS = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
-const STORE_KEY = 'tasks_weekly_v1';
+const AR_DAYS   = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+const PRIORITIES = ['عالية','متوسطة','منخفضة'];
+const CATS       = ['عمل','شخصي','دراسة','أخرى'];
+const STORE_KEY = 'tasks_weekly_v2';
+const OLD_KEY   = 'tasks_weekly_v1';
+const CFG_KEY   = 'tasks_cfg';
+const THEME_KEY = 'tasks_theme';
 
 const state = {
-  tasks: [],
-  filter: 'all',
-  syncing: false,
-  online: false
+  tasks: [], pendingDel: [],
+  filter: 'all', query: '', sort: 'date',
+  editingId: null, syncing: false, lastSync: 0
 };
 
 /* ---------- أدوات ---------- */
 const $  = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
-const todayISO = () => new Date().toISOString().slice(0,10);
-const uid = () => Date.now() * 1000 + Math.floor(Math.random()*1000);
+const pad = n => String(n).padStart(2,'0');
+const isoOf = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const todayISO = () => isoOf(new Date());
+const uid = () => Date.now() * 1000 + Math.floor(Math.random() * 1000);
+const isDone = t => t.status === 'منجزة';
+const isOverdue = t => !isDone(t) && !!t.date && t.date < todayISO();
 
 function dayName(iso) {
   if (!iso) return '';
-  const d = new Date(iso + 'T00:00:00');
-  return AR_DAYS[d.getDay()] || '';
+  return AR_DAYS[new Date(iso + 'T00:00:00').getDay()] || '';
 }
 function weekBounds() {
   const now = new Date();
-  const start = new Date(now);
-  start.setDate(now.getDate() - now.getDay());
-  start.setHours(0,0,0,0);
-  const end = new Date(start);
-  end.setDate(start.getDate() + 6);
-  end.setHours(23,59,59,999);
-  return { start, end };
+  const back = (now.getDay() - WEEK_START + 7) % 7;
+  const s = new Date(now.getFullYear(), now.getMonth(), now.getDate() - back);
+  const e = new Date(s.getFullYear(), s.getMonth(), s.getDate() + 6);
+  return { start: s, end: e, startISO: isoOf(s), endISO: isoOf(e) };
 }
-function inThisWeek(iso) {
-  if (!iso) return false;
-  const d = new Date(iso + 'T00:00:00');
-  const { start, end } = weekBounds();
-  return d >= start && d <= end;
-}
-function isOverdue(t) {
-  return t.status !== 'منجزة' && t.date && t.date < todayISO();
-}
-function isDone(t){ return t.status === 'منجزة'; }
+const inWeek = iso => { const b = weekBounds(); return !!iso && iso >= b.startISO && iso <= b.endISO; };
 
-function toast(msg, ms=2200) {
+function esc(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function toast(msg, ms = 2400) {
   const el = $('#toast');
   el.textContent = msg;
   el.classList.add('show');
   clearTimeout(el._t);
-  el._t = setTimeout(()=>el.classList.remove('show'), ms);
+  el._t = setTimeout(() => el.classList.remove('show'), ms);
 }
+
+/* تنظيف أي مهمة قادمة من الخادم أو من ملف استعادة */
+function normalize(t, dirty) {
+  const id = Number(t.id);
+  if (!id || !t.title) return null;
+  const date = String(t.date || '').slice(0, 10);
+  return {
+    id,
+    title: String(t.title).slice(0, 120),
+    date,
+    day: String(t.day || dayName(date)),
+    category: CATS.includes(t.category) ? t.category : 'أخرى',
+    priority: PRIORITIES.includes(t.priority) ? t.priority : 'متوسطة',
+    status: t.status === 'منجزة' ? 'منجزة' : 'قيد التنفيذ',
+    notes: String(t.notes || '').slice(0, 400),
+    _dirty: !!dirty
+  };
+}
+const forServer = t => { const { _dirty, ...rest } = t; return rest; };
 
 /* ---------- التخزين المحلي ---------- */
-function loadLocal() {
-  try { state.tasks = JSON.parse(localStorage.getItem(STORE_KEY)) || []; }
-  catch { state.tasks = []; }
+function load() {
+  try {
+    const v2 = JSON.parse(localStorage.getItem(STORE_KEY));
+    if (v2 && Array.isArray(v2.tasks)) {
+      state.tasks = v2.tasks.map(t => normalize(t, t._dirty)).filter(Boolean);
+      state.pendingDel = (v2.pendingDel || []).map(Number).filter(Boolean);
+      return;
+    }
+  } catch {}
+  try {
+    const v1 = JSON.parse(localStorage.getItem(OLD_KEY));
+    if (Array.isArray(v1)) {
+      state.tasks = v1.map(t => normalize(t, true)).filter(Boolean); // تُرفع للخادم عند أول مزامنة
+      save();
+    }
+  } catch {}
 }
-function saveLocal() {
-  localStorage.setItem(STORE_KEY, JSON.stringify(state.tasks));
+function save() {
+  try {
+    localStorage.setItem(STORE_KEY, JSON.stringify({ tasks: state.tasks, pendingDel: state.pendingDel }));
+  } catch { toast('تعذّر الحفظ على الجهاز (المساحة ممتلئة؟)'); }
 }
 
-/* ---------- الاتصال بالخادم ---------- */
+/* ---------- إعدادات الربط (على الجهاز فقط) ---------- */
+function getCfg() {
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem(CFG_KEY)) || {}; } catch {}
+  return { url: saved.url || DEFAULT_CFG.url, key: saved.key || DEFAULT_CFG.key };
+}
 function apiReady() {
-  return CONFIG.API_URL
-    && CONFIG.API_URL.startsWith('http')
-    && !CONFIG.API_URL.includes('ضع-')
-    && CONFIG.SECRET
-    && !CONFIG.SECRET.includes('ضع-');
+  const c = getCfg();
+  return !!(c.url && c.url.startsWith('https://script.google.com/') && c.key);
 }
-
 async function apiCall(payload) {
-  const res = await fetch(CONFIG.API_URL, {
-    method: 'POST',
-    body: JSON.stringify({ key: CONFIG.SECRET, ...payload }),
-    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
-  });
-  return await res.json();
+  const c = getCfg();
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 20000);
+  try {
+    const res = await fetch(c.url, {
+      method: 'POST',
+      body: JSON.stringify({ key: c.key, ...payload }),
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      signal: ctrl.signal
+    });
+    return await res.json();
+  } finally { clearTimeout(timer); }
 }
-
-function setSync(text, cls='') {
+function setSync(text, cls = '') {
   $('#syncText').textContent = text;
-  const el = $('#syncStatus');
-  el.className = 'sync-status ' + cls;
+  $('#syncStatus').className = 'sync-status ' + cls;
 }
 
-/* ---------- المزامنة ---------- */
-async function pullCloud(silent=false) {
+/* ---------- المزامنة: رفع المعلّق أولاً ثم السحب ثم الدمج ---------- */
+async function sync(silent = false) {
   if (!apiReady()) {
-    setSync('غير مربوط — البيانات محفوظة على هذا الجهاز فقط.', '');
-    state.online = false;
+    setSync('غير مربوط — البيانات على هذا الجهاز فقط. اضغط ⚙️ للربط.');
+    if (!silent) toast('أدخل بيانات الربط من زر ⚙️');
     return false;
   }
-  if (!silent) $('#syncBtn').classList.add('spin');
+  if (state.syncing) return false;
+  state.syncing = true;
+  $('#syncBtn').classList.add('spin');
   try {
+    for (const id of [...state.pendingDel]) {
+      const r = await apiCall({ action: 'deleteTask', id });
+      if (r && r.ok === false) throw new Error(r.error || 'فشل الحذف');
+      state.pendingDel = state.pendingDel.filter(x => x !== id);
+      save();
+    }
+    for (const t of state.tasks.filter(x => x._dirty)) {
+      const r = await apiCall({ action: 'saveTask', task: forServer(t) });
+      if (r && r.ok === false) throw new Error(r.error || 'فشل الرفع');
+      const cur = state.tasks.find(x => x.id === t.id);
+      if (cur && JSON.stringify(forServer(cur)) === JSON.stringify(forServer(t))) cur._dirty = false;
+    }
+    save();
+
     const r = await apiCall({ action: 'pull' });
-    if (!r.ok) throw new Error(r.error || 'فشل');
-    const deleted = new Set((r.deleted || []).map(Number));
-    state.tasks = (r.tasks || [])
-      .filter(t => !deleted.has(Number(t.id)))
-      .map(t => ({ ...t, day: t.day || dayName(t.date) }));
-    saveLocal();
-    state.online = true;
+    if (!r || !r.ok) throw new Error((r && r.error) || 'فشل السحب');
+    const deleted = new Set([...(r.deleted || []).map(Number), ...state.pendingDel]);
+    const local = new Map(state.tasks.filter(t => t._dirty).map(t => [t.id, t]));
+    const merged = new Map();
+    (r.tasks || []).forEach(raw => {
+      const t = normalize(raw, false);
+      if (t && !deleted.has(t.id)) merged.set(t.id, t);
+    });
+    local.forEach((t, id) => merged.set(id, t)); // التعديلات المحلية غير المرفوعة تتقدّم
+    state.tasks = [...merged.values()];
+    save();
+
+    state.lastSync = Date.now();
     setSync('متزامن مع Google Sheets ✓', 'ok');
     return true;
   } catch (e) {
-    state.online = false;
-    setSync('تعذّر الاتصال — البيانات محفوظة محلياً.', 'err');
-    if (!silent) toast('فشل الاتصال بالخادم');
+    const offline = e.name === 'AbortError' || e instanceof TypeError;
+    setSync(offline ? 'تعذّر الاتصال — التغييرات محفوظة وسترفع لاحقاً.' : 'رفض الخادم الطلب: ' + e.message, 'err');
+    if (!silent) toast(offline ? 'فشل الاتصال بالخادم' : 'تحقق من كلمة السر ورابط الخادم');
     return false;
   } finally {
+    state.syncing = false;
     $('#syncBtn').classList.remove('spin');
+    renderAll();
   }
 }
 
-async function pushTask(task) {
-  if (!apiReady()) return;
-  try {
-    await apiCall({ action: 'saveTask', task });
-    state.online = true;
-    setSync('متزامن مع Google Sheets ✓', 'ok');
-  } catch {
-    state.online = false;
-    setSync('تعذّر الرفع — سيُحفظ محلياً فقط.', 'err');
-  }
-}
-async function pushDelete(id) {
-  if (!apiReady()) return;
-  try {
-    await apiCall({ action: 'deleteTask', id });
-  } catch {}
-}
+/* ---------- الفلاتر والعرض ---------- */
+const F = {
+  all:      () => true,
+  pending:  t => !isDone(t),
+  done:     t => isDone(t),
+  today:    t => t.date === todayISO() && !isDone(t),
+  week:     t => inWeek(t.date),
+  upcoming: t => t.date > todayISO() && !isDone(t),
+  overdue:  t => isOverdue(t)
+};
 
-/* ---------- العرض ---------- */
 function renderStats() {
-  const today = todayISO();
-  const week = state.tasks.filter(t => inThisWeek(t.date));
-  const tdy  = state.tasks.filter(t => t.date === today && !isDone(t));
-  const upc  = state.tasks.filter(t => t.date > today && !isDone(t));
-  const ovd  = state.tasks.filter(isOverdue);
-  const done = state.tasks.filter(isDone).length;
-  const rate = state.tasks.length ? Math.round(done / state.tasks.length * 100) : 0;
-
-  $('#stToday').textContent   = tdy.length;
-  $('#stWeek').textContent    = week.length;
-  $('#stUpcoming').textContent= upc.length;
-  $('#stOverdue').textContent = ovd.length;
-  $('#stRate').textContent    = rate + '%';
+  const set = (id, v) => { $(id).textContent = v; };
+  set('#stToday',    state.tasks.filter(F.today).length);
+  set('#stWeek',     state.tasks.filter(F.week).length);
+  set('#stUpcoming', state.tasks.filter(F.upcoming).length);
+  set('#stOverdue',  state.tasks.filter(F.overdue).length);
+  const wk = state.tasks.filter(F.week);
+  set('#stRate', (wk.length ? Math.round(wk.filter(isDone).length / wk.length * 100) : 0) + '%');
 
   const { start, end } = weekBounds();
-  const fmt = d => d.toLocaleDateString('ar-EG',{day:'2-digit',month:'short'});
+  const fmt = d => d.toLocaleDateString('ar-EG', { day: 'numeric', month: 'long' });
   $('#weekRange').textContent = `أسبوع ${fmt(start)} → ${fmt(end)}`;
+
+  $$('.stat[data-filter]').forEach(b => b.classList.toggle('on', b.dataset.filter === state.filter));
+  $$('.chip').forEach(c => c.classList.toggle('active', c.dataset.filter === state.filter));
 }
 
 function renderTasks() {
+  const q = state.query.trim().toLowerCase();
+  let arr = state.tasks.filter(F[state.filter] || F.all);
+  if (q) arr = arr.filter(t => (t.title + ' ' + t.notes + ' ' + t.category).toLowerCase().includes(q));
+
+  const rank = { 'عالية': 0, 'متوسطة': 1, 'منخفضة': 2 };
+  const byDate = (a, b) => (a.date || '9999').localeCompare(b.date || '9999');
+  const byPrio = (a, b) => (rank[a.priority] ?? 3) - (rank[b.priority] ?? 3);
+  arr.sort(state.sort === 'priority' ? (a, b) => byPrio(a, b) || byDate(a, b) : (a, b) => byDate(a, b) || byPrio(a, b));
+
   const list = $('#taskList');
-  let arr = [...state.tasks];
-
-  if (state.filter === 'done')     arr = arr.filter(isDone);
-  else if (state.filter === 'pending') arr = arr.filter(t => !isDone(t));
-  else if (state.filter === 'overdue') arr = arr.filter(isOverdue);
-
-  arr.sort((a,b) => {
-    const da = a.date || '9999', db = b.date || '9999';
-    if (da !== db) return da.localeCompare(db);
-    const p = { 'عالية':0,'متوسطة':1,'منخفضة':2 };
-    return (p[a.priority]??3) - (p[b.priority]??3);
-  });
-
   if (!arr.length) {
-    list.innerHTML = '<div class="empty">لا توجد مهام هنا 🌿</div>';
+    list.innerHTML = `<div class="empty">${q || state.filter !== 'all' ? 'لا توجد مهام مطابقة 🌿' : 'لا توجد مهام بعد. أضف أول مهمة من النموذج أعلاه.'}</div>`;
     return;
   }
-
-  const prioCls = { 'عالية':'high','متوسطة':'medium','منخفضة':'low' };
-
+  const pc = { 'عالية': 'high', 'متوسطة': 'medium', 'منخفضة': 'low' };
   list.innerHTML = arr.map(t => {
-    const cls = [
-      'task',
-      isDone(t) ? 'done' : '',
-      isOverdue(t) ? 'overdue' : '',
-      prioCls[t.priority] || ''
-    ].filter(Boolean).join(' ');
+    const late = isOverdue(t);
+    const cls = ['task', pc[t.priority] || '', isDone(t) ? 'done' : '', late ? 'overdue' : ''].filter(Boolean).join(' ');
     return `
       <div class="${cls}" data-id="${t.id}">
-        <button class="check ${isDone(t)?'on':''}" data-act="toggle" title="تبديل الحالة"></button>
+        <button class="check ${isDone(t) ? 'on' : ''}" data-act="toggle" aria-label="تبديل الحالة"></button>
         <div class="task-main">
           <p class="task-title">${esc(t.title)}</p>
           <div class="task-meta">
-            <span>📅 ${t.date || '—'} · ${esc(t.day || dayName(t.date))}</span>
-            <span class="tag ${prioCls[t.priority]||''}">${esc(t.priority||'')}</span>
-            <span class="tag">${esc(t.category||'')}</span>
+            <span>📅 ${esc(t.date || '—')} ${t.date ? '· ' + esc(t.day || dayName(t.date)) : ''}</span>
+            <span class="tag ${pc[t.priority] || ''}">${esc(t.priority)}</span>
+            <span class="tag">${esc(t.category)}</span>
+            ${late ? '<span class="tag late">متأخرة</span>' : ''}
+            ${t._dirty ? '<span title="بانتظار الرفع">⏳</span>' : ''}
           </div>
           ${t.notes ? `<div class="task-notes">${esc(t.notes)}</div>` : ''}
         </div>
-        <button class="del" data-act="del" title="حذف">✕</button>
+        <div class="acts">
+          <button class="act edit" data-act="edit" aria-label="تعديل المهمة">✎ تعديل</button>
+          <button class="act del" data-act="del" title="حذف" aria-label="حذف">✕</button>
+        </div>
       </div>`;
   }).join('');
 }
+function renderAll() { renderStats(); renderTasks(); }
 
-function esc(s){
-  return String(s??'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+/* ---------- النموذج: إضافة وتعديل ---------- */
+function resetForm() {
+  state.editingId = null;
+  $('#taskForm').reset();
+  $('#fDate').value = todayISO();
+  $('#formTitle').textContent = '➕ إضافة مهمة';
+  $('#submitBtn').textContent = 'إضافة المهمة';
+  $('#cancelEdit').hidden = true;
 }
-
-function renderAll(){ renderStats(); renderTasks(); }
-
-/* ---------- الأحداث ---------- */
-$('#taskForm').addEventListener('submit', async e => {
+$('#taskForm').addEventListener('submit', e => {
   e.preventDefault();
   const title = $('#fTitle').value.trim();
   const date  = $('#fDate').value;
   if (!title || !date) return;
 
-  const task = {
-    id: uid(),
-    title,
-    date,
-    day: dayName(date),
-    category: $('#fCat').value,
-    priority: $('#fPriority').value,
-    status: $('#fStatus').value,
-    notes: $('#fNotes').value.trim()
+  const fields = {
+    title, date, day: dayName(date),
+    category: $('#fCat').value, priority: $('#fPriority').value,
+    status: $('#fStatus').value, notes: $('#fNotes').value.trim()
   };
-
-  state.tasks.push(task);
-  saveLocal(); renderAll();
-  $('#taskForm').reset();
-  $('#fDate').value = todayISO();
-  toast('تمت إضافة المهمة ✓');
-  pushTask(task);
+  if (state.editingId) {
+    const t = state.tasks.find(x => x.id === state.editingId);
+    if (t) { Object.assign(t, fields, { _dirty: true }); toast('تم حفظ التعديل ✓'); }
+  } else {
+    state.tasks.push({ id: uid(), ...fields, _dirty: true });
+    toast('تمت إضافة المهمة ✓');
+  }
+  save(); resetForm(); renderAll();
+  sync(true);
 });
+$('#cancelEdit').addEventListener('click', resetForm);
 
-$('#taskList').addEventListener('click', async e => {
+$('#taskList').addEventListener('click', e => {
+  const taskEl = e.target.closest('.task');
+  if (!taskEl) return;
   const btn = e.target.closest('[data-act]');
-  if (!btn) return;
-  const id = Number(btn.closest('.task').dataset.id);
-  const t = state.tasks.find(x => Number(x.id) === id);
+  const act = btn ? btn.dataset.act : (e.target.closest('.task-main') ? 'edit' : null);
+  if (!act) return;
+  const id = Number(taskEl.dataset.id);
+  const t = state.tasks.find(x => x.id === id);
   if (!t) return;
 
-  if (btn.dataset.act === 'toggle') {
+  if (act === 'toggle') {
     t.status = isDone(t) ? 'قيد التنفيذ' : 'منجزة';
-    saveLocal(); renderAll();
-    pushTask(t);
-  } else if (btn.dataset.act === 'del') {
+    t._dirty = true;
+    save(); renderAll(); sync(true);
+  } else if (act === 'edit') {
+    state.editingId = id;
+    $('#fTitle').value = t.title;
+    $('#fDate').value = t.date;
+    $('#fPriority').value = t.priority;
+    $('#fCat').value = t.category;
+    $('#fStatus').value = t.status;
+    $('#fNotes').value = t.notes;
+    $('#formTitle').textContent = '✎ تعديل المهمة';
+    $('#submitBtn').textContent = 'حفظ التعديل';
+    $('#cancelEdit').hidden = false;
+    $('#taskForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    $('#fTitle').focus();
+  } else if (act === 'del') {
     if (!confirm('حذف هذه المهمة؟')) return;
-    state.tasks = state.tasks.filter(x => Number(x.id) !== id);
-    saveLocal(); renderAll();
-    toast('تم الحذف');
-    pushDelete(id);
+    state.tasks = state.tasks.filter(x => x.id !== id);
+    if (!state.pendingDel.includes(id)) state.pendingDel.push(id);
+    if (state.editingId === id) resetForm();
+    save(); renderAll(); toast('تم الحذف');
+    sync(true);
   }
 });
 
-$$('.chip').forEach(c => c.addEventListener('click', () => {
-  $$('.chip').forEach(x => x.classList.remove('active'));
-  c.classList.add('active');
-  state.filter = c.dataset.filter;
-  renderTasks();
-}));
-
-$('#syncBtn').addEventListener('click', async () => {
-  if (state.syncing) return;
-  state.syncing = true;
-  await pullCloud();
+/* ---------- الفلاتر والبحث والترتيب ---------- */
+function setFilter(f) {
+  state.filter = (state.filter === f && f !== 'all') ? 'all' : f; // الضغط مرة ثانية يلغي الفلتر
   renderAll();
-  state.syncing = false;
+}
+$$('.chip, .stat[data-filter]').forEach(b => b.addEventListener('click', () => setFilter(b.dataset.filter)));
+$('#search').addEventListener('input', e => { state.query = e.target.value; renderTasks(); });
+$('#sortBy').addEventListener('change', e => { state.sort = e.target.value; localStorage.setItem('tasks_sort', state.sort); renderTasks(); });
+
+/* ---------- نسخة احتياطية واستعادة ---------- */
+$('#backupBtn').addEventListener('click', () => {
+  const data = JSON.stringify({ app: 'weekly-tasks', exported: new Date().toISOString(), tasks: state.tasks.map(forServer) }, null, 2);
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([data], { type: 'application/json' }));
+  a.download = `tasks-backup-${todayISO()}.json`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  toast('تم تنزيل النسخة الاحتياطية');
+});
+$('#restoreBtn').addEventListener('click', () => $('#fileIn').click());
+$('#fileIn').addEventListener('change', async e => {
+  const file = e.target.files[0];
+  e.target.value = '';
+  if (!file) return;
+  try {
+    const parsed = JSON.parse(await file.text());
+    const arr = Array.isArray(parsed) ? parsed : parsed.tasks;
+    if (!Array.isArray(arr)) throw new Error('bad');
+    const incoming = arr.map(t => normalize(t, true)).filter(Boolean);
+    if (!incoming.length) throw new Error('empty');
+    if (!confirm(`سيتم دمج ${incoming.length} مهمة مع مهامك الحالية (المهام المتطابقة تُستبدل بنسخة الملف). متابعة؟`)) return;
+    const map = new Map(state.tasks.map(t => [t.id, t]));
+    incoming.forEach(t => map.set(t.id, t));
+    state.tasks = [...map.values()];
+    state.pendingDel = state.pendingDel.filter(id => !map.has(id));
+    save(); renderAll();
+    toast(`تمت استعادة ${incoming.length} مهمة ✓`);
+    sync(true);
+  } catch { toast('الملف غير صالح'); }
 });
 
-/* الوضع الليلي/النهاري */
-const THEME_KEY = 'tasks_theme';
+/* ---------- نافذة الإعدادات ---------- */
+const dlg = $('#cfgDlg');
+$('#cfgBtn').addEventListener('click', () => {
+  const c = getCfg();
+  $('#cfgUrl').value = c.url || '';
+  $('#cfgKey').value = c.key || '';
+  dlg.showModal();
+});
+$('#cfgClose').addEventListener('click', () => dlg.close());
+$('#cfgSave').addEventListener('click', async () => {
+  const url = $('#cfgUrl').value.trim();
+  const key = $('#cfgKey').value;
+  if (!url.startsWith('https://script.google.com/') || !key) {
+    toast('أدخل رابط Apps Script الصحيح وكلمة السر');
+    return;
+  }
+  localStorage.setItem(CFG_KEY, JSON.stringify({ url, key }));
+  dlg.close();
+  setSync('جارٍ الاتصال بالخادم…');
+  if (await sync()) toast('تم الربط ✓');
+});
+$('#cfgClear').addEventListener('click', () => {
+  if (!confirm('نسيان كلمة السر على هذا الجهاز؟ ستبقى مهامك محفوظة.')) return;
+  localStorage.removeItem(CFG_KEY);
+  dlg.close();
+  setSync('غير مربوط — اضغط ⚙️ وأدخل كلمة السر.');
+});
+
+/* ---------- المزامنة والمظهر ---------- */
+$('#syncBtn').addEventListener('click', () => sync());
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && apiReady() && Date.now() - state.lastSync > 30000) sync(true);
+});
+window.addEventListener('online', () => { if (apiReady()) sync(true); });
+
 function applyTheme(t) {
   document.documentElement.dataset.theme = t;
   $('#themeBtn').textContent = t === 'dark' ? '☀️' : '🌙';
+  document.querySelector('meta[name="theme-color"]').content = t === 'dark' ? '#0d121c' : '#4f6ef7';
   localStorage.setItem(THEME_KEY, t);
 }
 $('#themeBtn').addEventListener('click', () => {
@@ -434,17 +616,21 @@ $('#themeBtn').addEventListener('click', () => {
 
 /* ---------- التشغيل ---------- */
 (async function init() {
+  $('#dev').textContent = DEV_NAME;
+  document.querySelector('footer').hidden = !DEV_NAME;
   applyTheme(localStorage.getItem(THEME_KEY) || 'light');
-  loadLocal();
-  $('#fDate').value = todayISO();
+  state.sort = localStorage.getItem('tasks_sort') || 'date';
+  $('#sortBy').value = state.sort;
+  load();
+  resetForm();
   renderAll();
 
   if (apiReady()) {
     setSync('جارٍ الاتصال بالخادم…');
-    await pullCloud(true);
-    renderAll();
+    await sync(true);
   } else {
-    setSync('غير مربوط — البيانات محفوظة على هذا الجهاز فقط.');
+    setSync('غير مربوط — أدخل كلمة السر لمرة واحدة.');
+    $('#cfgBtn').click();
   }
 })();
 </script>
